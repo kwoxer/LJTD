@@ -1,5 +1,4 @@
 ﻿Class Taskbar
-    ' Ausblenden Taskbar
     Private Const SWP_HIDEWINDOW = &H80
     Private Const SWP_SHOWWINDOW = &H40
     Public Declare Function FindWindows Lib "user32" Alias "FindWindowA" (ByVal lpClassName As String, ByVal lpWindowName As String) As Integer

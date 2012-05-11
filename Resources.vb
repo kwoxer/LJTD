@@ -1,5 +1,4 @@
 ﻿Imports System.IO
-
 Class Resources
     Private _sound As String(,) = {{"SOUND_BLINK", "sound\blink.wav"}, {"SOUND_PLAY", "true"}}
     Public Property sound(i As Integer) As String

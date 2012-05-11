@@ -63,7 +63,7 @@ Class PushHotkeys
             End If
         End If
 
-        Form1.getKeyCode(lParam.vkCode, alt_key)
+        LJTD.getKeyCode(lParam.vkCode, alt_key)
 
         'Console.Write(lParam.vkCode.ToString & ", " & "nCode: " & CStr(nCode) & ", wParam: " & CStr(wParam) & ", lParam.vkCode: " & CStr(lParam.vkCode) & ", lParam.dwExtraInfo: " & CStr(lParam.dwExtraInfo) & ", lParam.flags: " & CStr(lParam.flags) & ", lParam.scanCode: " & CStr(lParam.scanCode) & vbCrLf)
 

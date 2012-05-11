@@ -8,8 +8,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{3DE740E7-4A8E-43C3-82BC-5D95FFF884AE}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <StartupObject>Jungle_Timer.My.MyApplication</StartupObject>
-    <RootNamespace>Jungle_Timer</RootNamespace>
+    <StartupObject>LJTD.My.MyApplication</StartupObject>
+    <RootNamespace>LJTD</RootNamespace>
     <AssemblyName>LoL Jungle Timer Deluxe</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>
@@ -56,7 +56,7 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>baron.ico</ApplicationIcon>
+    <ApplicationIcon>LJTD.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -176,11 +176,11 @@
     <Compile Include="Resources.vb" />
     <Compile Include="Timing.vb" />
     <Compile Include="Chat.vb" />
-    <Compile Include="Form1.vb">
+    <Compile Include="LJTD.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.vb">
-      <DependentUpon>Form1.vb</DependentUpon>
+    <Compile Include="LJTD.Designer.vb">
+      <DependentUpon>LJTD.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="PushHotkeys.vb" />
@@ -203,8 +203,8 @@
     <Compile Include="Taskbar.vb" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.vb</DependentUpon>
+    <EmbeddedResource Include="LJTD.resx">
+      <DependentUpon>LJTD.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MiniMap.resx">
       <DependentUpon>MiniMap.vb</DependentUpon>
@@ -228,7 +228,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="baron.ico" />
+    <Content Include="LJTD.ico" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="AxWMPLib">
