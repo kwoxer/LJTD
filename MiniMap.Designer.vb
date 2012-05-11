@@ -22,6 +22,7 @@ Partial Class MiniMap
     'Das Bearbeiten mit dem Code-Editor ist nicht möglich.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MiniMap))
         Me.Panel = New System.Windows.Forms.Panel()
         Me.SuspendLayout()
         '
@@ -41,6 +42,7 @@ Partial Class MiniMap
         Me.ClientSize = New System.Drawing.Size(290, 290)
         Me.Controls.Add(Me.Panel)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.ImeMode = System.Windows.Forms.ImeMode.Katakana
         Me.Name = "MiniMap"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen

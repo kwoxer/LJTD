@@ -3,7 +3,7 @@ Public Class MiniMap
     Public showForm As Boolean
     Private _PicBox(6) As PictureBox
     Private _PicBoxActive(6) As Boolean
-    Private _aTimer As New System.Timers.Timer()
+    Private _Timer As New System.Timers.Timer()
     Private _Resources As New Resources
     Public Sub createPing(i As Integer)
         If LJTD.blue_red = False Then
@@ -53,9 +53,9 @@ Public Class MiniMap
             _PicBox(i).Size = New Size(20, 20)
             _PicBox(i).SizeMode = ImageLayout.Tile
         Next
-        AddHandler _aTimer.Elapsed, AddressOf TimerBuff
-        _aTimer.Interval = 3000
-        _aTimer.Start()
+        AddHandler _Timer.Elapsed, AddressOf TimerBuff
+        _Timer.Interval = 3000
+        _Timer.Start()
         Me.Location = New Point(1380, 740)
     End Sub
     Private Sub Panel_MouseDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Panel.MouseDown
