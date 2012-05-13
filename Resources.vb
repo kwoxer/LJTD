@@ -139,6 +139,24 @@ Class Resources
             _write_2_chat(1) = CStr(value)
         End Set
     End Property
+    Private _minimap_size As String() = {"MINIMAP_SIZE", "300"}
+    Public Property minimap_size() As Integer
+        Get
+            Return CInt(_minimap_size(1))
+        End Get
+        Set(ByVal value As Integer)
+            _minimap_size(1) = CStr(value)
+        End Set
+    End Property
+    Private _foreground_delay As String() = {"FOREGROUND_DELAY", "20"}
+    Public Property foreground_delay() As Integer
+        Get
+            Return CInt(_foreground_delay(1))
+        End Get
+        Set(ByVal value As Integer)
+            _foreground_delay(1) = CStr(value)
+        End Set
+    End Property
     Private _font As String(,) = {{"FONT_NAME", "Gisha"}, {"FONT_SIZE_RED_BLUE", "26"}, {"FONT_SIZE_BARON_DRAGON", "30"}}
     Public Property font_name() As String
         Get
@@ -233,6 +251,16 @@ Class Resources
             ElseIf TempString(Zaehler).StartsWith(_sound(1, 0)) Then
                 If strTeile <> "" Then
                     _sound(1, 1) = strTeile
+                End If
+                'MiniMap Size
+            ElseIf TempString(Zaehler).StartsWith(_minimap_size(0)) Then
+                If strTeile <> "" Then
+                    _minimap_size(1) = strTeile
+                End If
+                'Fireground Delay
+            ElseIf TempString(Zaehler).StartsWith(_foreground_delay(0)) Then
+                If strTeile <> "" Then
+                    _foreground_delay(1) = strTeile
                 End If
             End If
 

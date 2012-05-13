@@ -57,12 +57,13 @@ Partial Class LJTD
         '
         'Button_Baron
         '
+        Me.Button_Baron.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button_Baron.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold)
         Me.Button_Baron.ForeColor = System.Drawing.Color.White
         Me.Button_Baron.ImageAlign = System.Drawing.ContentAlignment.BottomRight
         Me.Button_Baron.Location = New System.Drawing.Point(163, 32)
         Me.Button_Baron.Name = "Button_Baron"
-        Me.Button_Baron.Size = New System.Drawing.Size(63, 45)
+        Me.Button_Baron.Size = New System.Drawing.Size(63, 32)
         Me.Button_Baron.TabIndex = 0
         Me.Button_Baron.Text = "X"
         Me.Button_Baron.UseVisualStyleBackColor = True
@@ -75,7 +76,7 @@ Partial Class LJTD
         Me.Label_Baron.Font = New System.Drawing.Font("Arial", 30.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, CType(0, Byte))
         Me.Label_Baron.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(200, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.Label_Baron.ImageKey = "(Keine)"
-        Me.Label_Baron.Location = New System.Drawing.Point(157, 77)
+        Me.Label_Baron.Location = New System.Drawing.Point(157, 67)
         Me.Label_Baron.Name = "Label_Baron"
         Me.Label_Baron.Size = New System.Drawing.Size(76, 35)
         Me.Label_Baron.TabIndex = 2
@@ -83,12 +84,13 @@ Partial Class LJTD
         '
         'Button_Dragon
         '
+        Me.Button_Dragon.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button_Dragon.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold)
-        Me.Button_Dragon.ForeColor = System.Drawing.Color.White
+        Me.Button_Dragon.ForeColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
         Me.Button_Dragon.ImageAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.Button_Dragon.Location = New System.Drawing.Point(229, 32)
         Me.Button_Dragon.Name = "Button_Dragon"
-        Me.Button_Dragon.Size = New System.Drawing.Size(63, 45)
+        Me.Button_Dragon.Size = New System.Drawing.Size(63, 32)
         Me.Button_Dragon.TabIndex = 3
         Me.Button_Dragon.Text = "C"
         Me.Button_Dragon.UseVisualStyleBackColor = True
@@ -101,7 +103,7 @@ Partial Class LJTD
         Me.Label_Dragon.Font = New System.Drawing.Font("Gisha", 30.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel)
         Me.Label_Dragon.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(200, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.Label_Dragon.ImageKey = "(Keine)"
-        Me.Label_Dragon.Location = New System.Drawing.Point(223, 77)
+        Me.Label_Dragon.Location = New System.Drawing.Point(223, 67)
         Me.Label_Dragon.Name = "Label_Dragon"
         Me.Label_Dragon.Size = New System.Drawing.Size(74, 35)
         Me.Label_Dragon.TabIndex = 4
@@ -109,12 +111,13 @@ Partial Class LJTD
         '
         'Button_Our_Blue
         '
+        Me.Button_Our_Blue.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button_Our_Blue.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold)
-        Me.Button_Our_Blue.ForeColor = System.Drawing.Color.LightCyan
+        Me.Button_Our_Blue.ForeColor = System.Drawing.Color.Aqua
         Me.Button_Our_Blue.ImageAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.Button_Our_Blue.Location = New System.Drawing.Point(45, 32)
         Me.Button_Our_Blue.Name = "Button_Our_Blue"
-        Me.Button_Our_Blue.Size = New System.Drawing.Size(53, 45)
+        Me.Button_Our_Blue.Size = New System.Drawing.Size(53, 32)
         Me.Button_Our_Blue.TabIndex = 5
         Me.Button_Our_Blue.Text = "S"
         Me.Button_Our_Blue.UseVisualStyleBackColor = True
@@ -127,7 +130,7 @@ Partial Class LJTD
         Me.Label_Our_Blue.Font = New System.Drawing.Font("Gisha", 26.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel)
         Me.Label_Our_Blue.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(150, Byte), Integer), CType(CType(254, Byte), Integer))
         Me.Label_Our_Blue.ImageKey = "(Keine)"
-        Me.Label_Our_Blue.Location = New System.Drawing.Point(40, 77)
+        Me.Label_Our_Blue.Location = New System.Drawing.Point(40, 67)
         Me.Label_Our_Blue.Name = "Label_Our_Blue"
         Me.Label_Our_Blue.Size = New System.Drawing.Size(65, 30)
         Me.Label_Our_Blue.TabIndex = 6
@@ -135,37 +138,41 @@ Partial Class LJTD
         '
         'Button_Their_Blue
         '
+        Me.Button_Their_Blue.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button_Their_Blue.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold)
-        Me.Button_Their_Blue.ForeColor = System.Drawing.Color.LightCyan
+        Me.Button_Their_Blue.ForeColor = System.Drawing.Color.Aqua
         Me.Button_Their_Blue.ImageAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.Button_Their_Blue.Location = New System.Drawing.Point(298, 32)
         Me.Button_Their_Blue.Name = "Button_Their_Blue"
-        Me.Button_Their_Blue.Size = New System.Drawing.Size(53, 45)
+        Me.Button_Their_Blue.Size = New System.Drawing.Size(53, 32)
         Me.Button_Their_Blue.TabIndex = 7
         Me.Button_Their_Blue.Text = "D"
         Me.Button_Their_Blue.UseVisualStyleBackColor = True
         '
         'Button_Our_Red
         '
+        Me.Button_Our_Red.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button_Our_Red.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button_Our_Red.ForeColor = System.Drawing.Color.Red
         Me.Button_Our_Red.ImageAlign = System.Drawing.ContentAlignment.BottomRight
         Me.Button_Our_Red.Location = New System.Drawing.Point(104, 32)
         Me.Button_Our_Red.Name = "Button_Our_Red"
-        Me.Button_Our_Red.Size = New System.Drawing.Size(53, 45)
+        Me.Button_Our_Red.Size = New System.Drawing.Size(53, 32)
         Me.Button_Our_Red.TabIndex = 8
         Me.Button_Our_Red.Text = "A"
         Me.Button_Our_Red.UseVisualStyleBackColor = True
         '
         'Button_Their_Red
         '
+        Me.Button_Their_Red.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button_Their_Red.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold)
         Me.Button_Their_Red.ForeColor = System.Drawing.Color.Red
         Me.Button_Their_Red.ImageAlign = System.Drawing.ContentAlignment.BottomRight
         Me.Button_Their_Red.Location = New System.Drawing.Point(357, 32)
         Me.Button_Their_Red.Name = "Button_Their_Red"
-        Me.Button_Their_Red.Size = New System.Drawing.Size(53, 45)
+        Me.Button_Their_Red.Size = New System.Drawing.Size(53, 32)
         Me.Button_Their_Red.TabIndex = 9
+        Me.Button_Their_Red.TabStop = False
         Me.Button_Their_Red.Text = "F"
         Me.Button_Their_Red.UseVisualStyleBackColor = True
         '
@@ -177,7 +184,7 @@ Partial Class LJTD
         Me.Label_Our_Red.Font = New System.Drawing.Font("Gisha", 26.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel)
         Me.Label_Our_Red.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(150, Byte), Integer), CType(CType(254, Byte), Integer))
         Me.Label_Our_Red.ImageKey = "(Keine)"
-        Me.Label_Our_Red.Location = New System.Drawing.Point(99, 77)
+        Me.Label_Our_Red.Location = New System.Drawing.Point(99, 67)
         Me.Label_Our_Red.Name = "Label_Our_Red"
         Me.Label_Our_Red.Size = New System.Drawing.Size(65, 30)
         Me.Label_Our_Red.TabIndex = 10
@@ -191,7 +198,7 @@ Partial Class LJTD
         Me.Label_Their_Blue.Font = New System.Drawing.Font("Gisha", 26.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel)
         Me.Label_Their_Blue.ForeColor = System.Drawing.Color.FromArgb(CType(CType(254, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.Label_Their_Blue.ImageKey = "(Keine)"
-        Me.Label_Their_Blue.Location = New System.Drawing.Point(293, 77)
+        Me.Label_Their_Blue.Location = New System.Drawing.Point(293, 67)
         Me.Label_Their_Blue.Name = "Label_Their_Blue"
         Me.Label_Their_Blue.Size = New System.Drawing.Size(65, 30)
         Me.Label_Their_Blue.TabIndex = 11
@@ -205,7 +212,7 @@ Partial Class LJTD
         Me.Label_Their_Red.Font = New System.Drawing.Font("Gisha", 26.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel)
         Me.Label_Their_Red.ForeColor = System.Drawing.Color.FromArgb(CType(CType(254, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.Label_Their_Red.ImageKey = "(Keine)"
-        Me.Label_Their_Red.Location = New System.Drawing.Point(352, 77)
+        Me.Label_Their_Red.Location = New System.Drawing.Point(352, 67)
         Me.Label_Their_Red.Name = "Label_Their_Red"
         Me.Label_Their_Red.Size = New System.Drawing.Size(65, 30)
         Me.Label_Their_Red.TabIndex = 12
@@ -360,7 +367,7 @@ Partial Class LJTD
         Me.Button_Minimize_Bot.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button_Minimize_Bot.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button_Minimize_Bot.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.Button_Minimize_Bot.Location = New System.Drawing.Point(19, 77)
+        Me.Button_Minimize_Bot.Location = New System.Drawing.Point(19, 67)
         Me.Button_Minimize_Bot.Name = "Button_Minimize_Bot"
         Me.Button_Minimize_Bot.Size = New System.Drawing.Size(20, 20)
         Me.Button_Minimize_Bot.TabIndex = 15
@@ -374,7 +381,7 @@ Partial Class LJTD
         Me.Button_Maximize_Bot.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button_Maximize_Bot.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button_Maximize_Bot.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.Button_Maximize_Bot.Location = New System.Drawing.Point(416, 80)
+        Me.Button_Maximize_Bot.Location = New System.Drawing.Point(416, 67)
         Me.Button_Maximize_Bot.Name = "Button_Maximize_Bot"
         Me.Button_Maximize_Bot.Size = New System.Drawing.Size(20, 20)
         Me.Button_Maximize_Bot.TabIndex = 16

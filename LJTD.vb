@@ -17,7 +17,56 @@ Public Class LJTD
     Private _Taskbar As New Taskbar
     Private _Timing As New Timing
 
-    Private Sub Panel_MouseDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Panel_Move.MouseDown
+    Private Sub LJTD_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
+        _Resources.readConfigFile()
+        Chat.Main()
+        Label_Version.Text = My.Application.Info.Version.ToString
+        Try
+            _FileStreamWatcher = New IO.FileSystemWatcher(_Resources.file_log)
+            _FileStreamWatcher.EnableRaisingEvents = True
+        Catch ex As Exception
+        End Try
+        AddHandler _AutoStartTimer.Elapsed, AddressOf Timer_New_Game
+        _AutoStartTimer.Interval = 1000
+        _Label(0) = Label_Baron
+        _Label(1) = Label_Dragon
+        _Label(2) = Label_Our_Blue
+        _Label(3) = Label_Our_Red
+        _Label(4) = Label_Their_Blue
+        _Label(5) = Label_Their_Red
+        _Button(0) = Button_Baron
+        _Button(1) = Button_Dragon
+        _Button(2) = Button_Our_Blue
+        _Button(3) = Button_Our_Red
+        _Button(4) = Button_Their_Blue
+        _Button(5) = Button_Their_Red
+        For i = 0 To 1
+            _Label(i).Font = New System.Drawing.Font(_Resources.font_name, _Resources.font_size_baron_dragon, FontStyle.Bold, GraphicsUnit.Pixel)
+        Next
+        For i = 2 To 5
+            _Label(i).Font = New System.Drawing.Font(_Resources.font_name, _Resources.font_size_red_blue, FontStyle.Bold, GraphicsUnit.Pixel)
+        Next
+        Try
+            Button_Team.BackgroundImage = Image.FromFile(_Resources.pic_team1)
+            For i = 0 To _Button.Length - 1
+                _Button(i).BackgroundImage = Image.FromFile(_Resources.pic(i))
+            Next
+        Catch ex As Exception
+        End Try
+        Me.Location = New Point((SystemInformation.PrimaryMonitorSize.Width \ 2) - Me.Size.Width \ 2, 0)
+        _Buffs(0) = New Buff(_Resources.name(0), 7, _Resources.hotkey(0))
+        _Buffs(1) = New Buff(_Resources.name(1), 6, _Resources.hotkey(1))
+        For i = 2 To 5
+            _Buffs(i) = New Buff(_Resources.name(i), 5, _Resources.hotkey(i))
+        Next
+        For i = 0 To _Button.Length - 1
+            _Button(i).Text = _Resources.hotkey(i)
+            _Buffs(i).Hotkey = _Resources.hotkey(i)
+        Next
+        Timer_Check_Buffs.Start()
+        _PushHotkeys.KeyHookEnable() = True
+    End Sub
+    Private Sub Panel_MouseDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Panel_Move.MouseDown, Label_Version.MouseDown, Label_Start.MouseDown
         If (e.Button = Windows.Forms.MouseButtons.Left) Then
             ReleaseCapture()
             MoveWindow.SendMessage(Handle.ToInt32, WM_NCLBUTTONDOWN, HT_CAPTION, 0)
@@ -44,7 +93,7 @@ Public Class LJTD
         Fade_Out(8)
     End Sub
     Private Sub Button_Minimize_Bot_Click(sender As System.Object, e As System.EventArgs) Handles Button_Minimize_Bot.Click
-        Fade_Out(13)
+        Fade_Out(12)
     End Sub
     Private Sub Fade_Out(i As Integer)
         _Fading = 0
@@ -69,7 +118,7 @@ Public Class LJTD
         Fade_In(8)
     End Sub
     Private Sub Button_Maximize_Bot_Click(sender As System.Object, e As System.EventArgs) Handles Button_Maximize_Bot.Click
-        Fade_In(13)
+        Fade_In(12)
     End Sub
     Private Sub Fade_In(i As Integer)
         _Fading = 0
@@ -138,54 +187,6 @@ Public Class LJTD
                 Chat.write(_Buffs(i).generateText(_Timing.buffEnding(_Buffs(i).Duration, _Difference, _StartingDateTime)))
             End If
         End If
-    End Sub
-    Private Sub LJTD_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
-        _Resources.readConfigFile()
-        Label_Version.Text = My.Application.Info.Version.ToString
-        Try
-            _FileStreamWatcher = New IO.FileSystemWatcher(_Resources.file_log)
-            _FileStreamWatcher.EnableRaisingEvents = True
-        Catch ex As Exception
-        End Try
-        AddHandler _AutoStartTimer.Elapsed, AddressOf Timer_New_Game
-        _AutoStartTimer.Interval = 1000
-        _Label(0) = Label_Baron
-        _Label(1) = Label_Dragon
-        _Label(2) = Label_Our_Blue
-        _Label(3) = Label_Our_Red
-        _Label(4) = Label_Their_Blue
-        _Label(5) = Label_Their_Red
-        _Button(0) = Button_Baron
-        _Button(1) = Button_Dragon
-        _Button(2) = Button_Our_Blue
-        _Button(3) = Button_Our_Red
-        _Button(4) = Button_Their_Blue
-        _Button(5) = Button_Their_Red
-        For i = 0 To 1
-            _Label(i).Font = New System.Drawing.Font(_Resources.font_name, _Resources.font_size_baron_dragon, FontStyle.Bold, GraphicsUnit.Pixel)
-        Next
-        For i = 2 To 5
-            _Label(i).Font = New System.Drawing.Font(_Resources.font_name, _Resources.font_size_red_blue, FontStyle.Bold, GraphicsUnit.Pixel)
-        Next
-        Try
-            Button_Team.BackgroundImage = Image.FromFile(_Resources.pic_team1)
-            For i = 0 To _Button.Length - 1
-                _Button(i).BackgroundImage = Image.FromFile(_Resources.pic(i))
-            Next
-        Catch ex As Exception
-        End Try
-        Me.Location = New Point((SystemInformation.PrimaryMonitorSize.Width \ 2) - Me.Size.Width \ 2, 0)
-        _Buffs(0) = New Buff(_Resources.name(0), 7, _Resources.hotkey(0))
-        _Buffs(1) = New Buff(_Resources.name(1), 6, _Resources.hotkey(1))
-        For i = 2 To 5
-            _Buffs(i) = New Buff(_Resources.name(i), 5, _Resources.hotkey(i))
-        Next
-        For i = 0 To _Button.Length - 1
-            _Button(i).Text = _Resources.hotkey(i)
-            _Buffs(i).Hotkey = _Resources.hotkey(i)
-        Next
-        Timer_Check_Buffs.Start()
-        _PushHotkeys.KeyHookEnable() = True
     End Sub
     Public Sub set_Key_Code(i As Integer, altPressed As Boolean)
         If altPressed Then

@@ -1409,16 +1409,16 @@
 </value>
   </data>
   <metadata name="Timer_Start_Time.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>61, 26</value>
+    <value>551, 51</value>
   </metadata>
   <metadata name="Timer_Check_Buffs.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>264, 24</value>
+    <value>41, 18</value>
   </metadata>
   <metadata name="Timer_Fade_Out.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>516, 17</value>
+    <value>893, 41</value>
   </metadata>
   <metadata name="Timer_Fade_In.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>651, 17</value>
+    <value>891, 11</value>
   </metadata>
   <data name="Button_Minimize_Bot.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -1693,7 +1693,7 @@
 </value>
   </data>
   <metadata name="Timer_Auto_Start.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>778, 17</value>
+    <value>550, 12</value>
   </metadata>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
