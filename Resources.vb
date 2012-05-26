@@ -1,39 +1,20 @@
 ﻿Imports System.IO
-Class Resources
-    Private _sound As String(,) = {{"SOUND_BLINK", "sound\blink.wav"}, {"SOUND_PLAY", "true"}}
-    Public Property sound(i As Integer) As String
+Public Class Resources
+    Private Shared _unique As Resources
+    Public Shared Function GetObject() As Resources
+        If Resources._unique Is Nothing Then
+            Resources._unique = New Resources
+        End If
+        Return _unique
+    End Function
+    Private seperator_config_file As Char = "="c
+    Private _sound As String() = {"SOUND_BLINK", "sound\blink.wav"}
+    Public ReadOnly Property sound(i As Integer) As String
         Get
-            Return _sound(i, 1)
-        End Get
-        Set(ByVal value As String)
-            _sound(i, 1) = value
-        End Set
-    End Property
-    Private _pic_start As String = "res\STOP.png"
-    Public ReadOnly Property pic_start As String
-        Get
-            Return _pic_start
-        End Get
-    End Property
-    Private _pic_stop As String = "res\START.png"
-    Public ReadOnly Property pic_stop As String
-        Get
-            Return _pic_stop
+            Return _sound(1)
         End Get
     End Property
-    Private _pic_team1 As String = "res\BLUE-RED.png"
-    Public ReadOnly Property pic_team1 As String
-        Get
-            Return _pic_team1
-        End Get
-    End Property
-    Private _pic_team2 As String = "res\RED-BLUE.png"
-    Public ReadOnly Property pic_team2 As String
-        Get
-            Return _pic_team2
-        End Get
-    End Property
-    Private _pic As String() = {"res\baron.png", "res\dragon.png", "res\ob.png", "res\or.png", "res\tb.png", "res\tr.png"}
+    Private _pic As String() = {"res\baron.png", "res\dragon.png", "res\ob.png", "res\or.png", "res\tb.png", "res\tr.png", "res\ward.gif"}
     Public ReadOnly Property pic(i As Integer) As String
         Get
             Return _pic(i)
@@ -46,143 +27,209 @@ Class Resources
         End Get
     End Property
     Private _fileConfig As String = "res\ljtd.ini"
-    Public ReadOnly Property fileConfig As String
+    Public ReadOnly Property fileConfig() As String
         Get
             Return _fileConfig
         End Get
     End Property
-    Private _search_string_startGame As String = "StartGame"
-    Public ReadOnly Property search_string_startGame As String
+    Private _search_logfile As String() = {"StartGame", "Shutdown"}
+    Public ReadOnly Property search_logfile(i As Integer) As String
         Get
-            Return _search_string_startGame
+            Return _search_logfile(i)
         End Get
     End Property
-    Private _hotkey As String(,) = {{"HOTKEY_BARON", "X"}, _
-                                    {"HOTKEY_DRAGON", "C"}, _
-                                    {"HOTKEY_OUR_BLUE", "A"}, _
-                                    {"HOTKEY_OUR_RED", "S"}, _
-                                    {"HOTKEY_THEIR_BLUE", "D"}, _
-                                    {"HOTKEY_THEIR_RED", "F"}}
-    Public Property hotkey(i As Integer) As String
+    Private _color As String(,) = {{"COLOR_BARON", "192", "0", "192"},
+                                    {"COLOR_DRAGON", "192", "192", "0"},
+                                    {"COLOR_OUR_BLUE", "0", "220", "255"},
+                                    {"COLOR_OUR_RED", "0", "220", "255"},
+                                    {"COLOR_THEIR_BLUE", "255", "0", "0"},
+                                    {"COLOR_THEIR_RED", "255", "0", "0"},
+                                    {"COLOR_WARD", "255", "255", "0"}}
+    Public Property color(i As Integer, agb As Integer) As String
         Get
-            Return _hotkey(i, 1)
+            Return _color(i, agb)
         End Get
-        Set(ByVal value As String)
+        Set(value As String)
+            _color(i, agb) = value
+        End Set
+    End Property
+    Public ReadOnly Property color_int(i As Integer, agb As Integer) As Integer
+        Get
+            Return CInt(_color(i, agb))
+        End Get
+    End Property
+    Private _delay As String(,) = {{"DELAY_AFTER_FOREGROUND", "50"},
+                                    {"DELAY_AFTER_ENTER", "20"},
+                                    {"DELAY_AFTER_TEXT", "20"}}
+    Public Property delay(i As Integer, j As Integer) As String
+        Get
+            Return (_delay(i, j))
+        End Get
+        Set(value As String)
+            _delay(i, j) = value
+        End Set
+    End Property
+    Public ReadOnly Property delay_int(i As Integer, j As Integer) As Integer
+        Get
+            Return CInt(_delay(i, j))
+        End Get
+    End Property
+    Private _font As String(,) = {{"FONT_NAME", "Gisha"},
+                                  {"FONT_SIZE_BARON", "30"},
+                                  {"FONT_SIZE_DRAGON", "28"},
+                                  {"FONT_SIZE_RED_BLUE", "26"},
+                                  {"FONT_SIZE_WARD", "16"}}
+    Public Property font(i As Integer, j As Integer) As String
+        Get
+            Return _font(i, j)
+        End Get
+        Set(value As String)
+            _font(i, j) = value
+        End Set
+    End Property
+    Public ReadOnly Property font_int(i As Integer) As Integer
+        Get
+            Return CInt(_font(i, 1))
+        End Get
+    End Property
+    Private _hotkey As String(,) = {{"HOTKEY_BARON", "X"},
+                                    {"HOTKEY_DRAGON", "C"},
+                                    {"HOTKEY_OUR_BLUE", "A"},
+                                    {"HOTKEY_OUR_RED", "S"},
+                                    {"HOTKEY_THEIR_BLUE", "D"},
+                                    {"HOTKEY_THEIR_RED", "F"},
+                                    {"HOTKEY_WARD", "W"}}
+    Public Property hotkey(i As Integer, j As Integer) As String
+        Get
+            If _hotkey(i, j).Length > 1 Then
+                Return (_hotkey(i, j))
+            Else
+                Return CStr(Asc((_hotkey(i, j))))
+            End If
+        End Get
+        Set(value As String)
             _hotkey(i, 1) = value
         End Set
     End Property
-
-    Private _name As String(,) = {{"NAME_BARON", "Baron"}, _
-                                    {"NAME_DRAGON", "Dragon"}, _
-                                    {"NAME_OUR_BLUE", "OB"}, _
-                                    {"NAME_OUR_RED", "OR"}, _
-                                    {"NAME_THEIR_BLUE", "TB"}, _
-                                    {"NAME_THEIR_RED", "TR"}}
-    Public Property name(i As Integer) As String
+    Public Property hotkey_int(i As Integer) As Integer
         Get
-            Return _name(i, 1)
+            If _hotkey(i, 1).Length > 1 Then
+                Return CInt((_hotkey(i, 1)))
+            Else
+                Return Asc((_hotkey(i, 1)))
+            End If
         End Get
-        Set(ByVal value As String)
-            _name(i, 1) = value
+        Set(value As Integer)
+            _hotkey(i, 1) = CStr(value)
         End Set
     End Property
-    Private _renember As String(,) = {{"RENEMBER_FIRST", "1:00"}, {"RENEMBER_SECOND", "0:10"}}
-    Public Property renember_first() As String
+    Private _minimap As String(,) = {{"MINIMAP_SIZE", "300"},
+                                    {"MINIMAP_LOCATION_X", ""},
+                                    {"MINIMAP_LOCATION_Y", ""},
+                                    {"MINIMAP_AUTOSTART", "false"},
+                                    {"MINIMAP_FULLMODE", "true"}}
+    Public Property minimap(i As Integer, j As Integer) As String
         Get
-            Return _renember(0, 1)
+            Return (_minimap(i, j))
         End Get
-        Set(ByVal value As String)
-            _renember(0, 1) = value
+        Set(value As String)
+            _minimap(i, j) = value
         End Set
     End Property
-    Public Property renember_second() As String
+    Public Property minimap_int(i As Integer) As Integer
         Get
-            Return _renember(1, 1)
+            If _minimap(i, 1) <> "" Then
+                Return CInt(_minimap(i, 1))
+            End If
+            Return 0
         End Get
-        Set(ByVal value As String)
-            _renember(1, 1) = value
+        Set(value As Integer)
+            _minimap(i, 1) = CStr(value)
         End Set
     End Property
-    Private _seperator_buff As String() = {"SEPERATOR_BUFF", "@"}
-    Public Property seperator_buff() As String
+    Public Property minimap_bool(i As Integer) As Boolean
         Get
-            Return _seperator_buff(1)
+            Return CBool(_minimap(i, 1))
         End Get
-        Set(ByVal value As String)
-            _seperator_buff(1) = value
+        Set(value As Boolean)
+            _minimap(i, 1) = CStr(value)
         End Set
     End Property
-    Private _file_log As String() = {"CONFIG_LOG", ""}
-    Public Property file_log() As String
+    Private _name As String(,) = {{"NAME_BARON", "Baron"},
+                                    {"NAME_DRAGON", "Dragon"},
+                                    {"NAME_OUR_BLUE", "OB"},
+                                    {"NAME_OUR_RED", "OR"},
+                                    {"NAME_THEIR_BLUE", "TB"},
+                                    {"NAME_THEIR_RED", "TR"},
+                                    {"NAME_WARD", "Ward"}}
+    Public Property name(i As Integer, j As Integer) As String
         Get
-            Return _file_log(1)
+            Return _name(i, j)
         End Get
-        Set(ByVal value As String)
-            _file_log(1) = value
+        Set(value As String)
+            _name(i, j) = value
         End Set
     End Property
-    Private _hide_taskbar As String() = {"HIDE_TASKBAR", "false"}
-    Public Property hide_taskbar() As Boolean
+    Private _remember As String(,) = {{"REMEMBER_FIRST", "1:00"},
+                                      {"REMEMBER_SECOND", "0:30"},
+                                      {"REMEMBER_THIRD", "0:10"}}
+    Public Property remember(i As Integer, j As Integer) As String
         Get
-            Return CBool(_hide_taskbar(1))
+            Return _remember(i, j)
         End Get
-        Set(ByVal value As Boolean)
-            _hide_taskbar(1) = CStr(value)
+        Set(value As String)
+            _remember(i, j) = value
         End Set
     End Property
-    Private _write_2_chat As String() = {"WRITE_2_CHAT", "true"}
-    Public Property write_2_chat() As Boolean
+    Private _config As String(,) = {{"CONFIG_LOG", "C:\Riot Games\League of Legends\Logs\Game - R3d Logs"},
+                                    {"SEPERATOR_BUFF", "@"},
+                                    {"HOTKEY_OPENER", "ALT"},
+                                    {"SHOW_WARD", "false"},
+                                    {"OPEN_IN_TRAY", "false"},
+                                    {"AUTO_SLIDEOUT", "0"},
+                                    {"SHOW_ENDTIME_LABEL", "false"},
+                                    {"HIDE_TASKBAR", "false"},
+                                    {"TOP_MOST_ALWAYS", "true"},
+                                    {"SOUND_PLAY", "true"}}
+    Public Property config(i As Integer, j As Integer) As String
         Get
-            Return CBool(_write_2_chat(1))
+            Return _config(i, j)
         End Get
-        Set(ByVal value As Boolean)
-            _write_2_chat(1) = CStr(value)
+        Set(value As String)
+            _config(i, j) = value
         End Set
     End Property
-    Private _minimap_size As String() = {"MINIMAP_SIZE", "300"}
-    Public Property minimap_size() As Integer
+    Public Property config_bool(i As Integer) As Boolean
         Get
-            Return CInt(_minimap_size(1))
+            Return CBool(_config(i, 1))
         End Get
-        Set(ByVal value As Integer)
-            _minimap_size(1) = CStr(value)
+        Set(value As Boolean)
+            _config(i, 1) = CStr(value)
         End Set
     End Property
-    Private _foreground_delay As String() = {"FOREGROUND_DELAY", "20"}
-    Public Property foreground_delay() As Integer
+    Public ReadOnly Property config_int(i As Integer) As Integer
         Get
-            Return CInt(_foreground_delay(1))
+            Return CInt(_config(i, 1))
         End Get
-        Set(ByVal value As Integer)
-            _foreground_delay(1) = CStr(value)
+    End Property
+    Private _chat As String(,) = {{"WRITE_2_CHAT_BUFF", "true"},
+                                  {"WRITE_2_CHAT_WARD", "false"}}
+    Public Property chat(i As Integer, j As Integer) As String
+        Get
+            Return (_chat(i, j))
+        End Get
+        Set(value As String)
+            _chat(i, j) = value
         End Set
     End Property
-    Private _font As String(,) = {{"FONT_NAME", "Gisha"}, {"FONT_SIZE_RED_BLUE", "26"}, {"FONT_SIZE_BARON_DRAGON", "30"}}
-    Public Property font_name() As String
+    Public Property chat_bool(i As Integer) As Boolean
         Get
-            Return _font(0, 1)
+            Return CBool(_chat(i, 1))
         End Get
-        Set(ByVal value As String)
-            _font(0, 1) = value
+        Set(value As Boolean)
+            _chat(i, 1) = CStr(value)
         End Set
     End Property
-    Public Property font_size_red_blue() As Integer
-        Get
-            Return CInt(_font(1, 1))
-        End Get
-        Set(ByVal value As Integer)
-            _font(1, 1) = CStr(value)
-        End Set
-    End Property
-    Public Property font_size_baron_dragon() As Integer
-        Get
-            Return CInt(_font(2, 1))
-        End Get
-        Set(ByVal value As Integer)
-            _font(2, 1) = CStr(value)
-        End Set
-    End Property
-    Private seperator_config_file As String = "="
 
     Public Sub readConfigFile()
         Dim TempString() As String = {""}
@@ -194,10 +241,9 @@ Class Resources
         While Zaehler <= TempString.Length - 1
             Dim strTeile = ""
             Try
-                strTeile = TempString(Zaehler).Split(CChar(seperator_config_file))(1)
+                strTeile = TempString(Zaehler).Split(seperator_config_file)(1)
             Catch ex As Exception
             End Try
-            
             For i = 0 To UBound(_name)
                 If TempString(Zaehler).StartsWith(_name(i, 0)) Then
                     If strTeile <> "" Then
@@ -205,10 +251,10 @@ Class Resources
                     End If
                 End If
             Next
-            For i = 0 To UBound(_renember)
-                If TempString(Zaehler).StartsWith(_renember(i, 0)) Then
+            For i = 0 To UBound(_remember)
+                If TempString(Zaehler).StartsWith(_remember(i, 0)) Then
                     If strTeile <> "" Then
-                        _renember(i, 1) = strTeile
+                        _remember(i, 1) = strTeile
                     End If
                 End If
             Next
@@ -226,57 +272,51 @@ Class Resources
                     End If
                 End If
             Next
-
-                'Seperator
-            If TempString(Zaehler).StartsWith(_seperator_buff(0)) Then
-                If strTeile <> "" Then
-                    _seperator_buff(1) = strTeile
+            For i = 0 To UBound(_chat)
+                If TempString(Zaehler).StartsWith(_chat(i, 0)) Then
+                    If strTeile <> "" Then
+                        _chat(i, 1) = strTeile
+                    End If
                 End If
-                'Log File
-            ElseIf TempString(Zaehler).StartsWith(_file_log(0)) Then
-                If strTeile <> "" Then
-                    _file_log(1) = strTeile
+            Next
+            For i = 0 To UBound(_delay)
+                If TempString(Zaehler).StartsWith(_delay(i, 0)) Then
+                    If strTeile <> "" Then
+                        _delay(i, 1) = strTeile
+                    End If
                 End If
-                'Hide Taskbar
-            ElseIf TempString(Zaehler).StartsWith(_hide_taskbar(0)) Then
-                If strTeile <> "" Then
-                    _hide_taskbar(1) = strTeile
+            Next
+            For i = 0 To UBound(_color)
+                If TempString(Zaehler).StartsWith(_color(i, 0)) Then
+                    If strTeile <> "" Then
+                        Dim sArray As String() = Split(strTeile, ",")
+                        If CInt(sArray(0)) < 256 And CInt(sArray(1)) < 256 And CInt(sArray(2)) < 256 Then
+                            _color(i, 1) = sArray(0)
+                            _color(i, 2) = sArray(1)
+                            _color(i, 3) = sArray(2)
+                        End If
+                    End If
                 End If
-                'Write2Chat
-            ElseIf TempString(Zaehler).StartsWith(_write_2_chat(0)) Then
-                If strTeile <> "" Then
-                    _write_2_chat(1) = strTeile
+            Next
+            For i = 0 To UBound(_config)
+                If TempString(Zaehler).StartsWith(_config(i, 0)) Then
+                    If strTeile <> "" Then
+                        If i = 2 Then
+                            _config(i, 1) = strTeile.ToUpper
+                        Else
+                            _config(i, 1) = strTeile
+                        End If
+                    End If
                 End If
-                'Sound
-            ElseIf TempString(Zaehler).StartsWith(_sound(1, 0)) Then
-                If strTeile <> "" Then
-                    _sound(1, 1) = strTeile
+            Next
+            For i = 0 To UBound(_minimap)
+                If TempString(Zaehler).StartsWith(_minimap(i, 0)) Then
+                    If strTeile <> "" Then
+                        _minimap(i, 1) = strTeile
+                    End If
                 End If
-                'MiniMap Size
-            ElseIf TempString(Zaehler).StartsWith(_minimap_size(0)) Then
-                If strTeile <> "" Then
-                    _minimap_size(1) = strTeile
-                End If
-                'Fireground Delay
-            ElseIf TempString(Zaehler).StartsWith(_foreground_delay(0)) Then
-                If strTeile <> "" Then
-                    _foreground_delay(1) = strTeile
-                End If
-            End If
-
+            Next
             Zaehler += 1
         End While
     End Sub
-    Public Function GetFileContents(ByVal FullPath As String) As String
-        Dim strContents As String = ""
-        Dim objReader As StreamReader
-        Try
-            objReader = New StreamReader(FullPath)
-            strContents = objReader.ReadToEnd()
-            objReader.Close()
-        Catch Ex As Exception
-            Console.Write("LESEN! " & Ex.Message)
-        End Try
-        Return strContents
-    End Function
 End Class

@@ -1,5 +1,13 @@
 ﻿Class Timing
-    Public delay As Integer = 15
+    Private _delay As Integer = 15
+    Public Property delay() As Integer
+        Get
+            Return _delay
+        End Get
+        Set(value As Integer)
+            _delay = value
+        End Set
+    End Property
     Public Function DateDiffSec(ByVal startDt As Date, ByVal endDt As Date) As Integer
         Dim ms As Long = DateDiff(DateInterval.Second, startDt, endDt) * 1000
         If (endDt.Millisecond - startDt.Millisecond) < 0 Then
