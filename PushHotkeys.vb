@@ -10,7 +10,8 @@ Class PushHotkeys
     Private Const HC_ACTION As Integer = 0
     Private mHandle As IntPtr
     Public PrevWndProc As Integer
-    Dim alt_key As Boolean
+    Private _key_opener As Boolean
+    Private _Resource As Resources = Resources.GetObject()
     <StructLayout(LayoutKind.Sequential)> Public Structure KBDLLHOOKSTRUCT
         Public vkCode As Keys
         Public scanCode, flags, time, dwExtraInfo As UInteger
@@ -39,14 +40,28 @@ Class PushHotkeys
     Private KeyCounter As Integer
     Private Function KeyboardHookProc(ByVal nCode As Integer, ByVal wParam As IntPtr, ByRef lParam As KBDLLHOOKSTRUCT) As IntPtr
         Dim fEatKeyStroke As Boolean
-        If CStr(lParam.vkCode) = 164 Then
-            If CStr(wParam) = 260 Then
-                alt_key = True
-            Else
-                alt_key = False
+        'Console.WriteLine(CStr(wParam) & "wParam")
+        'Console.WriteLine(CStr(lParam.vkCode) & "vkCode")
+        If CDbl(wParam) = 260 Or CDbl(wParam) = 256 Then
+            If _Resource.config(2, 1) = "NONE" Then
+                _key_opener = True
+            ElseIf CDbl(lParam.vkCode) = 164 And _Resource.config(2, 1) = "ALT" Then
+                _key_opener = True
+            ElseIf CDbl(lParam.vkCode) = 162 And _Resource.config(2, 1) = "STRG" Then
+                _key_opener = True
+            ElseIf CDbl(lParam.vkCode) = 160 And _Resource.config(2, 1) = "SHIFT" Then
+                _key_opener = True
+            End If
+        ElseIf CDbl(wParam) = 257 Then
+            If CDbl(lParam.vkCode) = 164 And _Resource.config(2, 1) = "ALT" Then
+                _key_opener = False
+            ElseIf CDbl(lParam.vkCode) = 162 And _Resource.config(2, 1) = "STRG" Then
+                _key_opener = False
+            ElseIf CDbl(lParam.vkCode) = 160 And _Resource.config(2, 1) = "SHIFT" Then
+                _key_opener = False
             End If
         End If
-        LJTD.set_Key_Code(lParam.vkCode, alt_key)
+        LJTD.set_Key_Code(lParam.vkCode, _key_opener)
         If nCode <> HC_ACTION Then GoTo ending
 ending:
         If fEatKeyStroke Then
