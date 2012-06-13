@@ -30,13 +30,6 @@ Partial Class LJTD
         Me.Label_Our_Red = New System.Windows.Forms.Label()
         Me.Label_Their_Blue = New System.Windows.Forms.Label()
         Me.Label_Their_Red = New System.Windows.Forms.Label()
-        Me.Panel_Move = New System.Windows.Forms.Panel()
-        Me.Label_Version = New System.Windows.Forms.Label()
-        Me.Button_Team = New System.Windows.Forms.Button()
-        Me.Button_Minimap = New System.Windows.Forms.Button()
-        Me.Label_Start = New System.Windows.Forms.Label()
-        Me.Button_Start = New System.Windows.Forms.Button()
-        Me.Button_Close = New System.Windows.Forms.Button()
         Me.Timer_Update_Current_Time = New System.Windows.Forms.Timer(Me.components)
         Me.Timer_Check_Buffs = New System.Windows.Forms.Timer(Me.components)
         Me.Timer_Fade_Out = New System.Windows.Forms.Timer(Me.components)
@@ -55,6 +48,13 @@ Partial Class LJTD
         Me.Button_Maximize_Bot = New System.Windows.Forms.Button()
         Me.Button_Minimize_Bot = New System.Windows.Forms.Button()
         Me.Button_Maximize_Top = New System.Windows.Forms.Button()
+        Me.Panel_Move = New System.Windows.Forms.Panel()
+        Me.Button_Minimize = New System.Windows.Forms.Button()
+        Me.Label_Version = New System.Windows.Forms.Label()
+        Me.Button_Minimap = New System.Windows.Forms.Button()
+        Me.Label_Start = New System.Windows.Forms.Label()
+        Me.Button_Start = New System.Windows.Forms.Button()
+        Me.Button_Close = New System.Windows.Forms.Button()
         Me.Button_Minimize_Top = New System.Windows.Forms.Button()
         Me.Button_Their_Red = New System.Windows.Forms.Button()
         Me.Button_Our_Red = New System.Windows.Forms.Button()
@@ -143,103 +143,6 @@ Partial Class LJTD
         Me.Label_Their_Red.TabIndex = 12
         Me.Label_Their_Red.Text = "5:00"
         '
-        'Panel_Move
-        '
-        Me.Panel_Move.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.Panel_Move.BackgroundImage = Global.LJTD.My.Resources.Resources.LJTD_Panel
-        Me.Panel_Move.Controls.Add(Me.Label_Version)
-        Me.Panel_Move.Controls.Add(Me.Button_Team)
-        Me.Panel_Move.Controls.Add(Me.Button_Minimap)
-        Me.Panel_Move.Controls.Add(Me.Label_Start)
-        Me.Panel_Move.Controls.Add(Me.Button_Start)
-        Me.Panel_Move.Controls.Add(Me.Button_Close)
-        Me.Panel_Move.Location = New System.Drawing.Point(25, 0)
-        Me.Panel_Move.Name = "Panel_Move"
-        Me.Panel_Move.Size = New System.Drawing.Size(355, 26)
-        Me.Panel_Move.TabIndex = 13
-        '
-        'Label_Version
-        '
-        Me.Label_Version.AutoSize = True
-        Me.Label_Version.BackColor = System.Drawing.Color.Transparent
-        Me.Label_Version.Font = New System.Drawing.Font("Microsoft Yi Baiti", 10.0!)
-        Me.Label_Version.ForeColor = System.Drawing.SystemColors.Control
-        Me.Label_Version.Location = New System.Drawing.Point(269, 0)
-        Me.Label_Version.Name = "Label_Version"
-        Me.Label_Version.Size = New System.Drawing.Size(42, 14)
-        Me.Label_Version.TabIndex = 17
-        Me.Label_Version.Text = "Version"
-        '
-        'Button_Team
-        '
-        Me.Button_Team.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.Button_Team.BackgroundImage = Global.LJTD.My.Resources.Resources.LJTD_Button_TEAM_BLUE_RED_ready
-        Me.Button_Team.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.Button_Team.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.Button_Team.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button_Team.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.Button_Team.Location = New System.Drawing.Point(0, 0)
-        Me.Button_Team.Name = "Button_Team"
-        Me.Button_Team.Size = New System.Drawing.Size(30, 26)
-        Me.Button_Team.TabIndex = 9
-        Me.Button_Team.UseVisualStyleBackColor = False
-        '
-        'Button_Minimap
-        '
-        Me.Button_Minimap.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.Button_Minimap.BackgroundImage = CType(resources.GetObject("Button_Minimap.BackgroundImage"), System.Drawing.Image)
-        Me.Button_Minimap.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.Button_Minimap.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.Button_Minimap.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button_Minimap.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.Button_Minimap.Location = New System.Drawing.Point(29, 0)
-        Me.Button_Minimap.Name = "Button_Minimap"
-        Me.Button_Minimap.Size = New System.Drawing.Size(30, 26)
-        Me.Button_Minimap.TabIndex = 8
-        Me.Button_Minimap.UseVisualStyleBackColor = False
-        '
-        'Label_Start
-        '
-        Me.Label_Start.AutoSize = True
-        Me.Label_Start.BackColor = System.Drawing.Color.Transparent
-        Me.Label_Start.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.Label_Start.Font = New System.Drawing.Font("Gisha", 20.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel)
-        Me.Label_Start.ForeColor = System.Drawing.Color.FromArgb(CType(CType(254, Byte), Integer), CType(CType(254, Byte), Integer), CType(CType(254, Byte), Integer))
-        Me.Label_Start.ImageKey = "(Keine)"
-        Me.Label_Start.Location = New System.Drawing.Point(114, 2)
-        Me.Label_Start.Name = "Label_Start"
-        Me.Label_Start.Size = New System.Drawing.Size(51, 24)
-        Me.Label_Start.TabIndex = 14
-        Me.Label_Start.Text = "0:15"
-        '
-        'Button_Start
-        '
-        Me.Button_Start.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.Button_Start.BackgroundImage = Global.LJTD.My.Resources.Resources.LJTD_Button_START_ready
-        Me.Button_Start.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
-        Me.Button_Start.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.Button_Start.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button_Start.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.Button_Start.Location = New System.Drawing.Point(187, 0)
-        Me.Button_Start.Name = "Button_Start"
-        Me.Button_Start.Size = New System.Drawing.Size(60, 26)
-        Me.Button_Start.TabIndex = 7
-        Me.Button_Start.UseVisualStyleBackColor = False
-        '
-        'Button_Close
-        '
-        Me.Button_Close.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.Button_Close.BackgroundImage = Global.LJTD.My.Resources.Resources.LJTD_Button_CLOSE_ready
-        Me.Button_Close.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.Button_Close.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.Button_Close.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button_Close.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.Button_Close.Location = New System.Drawing.Point(325, 0)
-        Me.Button_Close.Name = "Button_Close"
-        Me.Button_Close.Size = New System.Drawing.Size(30, 26)
-        Me.Button_Close.TabIndex = 10
-        Me.Button_Close.UseVisualStyleBackColor = False
-        '
         'Timer_Update_Current_Time
         '
         Me.Timer_Update_Current_Time.Interval = 1000
@@ -292,7 +195,7 @@ Partial Class LJTD
         Me.Label_Their_Red_Endtime.Font = New System.Drawing.Font("Gisha", 20.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel)
         Me.Label_Their_Red_Endtime.ForeColor = System.Drawing.Color.FromArgb(CType(CType(254, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.Label_Their_Red_Endtime.ImageKey = "(Keine)"
-        Me.Label_Their_Red_Endtime.Location = New System.Drawing.Point(326, 93)
+        Me.Label_Their_Red_Endtime.Location = New System.Drawing.Point(327, 93)
         Me.Label_Their_Red_Endtime.Name = "Label_Their_Red_Endtime"
         Me.Label_Their_Red_Endtime.Size = New System.Drawing.Size(65, 30)
         Me.Label_Their_Red_Endtime.TabIndex = 24
@@ -305,7 +208,7 @@ Partial Class LJTD
         Me.Label_Their_Blue_Endtime.Font = New System.Drawing.Font("Gisha", 20.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel)
         Me.Label_Their_Blue_Endtime.ForeColor = System.Drawing.Color.FromArgb(CType(CType(254, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.Label_Their_Blue_Endtime.ImageKey = "(Keine)"
-        Me.Label_Their_Blue_Endtime.Location = New System.Drawing.Point(269, 93)
+        Me.Label_Their_Blue_Endtime.Location = New System.Drawing.Point(270, 93)
         Me.Label_Their_Blue_Endtime.Name = "Label_Their_Blue_Endtime"
         Me.Label_Their_Blue_Endtime.Size = New System.Drawing.Size(65, 30)
         Me.Label_Their_Blue_Endtime.TabIndex = 23
@@ -344,9 +247,9 @@ Partial Class LJTD
         Me.Label_Dragon_Endtime.Font = New System.Drawing.Font("Gisha", 20.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel)
         Me.Label_Dragon_Endtime.ForeColor = System.Drawing.Color.FromArgb(CType(CType(190, Byte), Integer), CType(CType(190, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.Label_Dragon_Endtime.ImageKey = "(Keine)"
-        Me.Label_Dragon_Endtime.Location = New System.Drawing.Point(139, 94)
+        Me.Label_Dragon_Endtime.Location = New System.Drawing.Point(138, 94)
         Me.Label_Dragon_Endtime.Name = "Label_Dragon_Endtime"
-        Me.Label_Dragon_Endtime.Size = New System.Drawing.Size(59, 35)
+        Me.Label_Dragon_Endtime.Size = New System.Drawing.Size(65, 30)
         Me.Label_Dragon_Endtime.TabIndex = 20
         Me.Label_Dragon_Endtime.Text = "6:00"
         '
@@ -357,9 +260,9 @@ Partial Class LJTD
         Me.Label_Baron_Endtime.Font = New System.Drawing.Font("Arial", 20.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, CType(0, Byte))
         Me.Label_Baron_Endtime.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
         Me.Label_Baron_Endtime.ImageKey = "(Keine)"
-        Me.Label_Baron_Endtime.Location = New System.Drawing.Point(201, 94)
+        Me.Label_Baron_Endtime.Location = New System.Drawing.Point(202, 94)
         Me.Label_Baron_Endtime.Name = "Label_Baron_Endtime"
-        Me.Label_Baron_Endtime.Size = New System.Drawing.Size(76, 35)
+        Me.Label_Baron_Endtime.Size = New System.Drawing.Size(65, 30)
         Me.Label_Baron_Endtime.TabIndex = 19
         Me.Label_Baron_Endtime.Text = "7:00"
         '
@@ -421,6 +324,103 @@ Partial Class LJTD
         Me.Button_Maximize_Top.TabIndex = 13
         Me.Button_Maximize_Top.UseVisualStyleBackColor = False
         Me.Button_Maximize_Top.Visible = False
+        '
+        'Panel_Move
+        '
+        Me.Panel_Move.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.Panel_Move.BackgroundImage = Global.LJTD.My.Resources.Resources.LJTD_Panel
+        Me.Panel_Move.Controls.Add(Me.Button_Minimize)
+        Me.Panel_Move.Controls.Add(Me.Label_Version)
+        Me.Panel_Move.Controls.Add(Me.Button_Minimap)
+        Me.Panel_Move.Controls.Add(Me.Label_Start)
+        Me.Panel_Move.Controls.Add(Me.Button_Start)
+        Me.Panel_Move.Controls.Add(Me.Button_Close)
+        Me.Panel_Move.Location = New System.Drawing.Point(25, 0)
+        Me.Panel_Move.Name = "Panel_Move"
+        Me.Panel_Move.Size = New System.Drawing.Size(355, 26)
+        Me.Panel_Move.TabIndex = 13
+        '
+        'Button_Minimize
+        '
+        Me.Button_Minimize.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.Button_Minimize.BackgroundImage = Global.LJTD.My.Resources.Resources.LJTD_Button_MINIMIZE_ready
+        Me.Button_Minimize.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.Button_Minimize.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.Button_Minimize.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button_Minimize.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.Button_Minimize.Location = New System.Drawing.Point(296, 0)
+        Me.Button_Minimize.Name = "Button_Minimize"
+        Me.Button_Minimize.Size = New System.Drawing.Size(30, 26)
+        Me.Button_Minimize.TabIndex = 18
+        Me.Button_Minimize.UseVisualStyleBackColor = False
+        '
+        'Label_Version
+        '
+        Me.Label_Version.AutoSize = True
+        Me.Label_Version.BackColor = System.Drawing.Color.Transparent
+        Me.Label_Version.Font = New System.Drawing.Font("Microsoft Yi Baiti", 10.0!)
+        Me.Label_Version.ForeColor = System.Drawing.SystemColors.Control
+        Me.Label_Version.Location = New System.Drawing.Point(52, 8)
+        Me.Label_Version.Name = "Label_Version"
+        Me.Label_Version.Size = New System.Drawing.Size(42, 14)
+        Me.Label_Version.TabIndex = 17
+        Me.Label_Version.Text = "Version"
+        '
+        'Button_Minimap
+        '
+        Me.Button_Minimap.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.Button_Minimap.BackgroundImage = CType(resources.GetObject("Button_Minimap.BackgroundImage"), System.Drawing.Image)
+        Me.Button_Minimap.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.Button_Minimap.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.Button_Minimap.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button_Minimap.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.Button_Minimap.Location = New System.Drawing.Point(0, 0)
+        Me.Button_Minimap.Name = "Button_Minimap"
+        Me.Button_Minimap.Size = New System.Drawing.Size(30, 26)
+        Me.Button_Minimap.TabIndex = 8
+        Me.Button_Minimap.UseVisualStyleBackColor = False
+        '
+        'Label_Start
+        '
+        Me.Label_Start.AutoSize = True
+        Me.Label_Start.BackColor = System.Drawing.Color.Transparent
+        Me.Label_Start.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.Label_Start.Font = New System.Drawing.Font("Gisha", 20.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel)
+        Me.Label_Start.ForeColor = System.Drawing.Color.FromArgb(CType(CType(254, Byte), Integer), CType(CType(254, Byte), Integer), CType(CType(254, Byte), Integer))
+        Me.Label_Start.ImageKey = "(Keine)"
+        Me.Label_Start.Location = New System.Drawing.Point(114, 2)
+        Me.Label_Start.Name = "Label_Start"
+        Me.Label_Start.Size = New System.Drawing.Size(51, 24)
+        Me.Label_Start.TabIndex = 14
+        Me.Label_Start.Text = "0:15"
+        '
+        'Button_Start
+        '
+        Me.Button_Start.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.Button_Start.BackgroundImage = Global.LJTD.My.Resources.Resources.LJTD_Button_START_ready
+        Me.Button_Start.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
+        Me.Button_Start.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.Button_Start.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button_Start.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.Button_Start.Location = New System.Drawing.Point(180, 0)
+        Me.Button_Start.Name = "Button_Start"
+        Me.Button_Start.Size = New System.Drawing.Size(60, 26)
+        Me.Button_Start.TabIndex = 7
+        Me.Button_Start.UseVisualStyleBackColor = False
+        '
+        'Button_Close
+        '
+        Me.Button_Close.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.Button_Close.BackgroundImage = Global.LJTD.My.Resources.Resources.LJTD_Button_CLOSE_ready
+        Me.Button_Close.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.Button_Close.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.Button_Close.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button_Close.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.Button_Close.Location = New System.Drawing.Point(325, 0)
+        Me.Button_Close.Name = "Button_Close"
+        Me.Button_Close.Size = New System.Drawing.Size(30, 26)
+        Me.Button_Close.TabIndex = 10
+        Me.Button_Close.UseVisualStyleBackColor = False
         '
         'Button_Minimize_Top
         '
@@ -532,7 +532,7 @@ Partial Class LJTD
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Black
-        Me.ClientSize = New System.Drawing.Size(462, 157)
+        Me.ClientSize = New System.Drawing.Size(430, 157)
         Me.Controls.Add(Me.Label_Their_Red_Endtime)
         Me.Controls.Add(Me.Label_Their_Blue_Endtime)
         Me.Controls.Add(Me.Label_Our_Red_Endtime)
@@ -592,7 +592,6 @@ Partial Class LJTD
     Friend WithEvents Timer_Fade_Out As System.Windows.Forms.Timer
     Friend WithEvents Timer_Fade_In As System.Windows.Forms.Timer
     Friend WithEvents Button_Minimap As System.Windows.Forms.Button
-    Friend WithEvents Button_Team As System.Windows.Forms.Button
     Friend WithEvents Button_Minimize_Bot As System.Windows.Forms.Button
     Friend WithEvents Button_Maximize_Bot As System.Windows.Forms.Button
     Friend WithEvents Timer_Auto As System.Windows.Forms.Timer
@@ -608,5 +607,6 @@ Partial Class LJTD
     Private WithEvents Label_Our_Blue_Endtime As System.Windows.Forms.Label
     Private WithEvents Label_Dragon_Endtime As System.Windows.Forms.Label
     Private WithEvents Label_Baron_Endtime As System.Windows.Forms.Label
+    Friend WithEvents Button_Minimize As System.Windows.Forms.Button
 
 End Class

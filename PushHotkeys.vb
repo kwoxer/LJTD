@@ -10,7 +10,7 @@ Class PushHotkeys
     Private Const HC_ACTION As Integer = 0
     Private mHandle As IntPtr
     Public PrevWndProc As Integer
-    Private _key_opener As Boolean
+    Private _key_opener, _key_opener_makro As Boolean
     Private _Resource As Resources = Resources.GetObject()
     <StructLayout(LayoutKind.Sequential)> Public Structure KBDLLHOOKSTRUCT
         Public vkCode As Keys
@@ -37,31 +37,69 @@ Class PushHotkeys
             End If
         End Set
     End Property
-    Private KeyCounter As Integer
     Private Function KeyboardHookProc(ByVal nCode As Integer, ByVal wParam As IntPtr, ByRef lParam As KBDLLHOOKSTRUCT) As IntPtr
         Dim fEatKeyStroke As Boolean
         'Console.WriteLine(CStr(wParam) & "wParam")
         'Console.WriteLine(CStr(lParam.vkCode) & "vkCode")
         If CDbl(wParam) = 260 Or CDbl(wParam) = 256 Then
-            If _Resource.config(2, 1) = "NONE" Then
-                _key_opener = True
-            ElseIf CDbl(lParam.vkCode) = 164 And _Resource.config(2, 1) = "ALT" Then
-                _key_opener = True
-            ElseIf CDbl(lParam.vkCode) = 162 And _Resource.config(2, 1) = "STRG" Then
-                _key_opener = True
-            ElseIf CDbl(lParam.vkCode) = 160 And _Resource.config(2, 1) = "SHIFT" Then
+            If _Resource.config(2, 1).ToUpper = "NONE" Then
                 _key_opener = True
             End If
+            If _Resource.makro(1, 1).ToUpper = "NONE" Then
+                _key_opener_makro = True
+            End If
+            If CDbl(lParam.vkCode) = 164 Then
+                If _Resource.config(2, 1).ToUpper = "ALT" Then
+                    _key_opener = True
+                End If
+                If _Resource.makro(1, 1).ToUpper = "ALT" Then
+                    _key_opener_makro = True
+                End If
+            End If
+            If CDbl(lParam.vkCode) = 162 Then
+                If _Resource.config(2, 1).ToUpper = "STRG" Then
+                    _key_opener = True
+                End If
+                If _Resource.makro(1, 1).ToUpper = "STRG" Then
+                    _key_opener_makro = True
+                End If
+            End If
+            If CDbl(lParam.vkCode) = 160 Then
+                If _Resource.config(2, 1).ToUpper = "SHIFT" Then
+                    _key_opener = True
+                End If
+                If _Resource.makro(1, 1).ToUpper = "SHIFT" Then
+                    _key_opener_makro = True
+                End If
+            End If
         ElseIf CDbl(wParam) = 257 Then
-            If CDbl(lParam.vkCode) = 164 And _Resource.config(2, 1) = "ALT" Then
-                _key_opener = False
-            ElseIf CDbl(lParam.vkCode) = 162 And _Resource.config(2, 1) = "STRG" Then
-                _key_opener = False
-            ElseIf CDbl(lParam.vkCode) = 160 And _Resource.config(2, 1) = "SHIFT" Then
-                _key_opener = False
+            If CDbl(lParam.vkCode) = 164 Then
+                If _Resource.config(2, 1).ToUpper = "ALT" Then
+                    _key_opener = False
+                End If
+                If _Resource.makro(1, 1).ToUpper = "ALT" Then
+                    _key_opener_makro = False
+                End If
+            End If
+            If CDbl(lParam.vkCode) = 162 Then
+                If _Resource.config(2, 1).ToUpper = "STRG" Then
+                    _key_opener = False
+                End If
+                If _Resource.makro(1, 1).ToUpper = "STRG" Then
+                    _key_opener_makro = False
+                End If
+            End If
+            If CDbl(lParam.vkCode) = 160 Then
+                If _Resource.config(2, 1).ToUpper = "SHIFT" Then
+                    _key_opener = False
+                End If
+                If _Resource.makro(1, 1).ToUpper = "SHIFT" Then
+                    _key_opener_makro = False
+                End If
             End If
         End If
         LJTD.set_Key_Code(lParam.vkCode, _key_opener)
+        Configuration.set_Key_Code(lParam.vkCode, _key_opener_makro)
         If nCode <> HC_ACTION Then GoTo ending
 ending:
         If fEatKeyStroke Then
@@ -70,4 +108,5 @@ ending:
         End If
         Return CallNextHookEx(mHandle, nCode, wParam, lParam)
     End Function
+
 End Class

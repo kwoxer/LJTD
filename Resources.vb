@@ -1,12 +1,15 @@
 ﻿Imports System.IO
 Public Class Resources
-    Private Shared _unique As Resources
+    Private Shared _uniq As Resources
     Public Shared Function GetObject() As Resources
-        If Resources._unique Is Nothing Then
-            Resources._unique = New Resources
+        If Resources._uniq Is Nothing Then
+            Resources._uniq = New Resources
         End If
-        Return _unique
+        Return _uniq
     End Function
+    Public Shared Sub reset()
+        _uniq = New Resources
+    End Sub
     Private seperator_config_file As Char = "="c
     Private _sound As String() = {"SOUND_BLINK", "sound\blink.wav"}
     Public ReadOnly Property sound(i As Integer) As String
@@ -92,13 +95,13 @@ Public Class Resources
             Return CInt(_font(i, 1))
         End Get
     End Property
-    Private _hotkey As String(,) = {{"HOTKEY_BARON", "X"},
-                                    {"HOTKEY_DRAGON", "C"},
-                                    {"HOTKEY_OUR_BLUE", "A"},
-                                    {"HOTKEY_OUR_RED", "S"},
-                                    {"HOTKEY_THEIR_BLUE", "D"},
-                                    {"HOTKEY_THEIR_RED", "F"},
-                                    {"HOTKEY_WARD", "W"}}
+    Private _hotkey As String(,) = {{"HOTKEY_BARON", "67"},
+                                    {"HOTKEY_DRAGON", "88"},
+                                    {"HOTKEY_OUR_BLUE", "65"},
+                                    {"HOTKEY_OUR_RED", "83"},
+                                    {"HOTKEY_THEIR_BLUE", "68"},
+                                    {"HOTKEY_THEIR_RED", "70"},
+                                    {"HOTKEY_WARD", "87"}}
     Public Property hotkey(i As Integer, j As Integer) As String
         Get
             If _hotkey(i, j).Length > 1 Then
@@ -123,11 +126,54 @@ Public Class Resources
             _hotkey(i, 1) = CStr(value)
         End Set
     End Property
+    Private _makro As String(,) = {{"MAKRO_ENABLED", "false"},
+                                   {"MAKRO_HOTKEY_OPENER", "ALT"},
+                                   {"MAKRO_HOTKEY_1", "49"},
+                                   {"MAKRO_HOTKEY_2", "50"},
+                                   {"MAKRO_HOTKEY_3", "51"},
+                                   {"MAKRO_HOTKEY_4", "52"},
+                                   {"MAKRO_HOTKEY_5", "53"},
+                                   {"MAKRO_HOTKEY_6", "54"},
+                                   {"MAKRO_TEXT_1", ">>>>> SS TOP <<<<<"},
+                                   {"MAKRO_TEXT_2", ">>>>> SS MID <<<<<"},
+                                   {"MAKRO_TEXT_3", ">>>>> SS BOT <<<<<"},
+                                   {"MAKRO_TEXT_4", ">>>>> INVADE RED <<<<<"},
+                                   {"MAKRO_TEXT_5", ">>>>> INVADE BLUE <<<<<"},
+                                   {"MAKRO_TEXT_6", ">>>>> LJTD by kwoxer <<<<<"}}
+    Public Property makro(ByVal i As Integer, ByVal j As Integer) As String
+        Get
+            Return _makro(i, j)
+        End Get
+        Set(ByVal value As String)
+            _makro(i, j) = value
+        End Set
+    End Property
+    Public Property makro_bool(ByVal i As Integer) As Boolean
+        Get
+            Return _makro(i, 1)
+        End Get
+        Set(ByVal value As Boolean)
+            _makro(i, 1) = value
+        End Set
+    End Property
+    Public Property makro_int(ByVal i As Integer) As Integer
+        Get
+            If _makro(i, 1).Length >= 1 Then
+                Return _makro(i, 1)
+            Else
+                Return Asc((_makro(i, 1)))
+            End If
+        End Get
+        Set(ByVal value As Integer)
+            _makro(i, 1) = CStr(value)
+        End Set
+    End Property
     Private _minimap As String(,) = {{"MINIMAP_SIZE", "300"},
                                     {"MINIMAP_LOCATION_X", ""},
                                     {"MINIMAP_LOCATION_Y", ""},
                                     {"MINIMAP_AUTOSTART", "false"},
-                                    {"MINIMAP_FULLMODE", "true"}}
+                                    {"MINIMAP_FULLMODE", "true"},
+                                    {"MINIMAP_PING_TIME", "2"}}
     Public Property minimap(i As Integer, j As Integer) As String
         Get
             Return (_minimap(i, j))
@@ -190,7 +236,9 @@ Public Class Resources
                                     {"SHOW_ENDTIME_LABEL", "false"},
                                     {"HIDE_TASKBAR", "false"},
                                     {"TOP_MOST_ALWAYS", "true"},
-                                    {"SOUND_PLAY", "true"}}
+                                    {"SOUND_PLAY", "true"},
+                                    {"ENDTIME_LABEL_SIZE", "20"},
+                                    {"TIMING_DELAY_MANUELL", "15"}}
     Public Property config(i As Integer, j As Integer) As String
         Get
             Return _config(i, j)
@@ -207,12 +255,36 @@ Public Class Resources
             _config(i, 1) = CStr(value)
         End Set
     End Property
-    Public ReadOnly Property config_int(i As Integer) As Integer
+    Public Property config_int(i As Integer) As Integer
         Get
             Return CInt(_config(i, 1))
         End Get
+        Set(value As Integer)
+            _config(i, 1) = value
+        End Set
     End Property
-    Private _chat As String(,) = {{"WRITE_2_CHAT_BUFF", "true"},
+    Private _time As String(,) = {{"TIME_BARON", "7"},
+                                  {"TIME_DRAGON", "6"},
+                                  {"TIME_BR", "5"},
+                                  {"TIME_WARD", "3"}}
+    Public Property time(i As Integer, j As Integer) As String
+        Get
+            Return (_time(i, j))
+        End Get
+        Set(value As String)
+            _time(i, j) = value
+        End Set
+    End Property
+    Public Property time_int(i As Integer, j As Integer) As Integer
+        Get
+            Return (_time(i, j))
+        End Get
+        Set(value As Integer)
+            _time(i, j) = CInt(value)
+        End Set
+    End Property
+    Private _chat As String(,) = {{"WRITE_2_CHAT_DRBA", "true"},
+                                  {"WRITE_2_CHAT_BR", "true"},
                                   {"WRITE_2_CHAT_WARD", "false"}}
     Public Property chat(i As Integer, j As Integer) As String
         Get
@@ -269,6 +341,20 @@ Public Class Resources
                 If TempString(Zaehler).StartsWith(_hotkey(i, 0)) Then
                     If strTeile <> "" Then
                         _hotkey(i, 1) = strTeile.ToUpper
+                    End If
+                End If
+            Next
+            For i = 0 To UBound(_time)
+                If TempString(Zaehler).StartsWith(_time(i, 0)) Then
+                    If strTeile <> "" Then
+                        _time(i, 1) = strTeile
+                    End If
+                End If
+            Next
+            For i = 0 To UBound(_makro)
+                If TempString(Zaehler).StartsWith(_makro(i, 0)) Then
+                    If strTeile <> "" Then
+                        _makro(i, 1) = strTeile
                     End If
                 End If
             Next
