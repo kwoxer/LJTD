@@ -14,3 +14,18 @@ Jungle Timer
 Such timers are helping to perfectly time your killed buffs and respawn times.
 
 Beyond that the LJTD has many other features. You will have much fun and more wins with this tool. Try it out!
+
+Donate or become a fan!
+=======================
+
+Donate
+http://www.kwoxer.de/partner/link-us/
+
+Facebook
+https://www.facebook.com/LoLJungleTD
+
+Twitter
+https://twitter.com/#!/LJTD
+
+YouTube
+http://www.youtube.com/user/LoLJungleTimerDeluxe
