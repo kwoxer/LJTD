@@ -18,6 +18,9 @@ Ready to Jungle!
 Donate or become a fan!
 =======================
 Donate http://www.ljtd.net/misc/
+
 Facebook https://www.facebook.com/LoLJungleTD
+
 Twitter https://twitter.com/LJTD
+
 YouTube http://www.youtube.com/user/LoLJungleTimerDeluxe
