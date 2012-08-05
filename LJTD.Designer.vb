@@ -45,9 +45,9 @@ Partial Class LJTD
         Me.Label_Dragon_Endtime = New System.Windows.Forms.Label()
         Me.Label_Baron_Endtime = New System.Windows.Forms.Label()
         Me.Button_Ward = New System.Windows.Forms.Button()
-        Me.Button_Maximize_Bot = New System.Windows.Forms.Button()
-        Me.Button_Minimize_Bot = New System.Windows.Forms.Button()
-        Me.Button_Maximize_Top = New System.Windows.Forms.Button()
+        Me.Button_Slide_IN_Bot = New System.Windows.Forms.Button()
+        Me.Button_Slide_OUT_Bot = New System.Windows.Forms.Button()
+        Me.Button_Slide_IN_Top = New System.Windows.Forms.Button()
         Me.Panel_Move = New System.Windows.Forms.Panel()
         Me.Button_Minimize = New System.Windows.Forms.Button()
         Me.Label_Version = New System.Windows.Forms.Label()
@@ -55,7 +55,7 @@ Partial Class LJTD
         Me.Label_Start = New System.Windows.Forms.Label()
         Me.Button_Start = New System.Windows.Forms.Button()
         Me.Button_Close = New System.Windows.Forms.Button()
-        Me.Button_Minimize_Top = New System.Windows.Forms.Button()
+        Me.Button_Slide_OUT_Top = New System.Windows.Forms.Button()
         Me.Button_Their_Red = New System.Windows.Forms.Button()
         Me.Button_Our_Red = New System.Windows.Forms.Button()
         Me.Button_Their_Blue = New System.Windows.Forms.Button()
@@ -281,49 +281,49 @@ Partial Class LJTD
         Me.Button_Ward.Text = "W"
         Me.Button_Ward.UseVisualStyleBackColor = False
         '
-        'Button_Maximize_Bot
+        'Button_Slide_IN_Bot
         '
-        Me.Button_Maximize_Bot.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.Button_Maximize_Bot.BackgroundImage = Global.LJTD.My.Resources.Resources.LJTD_Button_IN_ready
-        Me.Button_Maximize_Bot.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.Button_Maximize_Bot.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.Button_Maximize_Bot.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button_Maximize_Bot.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.Button_Maximize_Bot.Location = New System.Drawing.Point(0, 67)
-        Me.Button_Maximize_Bot.Name = "Button_Maximize_Bot"
-        Me.Button_Maximize_Bot.Size = New System.Drawing.Size(20, 20)
-        Me.Button_Maximize_Bot.TabIndex = 14
-        Me.Button_Maximize_Bot.UseVisualStyleBackColor = False
-        Me.Button_Maximize_Bot.Visible = False
+        Me.Button_Slide_IN_Bot.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.Button_Slide_IN_Bot.BackgroundImage = Global.LJTD.My.Resources.Resources.LJTD_Button_SLIDE_IN_small
+        Me.Button_Slide_IN_Bot.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.Button_Slide_IN_Bot.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.Button_Slide_IN_Bot.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button_Slide_IN_Bot.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.Button_Slide_IN_Bot.Location = New System.Drawing.Point(0, 67)
+        Me.Button_Slide_IN_Bot.Name = "Button_Slide_IN_Bot"
+        Me.Button_Slide_IN_Bot.Size = New System.Drawing.Size(20, 20)
+        Me.Button_Slide_IN_Bot.TabIndex = 14
+        Me.Button_Slide_IN_Bot.UseVisualStyleBackColor = False
+        Me.Button_Slide_IN_Bot.Visible = False
         '
-        'Button_Minimize_Bot
+        'Button_Slide_OUT_Bot
         '
-        Me.Button_Minimize_Bot.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.Button_Minimize_Bot.BackgroundImage = Global.LJTD.My.Resources.Resources.LJTD_Button_OUT_ready
-        Me.Button_Minimize_Bot.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.Button_Minimize_Bot.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.Button_Minimize_Bot.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button_Minimize_Bot.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.Button_Minimize_Bot.Location = New System.Drawing.Point(0, 67)
-        Me.Button_Minimize_Bot.Name = "Button_Minimize_Bot"
-        Me.Button_Minimize_Bot.Size = New System.Drawing.Size(20, 20)
-        Me.Button_Minimize_Bot.TabIndex = 12
-        Me.Button_Minimize_Bot.UseVisualStyleBackColor = False
+        Me.Button_Slide_OUT_Bot.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.Button_Slide_OUT_Bot.BackgroundImage = Global.LJTD.My.Resources.Resources.LJTD_Button_SLIDE_OUT_small
+        Me.Button_Slide_OUT_Bot.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.Button_Slide_OUT_Bot.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.Button_Slide_OUT_Bot.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button_Slide_OUT_Bot.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.Button_Slide_OUT_Bot.Location = New System.Drawing.Point(0, 67)
+        Me.Button_Slide_OUT_Bot.Name = "Button_Slide_OUT_Bot"
+        Me.Button_Slide_OUT_Bot.Size = New System.Drawing.Size(20, 20)
+        Me.Button_Slide_OUT_Bot.TabIndex = 12
+        Me.Button_Slide_OUT_Bot.UseVisualStyleBackColor = False
         '
-        'Button_Maximize_Top
+        'Button_Slide_IN_Top
         '
-        Me.Button_Maximize_Top.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.Button_Maximize_Top.BackgroundImage = Global.LJTD.My.Resources.Resources.LJTD_Button_IN_ready
-        Me.Button_Maximize_Top.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.Button_Maximize_Top.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.Button_Maximize_Top.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button_Maximize_Top.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.Button_Maximize_Top.Location = New System.Drawing.Point(0, 30)
-        Me.Button_Maximize_Top.Name = "Button_Maximize_Top"
-        Me.Button_Maximize_Top.Size = New System.Drawing.Size(20, 20)
-        Me.Button_Maximize_Top.TabIndex = 13
-        Me.Button_Maximize_Top.UseVisualStyleBackColor = False
-        Me.Button_Maximize_Top.Visible = False
+        Me.Button_Slide_IN_Top.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.Button_Slide_IN_Top.BackgroundImage = Global.LJTD.My.Resources.Resources.LJTD_Button_SLIDE_IN_small
+        Me.Button_Slide_IN_Top.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.Button_Slide_IN_Top.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.Button_Slide_IN_Top.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button_Slide_IN_Top.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.Button_Slide_IN_Top.Location = New System.Drawing.Point(0, 30)
+        Me.Button_Slide_IN_Top.Name = "Button_Slide_IN_Top"
+        Me.Button_Slide_IN_Top.Size = New System.Drawing.Size(20, 20)
+        Me.Button_Slide_IN_Top.TabIndex = 13
+        Me.Button_Slide_IN_Top.UseVisualStyleBackColor = False
+        Me.Button_Slide_IN_Top.Visible = False
         '
         'Panel_Move
         '
@@ -343,7 +343,7 @@ Partial Class LJTD
         'Button_Minimize
         '
         Me.Button_Minimize.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.Button_Minimize.BackgroundImage = Global.LJTD.My.Resources.Resources.LJTD_Button_MINIMIZE_ready
+        Me.Button_Minimize.BackgroundImage = Global.LJTD.My.Resources.Resources.LJTD_Button_MINIMIZE_small
         Me.Button_Minimize.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.Button_Minimize.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button_Minimize.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -369,7 +369,7 @@ Partial Class LJTD
         'Button_Minimap
         '
         Me.Button_Minimap.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.Button_Minimap.BackgroundImage = CType(resources.GetObject("Button_Minimap.BackgroundImage"), System.Drawing.Image)
+        Me.Button_Minimap.BackgroundImage = Global.LJTD.My.Resources.Resources.LJTD_Button_MINIMAP_small
         Me.Button_Minimap.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.Button_Minimap.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button_Minimap.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -397,7 +397,7 @@ Partial Class LJTD
         'Button_Start
         '
         Me.Button_Start.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.Button_Start.BackgroundImage = Global.LJTD.My.Resources.Resources.LJTD_Button_START_ready
+        Me.Button_Start.BackgroundImage = Global.LJTD.My.Resources.Resources.LJTD_Button_START_small
         Me.Button_Start.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
         Me.Button_Start.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button_Start.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -411,7 +411,7 @@ Partial Class LJTD
         'Button_Close
         '
         Me.Button_Close.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.Button_Close.BackgroundImage = Global.LJTD.My.Resources.Resources.LJTD_Button_CLOSE_ready
+        Me.Button_Close.BackgroundImage = Global.LJTD.My.Resources.Resources.LJTD_Button_CLOSE_small
         Me.Button_Close.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.Button_Close.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button_Close.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -422,19 +422,19 @@ Partial Class LJTD
         Me.Button_Close.TabIndex = 10
         Me.Button_Close.UseVisualStyleBackColor = False
         '
-        'Button_Minimize_Top
+        'Button_Slide_OUT_Top
         '
-        Me.Button_Minimize_Top.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.Button_Minimize_Top.BackgroundImage = Global.LJTD.My.Resources.Resources.LJTD_Button_OUT_ready
-        Me.Button_Minimize_Top.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.Button_Minimize_Top.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.Button_Minimize_Top.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button_Minimize_Top.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.Button_Minimize_Top.Location = New System.Drawing.Point(0, 30)
-        Me.Button_Minimize_Top.Name = "Button_Minimize_Top"
-        Me.Button_Minimize_Top.Size = New System.Drawing.Size(20, 20)
-        Me.Button_Minimize_Top.TabIndex = 11
-        Me.Button_Minimize_Top.UseVisualStyleBackColor = False
+        Me.Button_Slide_OUT_Top.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.Button_Slide_OUT_Top.BackgroundImage = Global.LJTD.My.Resources.Resources.LJTD_Button_SLIDE_OUT_small
+        Me.Button_Slide_OUT_Top.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.Button_Slide_OUT_Top.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.Button_Slide_OUT_Top.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button_Slide_OUT_Top.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.Button_Slide_OUT_Top.Location = New System.Drawing.Point(0, 30)
+        Me.Button_Slide_OUT_Top.Name = "Button_Slide_OUT_Top"
+        Me.Button_Slide_OUT_Top.Size = New System.Drawing.Size(20, 20)
+        Me.Button_Slide_OUT_Top.TabIndex = 11
+        Me.Button_Slide_OUT_Top.UseVisualStyleBackColor = False
         '
         'Button_Their_Red
         '
@@ -541,13 +541,13 @@ Partial Class LJTD
         Me.Controls.Add(Me.Label_Baron_Endtime)
         Me.Controls.Add(Me.Label_Ward)
         Me.Controls.Add(Me.Button_Ward)
-        Me.Controls.Add(Me.Button_Maximize_Bot)
-        Me.Controls.Add(Me.Button_Minimize_Bot)
-        Me.Controls.Add(Me.Button_Maximize_Top)
+        Me.Controls.Add(Me.Button_Slide_IN_Bot)
+        Me.Controls.Add(Me.Button_Slide_OUT_Bot)
+        Me.Controls.Add(Me.Button_Slide_IN_Top)
         Me.Controls.Add(Me.Panel_Move)
         Me.Controls.Add(Me.Label_Their_Red)
         Me.Controls.Add(Me.Label_Their_Blue)
-        Me.Controls.Add(Me.Button_Minimize_Top)
+        Me.Controls.Add(Me.Button_Slide_OUT_Top)
         Me.Controls.Add(Me.Label_Our_Red)
         Me.Controls.Add(Me.Button_Their_Red)
         Me.Controls.Add(Me.Button_Our_Red)
@@ -584,16 +584,16 @@ Partial Class LJTD
     Private WithEvents Label_Their_Red As System.Windows.Forms.Label
     Friend WithEvents Panel_Move As System.Windows.Forms.Panel
     Friend WithEvents Button_Close As System.Windows.Forms.Button
-    Friend WithEvents Button_Minimize_Top As System.Windows.Forms.Button
-    Friend WithEvents Button_Maximize_Top As System.Windows.Forms.Button
+    Friend WithEvents Button_Slide_OUT_Top As System.Windows.Forms.Button
+    Friend WithEvents Button_Slide_IN_Top As System.Windows.Forms.Button
     Private WithEvents Label_Start As System.Windows.Forms.Label
     Friend WithEvents Timer_Update_Current_Time As System.Windows.Forms.Timer
     Friend WithEvents Timer_Check_Buffs As System.Windows.Forms.Timer
     Friend WithEvents Timer_Fade_Out As System.Windows.Forms.Timer
     Friend WithEvents Timer_Fade_In As System.Windows.Forms.Timer
     Friend WithEvents Button_Minimap As System.Windows.Forms.Button
-    Friend WithEvents Button_Minimize_Bot As System.Windows.Forms.Button
-    Friend WithEvents Button_Maximize_Bot As System.Windows.Forms.Button
+    Friend WithEvents Button_Slide_OUT_Bot As System.Windows.Forms.Button
+    Friend WithEvents Button_Slide_IN_Bot As System.Windows.Forms.Button
     Friend WithEvents Timer_Auto As System.Windows.Forms.Timer
     Friend WithEvents Button_Start As System.Windows.Forms.Button
     Friend WithEvents Label_Version As System.Windows.Forms.Label

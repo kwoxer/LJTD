@@ -16,7 +16,7 @@
     End Sub
     Private Sub About_Load(sender As Object, e As System.EventArgs) Handles Me.Load
         Label_Version.Text = "v." & My.Application.Info.Version.ToString
-        Panel_About.BackgroundImage = My.Resources.About
+        Panel_About.BackgroundImage = My.Resources.About_BG
     End Sub
     Private Sub Button_Close_Click(sender As System.Object, e As System.EventArgs) Handles Button_Close.Click
         Me.Close()

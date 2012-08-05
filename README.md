@@ -1,31 +1,23 @@
 LoL Jungle Timer Deluxe
 -----------------------
-also known as
-LJTD
-====
-is one of the best jungle timers for League of Legends.
+aka LJTD
+========
+is the actual best jungle timer for League of Legends.
 
 For more information about how to use this tool have a look on the developing website.
-
-http://www.kwoxer.de/programme/lol-jungle-timer-deluxe/
+http://www.ljtd.net/
 
 Jungle Timer
 ============
-Such timers are helping to perfectly time your killed buffs and respawn times.
+Such timers are helping to perfectly time your killed buffs and respawning times.
 
-Beyond that the LJTD has many other features. You will have much fun and more wins with this tool. Try it out!
+Beyond that the LJTD has many other features. I hope you will have as much fun as me with this tool. 
+
+Ready to Jungle!
 
 Donate or become a fan!
 =======================
-
-Donate
-http://www.kwoxer.de/partner/link-us/
-
-Facebook
-https://www.facebook.com/LoLJungleTD
-
-Twitter
-https://twitter.com/#!/LJTD
-
-YouTube
-http://www.youtube.com/user/LoLJungleTimerDeluxe
+Donate http://www.ljtd.net/misc/
+Facebook https://www.facebook.com/LoLJungleTD
+Twitter https://twitter.com/LJTD
+YouTube http://www.youtube.com/user/LoLJungleTimerDeluxe

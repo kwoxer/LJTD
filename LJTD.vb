@@ -14,6 +14,7 @@ Public Class LJTD
     Private _AutoStartingStringFound, _AutoEndingStringFound As Boolean
     Private _AutoStartingTimer,_AutoEndingTimer As New System.Timers.Timer()
     Private _Resource As Resources = Resources.GetObject()
+    Private _Colors As LJTDColor = LJTDColor.GetObject()
     Private _Taskbar As New Taskbar
     Private _Timing As New Timing
     Private _Fading_Amout As Integer() = {8, 12, 0}
@@ -24,7 +25,8 @@ Public Class LJTD
     Private _MenuItem_About, _MenuItem_Enable_W2C, _MenuItem_Open_Config_File, _MenuItem_Open_Config_GUI, _MenuItem_Show_Hide, _MenuItem_Close As MenuItem
     Private _NotifyIcon1 As New NotifyIcon
     Private _Write2Chat As String() = {"W2C enabled", "W2C disabled"}
-    Private _Timer_Counter(6) As Byte
+    Private _Timer_Counter(6) As Integer
+
     Private Sub LJTD_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
         _Resource.readConfigFile()
         Configuration.initialize_Panels()
@@ -63,57 +65,40 @@ Public Class LJTD
         AddHandler Timer(3).Elapsed, AddressOf Chat_Text_Disabler_4
         AddHandler Timer(4).Elapsed, AddressOf Chat_Text_Disabler_5
         AddHandler Timer(5).Elapsed, AddressOf Chat_Text_Disabler_6
+        Configuration._show_Form = True
     End Sub
     Private Sub Chat_Text_Disabler_1(ByVal source As Object, ByVal e As ElapsedEventArgs)
-        _Timer_Counter(0) += 1
-        If _Timer_Counter(0) = 1 Then
-            _Timer_Counter(0) = 0
-            Timer(0).Stop()
-            Timer_bool(0) = True
-        End If
+        Chat_Text_Disabler(0)
     End Sub
     Private Sub Chat_Text_Disabler_2(ByVal source As Object, ByVal e As ElapsedEventArgs)
-        _Timer_Counter(1) += 1
-        If _Timer_Counter(1) = 1 Then
-            _Timer_Counter(1) = 0
-            Timer(1).Stop()
-            Timer_bool(1) = True
-        End If
+        Chat_Text_Disabler(1)
     End Sub
     Private Sub Chat_Text_Disabler_3(ByVal source As Object, ByVal e As ElapsedEventArgs)
-        _Timer_Counter(2) += 1
-        If _Timer_Counter(2) = 1 Then
-            _Timer_Counter(2) = 0
-            Timer(2).Stop()
-            Timer_bool(2) = True
-        End If
+        Chat_Text_Disabler(2)
     End Sub
     Private Sub Chat_Text_Disabler_4(ByVal source As Object, ByVal e As ElapsedEventArgs)
-        _Timer_Counter(3) += 1
-        If _Timer_Counter(3) = 1 Then
-            _Timer_Counter(3) = 0
-            Timer(3).Stop()
-            Timer_bool(3) = True
-        End If
+        Chat_Text_Disabler(3)
     End Sub
     Private Sub Chat_Text_Disabler_5(ByVal source As Object, ByVal e As ElapsedEventArgs)
-        _Timer_Counter(4) += 1
-        If _Timer_Counter(4) = 1 Then
-            _Timer_Counter(4) = 0
-            Timer(4).Stop()
-            Timer_bool(4) = True
-        End If
+        Chat_Text_Disabler(4)
     End Sub
     Private Sub Chat_Text_Disabler_6(ByVal source As Object, ByVal e As ElapsedEventArgs)
-        _Timer_Counter(5) += 1
-        If _Timer_Counter(5) = 1 Then
-            _Timer_Counter(5) = 0
-            Timer(5).Stop()
-            Timer_bool(5) = True
+        Chat_Text_Disabler(5)
+    End Sub
+    Private Sub Chat_Text_Disabler(ByVal i As Integer)
+        _Timer_Counter(i) += 1
+        If _Timer_Counter(i) = 1 Then
+            _Timer_Counter(i) = 0
+            Timer(i).Stop()
+            Timer_bool(i) = True
         End If
+    End Sub
+    Public Sub refresh_LJTD_colors()
+        _Colors.initializeColors()
     End Sub
     Public Sub refreshLJTD()
         _Timing_Delay_Manuell = _Resource.config_int(11)
+        refresh_LJTD_colors()
         For i = 0 To _Label_Endtime.Length - 1
             _Label_Endtime(i).Visible = False
         Next
@@ -187,9 +172,9 @@ Public Class LJTD
     End Sub
     Private Sub Check_Resouce_Slideout()
         If _Resource.config_int(5) = 1 Then
-            Button_Minimize_Top.PerformClick()
+            Button_Slide_OUT_Top.PerformClick()
         ElseIf _Resource.config_int(5) = 2 Then
-            Button_Minimize_Bot.PerformClick()
+            Button_Slide_OUT_Bot.PerformClick()
         End If
     End Sub
     Private Sub Check_Resouce_ShowWard()
@@ -212,7 +197,7 @@ Public Class LJTD
     End Sub
     Private Sub LJTD_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button_Baron.MouseEnter, Button_Dragon.MouseEnter, _
         Button_Our_Blue.MouseEnter, Button_Our_Red.MouseEnter, Button_Their_Blue.MouseEnter, Button_Their_Red.MouseEnter, Button_Close.MouseEnter, _
-        Button_Minimap.MouseEnter, Button_Maximize_Bot.MouseEnter, Button_Maximize_Top.MouseEnter, Button_Minimize_Bot.MouseEnter, Button_Minimize_Top.MouseEnter
+        Button_Minimap.MouseEnter, Button_Slide_IN_Bot.MouseEnter, Button_Slide_IN_Top.MouseEnter, Button_Slide_OUT_Bot.MouseEnter, Button_Slide_OUT_Top.MouseEnter
         Me.Opacity = _Opacity(0)
         If _Resource.config_bool(7) = True Then
             _Taskbar.hide()
@@ -220,54 +205,53 @@ Public Class LJTD
     End Sub
     Private Sub LJTD_MouseLeave(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button_Baron.MouseLeave, Button_Dragon.MouseLeave, _
         Button_Our_Blue.MouseLeave, Button_Our_Red.MouseLeave, Button_Their_Blue.MouseLeave, Button_Their_Red.MouseLeave, Button_Close.MouseLeave, _
-        Button_Minimap.MouseLeave, Button_Maximize_Bot.MouseLeave, Button_Maximize_Top.MouseLeave, Button_Minimize_Bot.MouseLeave, Button_Minimize_Top.MouseLeave
+        Button_Minimap.MouseLeave, Button_Slide_IN_Bot.MouseLeave, Button_Slide_IN_Top.MouseLeave, Button_Slide_OUT_Bot.MouseLeave, Button_Slide_OUT_Top.MouseLeave
         Me.Opacity = _Opacity(1)
     End Sub
     Private Sub Button_Minimize_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Minimize.Click
         switchHideAndShow(False)
-        Button_Minimize.BackgroundImage = My.Resources.LJTD_Button_MINIMIZE_ready
+        _Colors.set_color_normal(Button_Minimize)
     End Sub
     Private Sub Button_Minimize_MouseEnter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Minimize.MouseEnter
-        Button_Minimize.BackgroundImage = My.Resources.LJTD_Button_MINIMIZE_MouseHover_ready
+        _Colors.set_color_mousehover(Button_Minimize)
     End Sub
     Private Sub Button_Minimize_MouseLeave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Minimize.MouseLeave
-        Button_Minimize.BackgroundImage = My.Resources.LJTD_Button_MINIMIZE_ready
+        _Colors.set_color_normal(Button_Minimize)
     End Sub
     Private Sub Button_Close_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Close.Click
         Me.Close()
     End Sub
     Private Sub Button_Close_MouseEnter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Close.MouseEnter
-        Button_Close.BackgroundImage = My.Resources.LJTD_Button_CLOSE_MouseHover_ready
+        _Colors.set_color_mousehover(Button_Close)
     End Sub
     Private Sub Button_Close_MouseLeave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Close.MouseLeave
-        Button_Close.BackgroundImage = My.Resources.LJTD_Button_CLOSE_ready
+        _Colors.set_color_normal(Button_Close)
     End Sub
 
-
-    Private Sub Button_Minimize_Top_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Minimize_Top.Click
+    Private Sub Button_Slide_OUTe_Top_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Slide_OUT_Top.Click
         Fade_Out(_Fading_Amout(0))
     End Sub
-    Private Sub Button_Minimize_Bot_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Minimize_Bot.Click
+    Private Sub Button_Slide_OUTe_Bot_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Slide_OUT_Bot.Click
         Fade_Out(_Fading_Amout(1))
     End Sub
-    Private Sub Button_Minimize_Top_MouseEnter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Minimize_Top.MouseEnter
-        Button_Minimize_Top.BackgroundImage = My.Resources.LJTD_Button_OUT_MouseHover_ready
+    Private Sub Button_Slide_OUT_Top_MouseEnter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Slide_OUT_Top.MouseEnter
+        _Colors.set_color_mousehover(Button_Slide_OUT_Top)
     End Sub
-    Private Sub Button_Minimize_Top_MouseLeave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Minimize_Top.MouseLeave
-        Button_Minimize_Top.BackgroundImage = My.Resources.LJTD_Button_OUT_ready
+    Private Sub Button_Slide_OUT_Top_MouseLeave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Slide_OUT_Top.MouseLeave
+        _Colors.set_color_normal(Button_Slide_OUT_Top)
     End Sub
-    Private Sub Button_Minimize_Bot_MouseEnter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Minimize_Bot.MouseEnter
-        Button_Minimize_Bot.BackgroundImage = My.Resources.LJTD_Button_OUT_MouseHover_ready
+    Private Sub Button_Slide_OUT_Bot_MouseEnter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Slide_OUT_Bot.MouseEnter
+        _Colors.set_color_mousehover(Button_Slide_OUT_Bot)
     End Sub
-    Private Sub Button_Minimize_Bot_MouseLeave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Minimize_Bot.MouseLeave
-        Button_Minimize_Bot.BackgroundImage = My.Resources.LJTD_Button_OUT_ready
+    Private Sub Button_Slide_OUT_Bot_MouseLeave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Slide_OUT_Bot.MouseLeave
+        _Colors.set_color_normal(Button_Slide_OUT_Bot)
     End Sub
     Private Sub Fade_Out(ByVal i As Integer)
         _Fading = _Fading_Amout(2)
         _FadingAmount = i
         Timer_Fade_Out.Start()
-        Button_Minimize_Top.Visible = False
-        Button_Minimize_Bot.Visible = False
+        Button_Slide_OUT_Top.Visible = False
+        Button_Slide_OUT_Bot.Visible = False
     End Sub
     Private Sub Timer_Fade_Out_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_Fade_Out.Tick
         _Fading = _Fading + 1
@@ -275,46 +259,46 @@ Public Class LJTD
             Me.Location = New Point(Me.Location.X, Me.Location.Y - _Fading)
         Else
             Timer_Fade_Out.Stop()
-            Button_Maximize_Top.Visible = True
+            Button_Slide_IN_Top.Visible = True
             If _FadingAmount <> 8 Then
-                Button_Maximize_Bot.Visible = True
+                Button_Slide_IN_Bot.Visible = True
             End If
         End If
     End Sub
-    Private Sub Button_Maximize_Top_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Maximize_Top.Click
+    Private Sub Button_Slide_IN_Top_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Slide_IN_Top.Click
         Fade_In(_Fading_Amout(0))
     End Sub
-    Private Sub Button_Maximize_Bot_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Maximize_Bot.Click
+    Private Sub Button_Slide_IN_Bot_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Slide_IN_Bot.Click
         Fade_In(_Fading_Amout(1))
     End Sub
-    Private Sub Button_Maximize_Top_MouseEnter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Maximize_Top.MouseEnter
-        Button_Maximize_Top.BackgroundImage = My.Resources.LJTD_Button_IN_MouseHover_ready
+    Private Sub Button_Slide_IN_Top_MouseEnter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Slide_IN_Top.MouseEnter
+        _Colors.set_color_mousehover(Button_Slide_IN_Top)
     End Sub
-    Private Sub Button_Maximize_Top_MouseLeave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Maximize_Top.MouseLeave
-        Button_Maximize_Top.BackgroundImage = My.Resources.LJTD_Button_IN_ready
+    Private Sub Button_Slide_IN_Top_MouseLeave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Slide_IN_Top.MouseLeave
+        _Colors.set_color_normal(Button_Slide_IN_Top)
     End Sub
-    Private Sub Button_Maximize_Bot_MouseEnter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Minimize_Bot.MouseEnter
-        Button_Maximize_Bot.BackgroundImage = My.Resources.LJTD_Button_IN_MouseHover_ready
+    Private Sub Button_Slide_IN_Bot_MouseEnter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Slide_OUT_Bot.MouseEnter
+        _Colors.set_color_mousehover(Button_Slide_IN_Bot)
     End Sub
-    Private Sub Button_Maximize_Bot_MouseLeave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Maximize_Bot.MouseLeave
-        Button_Maximize_Bot.BackgroundImage = My.Resources.LJTD_Button_IN_ready
+    Private Sub Button_Slide_IN_Bot_MouseLeave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Slide_IN_Bot.MouseLeave
+        _Colors.set_color_normal(Button_Slide_IN_Bot)
     End Sub
     Private Sub Fade_In(ByVal i As Integer)
         _Fading = _Fading_Amout(2)
         _FadingAmount = i
         Timer_Fade_In.Start()
-        Button_Maximize_Top.Visible = False
-        Button_Maximize_Bot.Visible = False
+        Button_Slide_IN_Top.Visible = False
+        Button_Slide_IN_Bot.Visible = False
     End Sub
     Private Sub Timer_Fade_In_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_Fade_In.Tick
         _Fading = _Fading + 1
-        Button_Maximize_Top.Visible = False
+        Button_Slide_IN_Top.Visible = False
         If _Fading < _FadingAmount Then
             Me.Location = New Point(Me.Location.X, Me.Location.Y + _Fading)
         Else
             Timer_Fade_In.Stop()
-            Button_Minimize_Top.Visible = True
-            Button_Minimize_Bot.Visible = True
+            Button_Slide_OUT_Top.Visible = True
+            Button_Slide_OUT_Bot.Visible = True
         End If
     End Sub
 
@@ -333,7 +317,7 @@ Public Class LJTD
                         End Try
                     End If
                 End If
-                If _Buffs(i).Diff = 5 Then
+                If _Buffs(i).Diff >= 5 Then
                     _Button(i).Enabled = True
                 End If
             Else
@@ -443,23 +427,22 @@ Public Class LJTD
         If MiniMap.show_Form Then
             MiniMap.Hide()
             MiniMap.show_Form = False
-            Button_Minimap.BackgroundImage = My.Resources.LJTD_Button_MINIMAP_ready
+            Button_Minimap.BackgroundImage = My.Resources.LJTD_Button_MINIMAP_small
         Else
             MiniMap.Show()
             MiniMap.show_Form = True
-            Button_Minimap.BackgroundImage = My.Resources.LJTD_Button_MINIMAP_Clicked_ready
+            Button_Minimap.BackgroundImage = My.Resources.LJTD_Button_MINIMAP_small
         End If
     End Sub
     Private Sub Button_MiniMap_MouseEnter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Minimap.MouseEnter
-        Button_Minimap.BackgroundImage = My.Resources.LJTD_Button_MINIMAP_MouseHover_ready
+        _Colors.set_color_mousehover(Button_Minimap)
     End Sub
     Private Sub Button_MiniMap_MouseLeave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Minimap.MouseLeave
         If MiniMap.show_Form Then
-            Button_Minimap.BackgroundImage = My.Resources.LJTD_Button_MINIMAP_Clicked_ready
+            _Colors.set_color_clicked(Button_Minimap)
         Else
-            Button_Minimap.BackgroundImage = My.Resources.LJTD_Button_MINIMAP_ready
+            _Colors.set_color_normal(Button_Minimap)
         End If
-
     End Sub
 
     Private Sub Timer_Update_Current_Time_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_Update_Current_Time.Tick
@@ -478,13 +461,15 @@ Public Class LJTD
     Private Sub Button_Start_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Start.Click
         _Timing.delay = _Timing_Delay_Manuell
         If _GameFinished Then
-            Button_Start.BackgroundImage = My.Resources.LJTD_Button_STOP_ready
+            _Colors.set_color_normal(Button_Start)
+            Button_Start.BackgroundImage = My.Resources.LJTD_Button_STOP_small
             _StartingDateTime = Now()
             Timer_Update_Current_Time.Start()
             _GameFinished = False
         Else
             Label_Start.Text = "0:" & _Timing_Delay_Manuell
-            Button_Start.BackgroundImage = My.Resources.LJTD_Button_START_ready
+            _Colors.set_color_normal(Button_Start)
+            Button_Start.BackgroundImage = My.Resources.LJTD_Button_START_small
             Timer_Update_Current_Time.Stop()
             For i = 0 To _Buffs.Length - 1
                 _Buffs(i).ends()
@@ -494,16 +479,20 @@ Public Class LJTD
     End Sub
     Private Sub Button_Start_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button_Start.MouseEnter
         If _GameFinished Then
-            Button_Start.BackgroundImage = My.Resources.LJTD_Button_START_MouseHover_ready
+            _Colors.set_color_mousehover(Button_Start)
+            Button_Start.BackgroundImage = My.Resources.LJTD_Button_START_small
         Else
-            Button_Start.BackgroundImage = My.Resources.LJTD_Button_STOP_MouseHover_ready
+            _Colors.set_color_mousehover(Button_Start)
+            Button_Start.BackgroundImage = My.Resources.LJTD_Button_STOP_small
         End If
     End Sub
     Private Sub Button_Start_MouseLeave(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button_Start.MouseLeave
         If _GameFinished Then
-            Button_Start.BackgroundImage = My.Resources.LJTD_Button_START_ready
+            _Colors.set_color_normal(Button_Start)
+            Button_Start.BackgroundImage = My.Resources.LJTD_Button_START_small
         Else
-            Button_Start.BackgroundImage = My.Resources.LJTD_Button_STOP_ready
+            _Colors.set_color_normal(Button_Start)
+            Button_Start.BackgroundImage = My.Resources.LJTD_Button_STOP_small
         End If
     End Sub
     Private Sub File_Stream_Watcher_Created(ByVal sender As Object, ByVal e As System.IO.FileSystemEventArgs) Handles _FileStreamWatcher.Created
@@ -546,7 +535,8 @@ Public Class LJTD
                 MiniMap.Show()
                 MiniMap.show_Form = True
             End If
-            Button_Start.BackgroundImage = My.Resources.LJTD_Button_START_ready
+            _Colors.set_color_normal(Button_Start)
+            Button_Start.BackgroundImage = My.Resources.LJTD_Button_START_small
             Check_Resouce_Slideout()
         End If
         If _AutoEndingStringFound Then
@@ -559,7 +549,8 @@ Public Class LJTD
             Reset_start_Time()
             MiniMap.Hide()
             MiniMap.show_Form = False
-            Button_Start.BackgroundImage = My.Resources.LJTD_Button_STOP_ready
+            _Colors.set_color_normal(Button_Start)
+            Button_Start.BackgroundImage = My.Resources.LJTD_Button_STOP_small
         End If
     End Sub
     Private Sub Timer_Top_Most_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_Top_Most.Tick
@@ -573,16 +564,16 @@ Public Class LJTD
             _MenuItem_Enable_W2C = New MenuItem(_Write2Chat(1))
         End If
         _MenuItem_About = New MenuItem("About")
-        AddHandler _MenuItem_About.Click, New System.EventHandler(AddressOf menuItemAbout)
-        AddHandler _MenuItem_Enable_W2C.Click, New System.EventHandler(AddressOf menuItemWrite2Chat)
+        AddHandler _MenuItem_About.Click, New System.EventHandler(AddressOf menuItem_About_Clicked)
+        AddHandler _MenuItem_Enable_W2C.Click, New System.EventHandler(AddressOf menuItem_Write2Chat_Clicked)
         _MenuItem_Open_Config_File = New MenuItem("Config &file")
-        AddHandler _MenuItem_Open_Config_File.Click, New System.EventHandler(AddressOf menuItemOpenConfig)
+        AddHandler _MenuItem_Open_Config_File.Click, New System.EventHandler(AddressOf menuItem_ConfigFile_Clicked)
         _MenuItem_Show_Hide = New MenuItem("&Show/Hide")
-        AddHandler _MenuItem_Show_Hide.Click, New System.EventHandler(AddressOf menuItemShowHide)
+        AddHandler _MenuItem_Show_Hide.Click, New System.EventHandler(AddressOf menuItem_ShowHide_Clicked)
         _MenuItem_Open_Config_GUI = New MenuItem("&Config GUI")
-        AddHandler _MenuItem_Open_Config_GUI.Click, New System.EventHandler(AddressOf menuItemConfigBETA)
+        AddHandler _MenuItem_Open_Config_GUI.Click, New System.EventHandler(AddressOf menuItem_ConfigGUI_Clicked)
         _MenuItem_Close = New MenuItem("&Exit")
-        AddHandler _MenuItem_Close.Click, New System.EventHandler(AddressOf menuItemExit)
+        AddHandler _MenuItem_Close.Click, New System.EventHandler(AddressOf menuItem_Exit_Clicked)
         _ContextMenu.MenuItems.Add(_MenuItem_About)
         _ContextMenu.MenuItems.Add("-")
         _ContextMenu.MenuItems.Add(_MenuItem_Enable_W2C)
@@ -594,10 +585,10 @@ Public Class LJTD
         _ContextMenu.MenuItems.Add(_MenuItem_Close)
         NotifyIcon.ContextMenu = _ContextMenu
     End Sub
-    Private Sub menuItemAbout(ByVal sender As [Object], ByVal e As EventArgs)
+    Private Sub menuItem_About_Clicked(ByVal sender As [Object], ByVal e As EventArgs)
         About.Show()
     End Sub
-    Private Sub menuItemWrite2Chat(ByVal sender As [Object], ByVal e As EventArgs)
+    Private Sub menuItem_Write2Chat_Clicked(ByVal sender As [Object], ByVal e As EventArgs)
         If _Resource.chat_bool(0) Then
             _Resource.chat_bool(0) = False
             _MenuItem_Enable_W2C.Text = _Write2Chat(1)
@@ -606,26 +597,26 @@ Public Class LJTD
             _MenuItem_Enable_W2C.Text = _Write2Chat(0)
         End If
     End Sub
-    Private Sub menuItemOpenConfig(ByVal sender As [Object], ByVal e As EventArgs)
+    Private Sub menuItem_ConfigFile_Clicked(ByVal sender As [Object], ByVal e As EventArgs)
         System.Diagnostics.Process.Start(_Resource.fileConfig)
     End Sub
-    Private Sub menuItemShowHide(ByVal sender As [Object], ByVal e As EventArgs)
+    Private Sub menuItem_ShowHide_Clicked(ByVal sender As [Object], ByVal e As EventArgs)
         switchHideAndShow(False)
     End Sub
-    Private Sub menuItemConfigBETA(ByVal sender As [Object], ByVal e As EventArgs)
+    Private Sub menuItem_ConfigGUI_Clicked(ByVal sender As [Object], ByVal e As EventArgs)
         Configuration.Show()
     End Sub
-    Private Shared Sub menuItemExit(ByVal sender As [Object], ByVal e As EventArgs)
+    Private Shared Sub menuItem_Exit_Clicked(ByVal sender As [Object], ByVal e As EventArgs)
         LJTD.Dispose(True)
     End Sub
     Private Sub NotifyIcon_MouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles NotifyIcon.MouseClick
-        Timer_Top_Most.Start()
-        MiniMap.Timer_Top_Most.Start()
+        If _Resource.config_bool(8) And Configuration._show_Form = False Then
+            Timer_Top_Most.Start()
+            MiniMap.Timer_Top_Most.Start()
+        End If
     End Sub
     Private Sub NotifyIcon_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles NotifyIcon.MouseDown
         Timer_Top_Most.Stop()
         MiniMap.Timer_Top_Most.Stop()
     End Sub
-
-
 End Class

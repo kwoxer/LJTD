@@ -10,7 +10,9 @@ Class PushHotkeys
     Private Const HC_ACTION As Integer = 0
     Private mHandle As IntPtr
     Public PrevWndProc As Integer
-    Private _key_opener, _key_opener_makro As Boolean
+    Private _key_opener As Boolean
+    Private _key_opener_makro(6) As Boolean
+    Private _show_ward_map As Boolean
     Private _Resource As Resources = Resources.GetObject()
     <StructLayout(LayoutKind.Sequential)> Public Structure KBDLLHOOKSTRUCT
         Public vkCode As Keys
@@ -42,64 +44,65 @@ Class PushHotkeys
         'Console.WriteLine(CStr(wParam) & "wParam")
         'Console.WriteLine(CStr(lParam.vkCode) & "vkCode")
         If CDbl(wParam) = 260 Or CDbl(wParam) = 256 Then
+            Configuration.Name_GroupBox_FindHotkey_ActualHotkey.Text = CStr(lParam.vkCode)
+            Configuration.Hotkey_GroupBox_FindHotkey_ActualHotkey.Text = CStr(lParam.vkCode)
             If _Resource.config(2, 1).ToUpper = "NONE" Then
                 _key_opener = True
             End If
-            If _Resource.makro(1, 1).ToUpper = "NONE" Then
-                _key_opener_makro = True
+            check_Makros("NONE", lParam, True)
+
+            If CDbl(lParam.vkCode) = 115 Then
+                _show_ward_map = True
             End If
+
             If CDbl(lParam.vkCode) = 164 Then
+                update_Config_HotkeyOpener("ALT")
                 If _Resource.config(2, 1).ToUpper = "ALT" Then
                     _key_opener = True
                 End If
-                If _Resource.makro(1, 1).ToUpper = "ALT" Then
-                    _key_opener_makro = True
-                End If
+                check_Makros("ALT", lParam, True)
             End If
             If CDbl(lParam.vkCode) = 162 Then
-                If _Resource.config(2, 1).ToUpper = "STRG" Then
+                update_Config_HotkeyOpener("CTRL")
+                If _Resource.config(2, 1).ToUpper = "CTRL" Then
                     _key_opener = True
                 End If
-                If _Resource.makro(1, 1).ToUpper = "STRG" Then
-                    _key_opener_makro = True
-                End If
+                check_Makros("CTRL", lParam, True)
             End If
-            If CDbl(lParam.vkCode) = 160 Then
-                If _Resource.config(2, 1).ToUpper = "SHIFT" Then
+            If CDbl(lParam.vkCode) = 32 Then
+                update_Config_HotkeyOpener("SPACE")
+                If _Resource.config(2, 1).ToUpper = "SPACE" Then
                     _key_opener = True
                 End If
-                If _Resource.makro(1, 1).ToUpper = "SHIFT" Then
-                    _key_opener_makro = True
-                End If
+                check_Makros("SPACE", lParam, True)
             End If
         ElseIf CDbl(wParam) = 257 Then
+
+            If CDbl(lParam.vkCode) = 115 Then
+                _show_ward_map = False
+            End If
+
             If CDbl(lParam.vkCode) = 164 Then
                 If _Resource.config(2, 1).ToUpper = "ALT" Then
                     _key_opener = False
                 End If
-                If _Resource.makro(1, 1).ToUpper = "ALT" Then
-                    _key_opener_makro = False
-                End If
+                check_Makros("ALT", lParam, False)
             End If
             If CDbl(lParam.vkCode) = 162 Then
-                If _Resource.config(2, 1).ToUpper = "STRG" Then
+                If _Resource.config(2, 1).ToUpper = "CTRL" Then
                     _key_opener = False
                 End If
-                If _Resource.makro(1, 1).ToUpper = "STRG" Then
-                    _key_opener_makro = False
-                End If
+                check_Makros("CTRL", lParam, False)
             End If
-            If CDbl(lParam.vkCode) = 160 Then
-                If _Resource.config(2, 1).ToUpper = "SHIFT" Then
+            If CDbl(lParam.vkCode) = 32 Then
+                If _Resource.config(2, 1).ToUpper = "SPACE" Then
                     _key_opener = False
                 End If
-                If _Resource.makro(1, 1).ToUpper = "SHIFT" Then
-                    _key_opener_makro = False
-                End If
+                check_Makros("SPACE", lParam, False)
             End If
         End If
         LJTD.set_Key_Code(lParam.vkCode, _key_opener)
-        Configuration.set_Key_Code(lParam.vkCode, _key_opener_makro)
+        MiniMap.show_Ward_Map(_show_ward_map)
         If nCode <> HC_ACTION Then GoTo ending
 ending:
         If fEatKeyStroke Then
@@ -108,5 +111,16 @@ ending:
         End If
         Return CallNextHookEx(mHandle, nCode, wParam, lParam)
     End Function
-
+    Private Sub check_Makros(ByVal opener As String, ByRef lParam As KBDLLHOOKSTRUCT, ByVal pushed As Boolean)
+        For i = 0 To 5
+            If _Resource.makro(i + 8, 1).ToUpper = opener Then
+                _key_opener_makro(i) = pushed
+            End If
+            Configuration.set_Key_Code_Name(lParam.vkCode, _key_opener_makro(i), CByte(i))
+        Next
+    End Sub
+    Private Sub update_Config_HotkeyOpener(ByVal opener As String)
+        Configuration.Name_GroupBox_FindHotkey_ActualHotkeyOpener.Text = opener
+        Configuration.Hotkey_GroupBox_FindHotkey_ActualHotkeyOpener.Text = opener
+    End Sub
 End Class

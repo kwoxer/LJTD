@@ -33,14 +33,14 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
+    <DebugType>pdbonly</DebugType>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>LoL Jungle Timer Deluxe.xml</DocumentationFile>
-    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036,42353,42354,42355</NoWarn>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <WarningsAsErrors>
     </WarningsAsErrors>
   </PropertyGroup>
@@ -52,7 +52,7 @@
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DocumentationFile>LoL Jungle Timer Deluxe.xml</DocumentationFile>
-    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036,42353,42354,42355</NoWarn>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <WarningsAsErrors>
     </WarningsAsErrors>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
@@ -72,8 +72,7 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>Resources\LJTD_green.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -81,8 +80,8 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\Debug\</OutputPath>
     <DocumentationFile>LoL Jungle Timer Deluxe.xml</DocumentationFile>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <CodeAnalysisLogFile>bin\Debug\LoL Jungle Timer Deluxe.exe.CodeAnalysisLog.xml</CodeAnalysisLogFile>
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.vb</CodeAnalysisModuleSuppressionsFile>
@@ -91,7 +90,7 @@
     <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
-    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036,42353,42354,42355</NoWarn>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <WarningsAsErrors>
     </WarningsAsErrors>
   </PropertyGroup>
@@ -110,7 +109,7 @@
     <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
-    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036,42353,42354,42355</NoWarn>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <WarningsAsErrors>
     </WarningsAsErrors>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
@@ -121,7 +120,7 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>LoL Jungle Timer Deluxe.xml</DocumentationFile>
-    <DebugType>full</DebugType>
+    <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <CodeAnalysisLogFile>bin\Debug\LoL Jungle Timer Deluxe.exe.CodeAnalysisLog.xml</CodeAnalysisLogFile>
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
@@ -131,9 +130,10 @@
     <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
-    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036,42353,42354,42355</NoWarn>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <WarningsAsErrors>
     </WarningsAsErrors>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <DefineTrace>true</DefineTrace>
@@ -150,70 +150,13 @@
     <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
-    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036,42353,42354,42355</NoWarn>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <WarningsAsErrors>
     </WarningsAsErrors>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ee|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\x86\ee\</OutputPath>
-    <DocumentationFile>LoL Jungle Timer Deluxe.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036,42353,42354,42355</NoWarn>
-    <DebugType>Full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <CodeAnalysisLogFile>bin\Release\LoL Jungle Timer Deluxe.exe.CodeAnalysisLog.xml</CodeAnalysisLogFile>
-    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
-    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.vb</CodeAnalysisModuleSuppressionsFile>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRuleSetDirectories>;c:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
-    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
-    <CodeAnalysisRuleDirectories>;c:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
-    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
-    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ee|x64'">
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\x64\ee\</OutputPath>
-    <DocumentationFile>LoL Jungle Timer Deluxe.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036,42353,42354,42355</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <CodeAnalysisLogFile>bin\Release\LoL Jungle Timer Deluxe.exe.CodeAnalysisLog.xml</CodeAnalysisLogFile>
-    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
-    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.vb</CodeAnalysisModuleSuppressionsFile>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets;c:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
-    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
-    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules;c:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
-    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
-    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ee|AnyCPU'">
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\ee\</OutputPath>
-    <DocumentationFile>LoL Jungle Timer Deluxe.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036,42353,42354,42355</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <CodeAnalysisLogFile>bin\Release\LoL Jungle Timer Deluxe.exe.CodeAnalysisLog.xml</CodeAnalysisLogFile>
-    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
-    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.vb</CodeAnalysisModuleSuppressionsFile>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets;c:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
-    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
-    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules;c:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
-    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
-    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -268,6 +211,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Resources.vb" />
+    <Compile Include="LJTDColor.vb" />
     <Compile Include="Timing.vb" />
     <Compile Include="Chat.vb" />
     <Compile Include="LJTD.vb">
@@ -290,6 +234,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Taskbar.vb" />
+    <Compile Include="WardMap.vb" />
     <Compile Include="Write2Config.vb" />
   </ItemGroup>
   <ItemGroup>
@@ -328,85 +273,6 @@
   <ItemGroup>
     <None Include="Resources\MINIMAP.ico" />
     <None Include="Resources\LJTD.ico" />
-    <None Include="Resources\Config_Button_HOTKEY.png" />
-    <None Include="Resources\Config_Button_DESIGN_Clicked.png" />
-    <None Include="Resources\Config_Button_Design.png" />
-    <None Include="Resources\Config_Button_CLOSE_ready.png" />
-    <None Include="Resources\Config_Button_CLOSE_MouseHover_ready.png" />
-    <None Include="Resources\About.png" />
-    <None Include="Resources\MINIMAP_Button_TEAM_RED-BLUE_ready.png" />
-    <None Include="Resources\MINIMAP_Button_TEAM_RED-BLUE_MouseHover_ready.png" />
-    <None Include="Resources\MINIMAP_Button_TEAM_BLUE-RED_ready.png" />
-    <None Include="Resources\MINIMAP_Button_TEAM_BLUE-RED_MouseHover_ready.png" />
-    <None Include="Resources\LJTD_Panel.png" />
-    <None Include="Resources\LJTD_Button_STOP_ready.png" />
-    <None Include="Resources\LJTD_Button_STOP_MouseHover_ready.png" />
-    <None Include="Resources\LJTD_Button_START_ready.png" />
-    <None Include="Resources\LJTD_Button_START_MouseHover_ready.png" />
-    <None Include="Resources\LJTD_Button_OUT_ready.png" />
-    <None Include="Resources\LJTD_Button_OUT_MouseHover_ready.png" />
-    <None Include="Resources\LJTD_Button_MINIMIZE_ready.png" />
-    <None Include="Resources\LJTD_Button_MINIMIZE_MouseHover_ready.png" />
-    <None Include="Resources\LJTD_Button_MINIMAP_ready.png" />
-    <None Include="Resources\LJTD_Button_MINIMAP_MouseHover_ready.png" />
-    <None Include="Resources\LJTD_Button_MINIMAP_Clicked_ready.png" />
-    <None Include="Resources\LJTD_Button_IN_ready.png" />
-    <None Include="Resources\LJTD_Button_IN_MouseHover_ready.png" />
-    <None Include="Resources\LJTD_Button_CLOSE_ready.png" />
-    <None Include="Resources\LJTD_Button_CLOSE_MouseHover_ready.png" />
-    <None Include="Resources\Config_W2C.png" />
-    <None Include="Resources\Config_Slideout.png" />
-    <None Include="Resources\Config_Name.png" />
-    <None Include="Resources\Config_MiniMap.png" />
-    <None Include="Resources\Config_Main.png" />
-    <None Include="Resources\Config_Hotkey.png" />
-    <None Include="Resources\Config_Design.png" />
-    <None Include="Resources\Config_Button_W2C_Clicked.png" />
-    <None Include="Resources\Config_Button_W2C.png" />
-    <None Include="Resources\Config_Button_SLIDEOUT_Clicked.png" />
-    <None Include="Resources\Config_Button_SLIDEOUT.png" />
-    <None Include="Resources\Config_Button_SAVE_Mouseover.png" />
-    <None Include="Resources\Config_Button_SAVE_Clicked.png" />
-    <None Include="Resources\Config_Button_SAVE.png" />
-    <None Include="Resources\Config_Button_RESET_Mouseover.png" />
-    <None Include="Resources\Config_Button_RESET.png" />
-    <None Include="Resources\Config_Button_NAME_Clicked.png" />
-    <None Include="Resources\Config_Button_NAME.png" />
-    <None Include="Resources\Config_Button_MINIMAP_Clicked.png" />
-    <None Include="Resources\Config_Button_MINIMAP.png" />
-    <None Include="Resources\Config_Button_MAIN_Clicked.png" />
-    <None Include="Resources\Config_Button_MAIN.png" />
-    <None Include="Resources\Config_Button_LINKS_youtube.png" />
-    <None Include="Resources\Config_Button_LINKS_twitter.png" />
-    <None Include="Resources\Config_Button_LINKS_facebook.png" />
-    <None Include="Resources\Config_Button_HOTKEY_Clicked.png" />
-    <None Include="Resources\Config_Button_TEAM_RED-BLUE_ready.png" />
-    <None Include="Resources\Config_Button_TEAM_RED-BLUE_MouseHover_ready.png" />
-    <None Include="Resources\Config_Button_TEAM_BLUE-RED_ready.png" />
-    <None Include="Resources\Config_Button_TEAM_BLUE-RED_MouseHover_ready.png" />
-    <None Include="Resources\Config_Button_MINIMIZE_MouseHover_ready.png" />
-    <None Include="Resources\Config_Button_MINIMIZE_ready.png" />
-    <None Include="Resources\LJTD_Button_TEAM_RED-BLUE_ready.png" />
-    <None Include="Resources\LJTD_Button_TEAM_RED-BLUE_MouseHover_ready.png" />
-    <None Include="Resources\LJTD_Button_TEAM_BLUE-RED_ready.png" />
-    <None Include="Resources\LJTD_Button_TEAM_BLUE-RED_MouseHover_ready.png" />
-    <None Include="Resources\LJTD_Button_START_Clicked_ready.png" />
-    <None Include="Resources\LJTD_Button_CLOSE_ready_LJTD.png" />
-    <None Include="Resources\LJTD_Button_CLOSE_MouseHover_ready_LJTD.png" />
-    <None Include="Resources\LJTD_Button_RED-BLUE_ready.png" />
-    <None Include="Resources\LJTD_Button_RED-BLUE_MouseHover_ready.png" />
-    <None Include="Resources\LJTD_Button_BLUE-RED_ready.png" />
-    <None Include="Resources\LJTD_Button_BLUE-RED_MouseHover_ready.png" />
-    <None Include="Resources\LJTD_Button_BLUE-RED_Clicked_ready.png" />
-    <None Include="Resources\Config_Button_CLOSE_Clicked_ready.png" />
-    <None Include="Resources\Config_Button_CLOSE_ready_Config.png" />
-    <None Include="Resources\Config_Button_CLOSE_Clicked_ready_Config.png" />
-    <None Include="Resources\LJTD_Button_STOP_Clicked_ready.png" />
-    <None Include="Resources\LJTD_Button_OUT_Clicked_ready.png" />
-    <None Include="Resources\LJTD_Button_IN_Clicked_ready.png" />
-    <None Include="Resources\LJTD_Button_CLOSE_ready_Config.png" />
-    <None Include="Resources\LJTD_Button_CLOSE_Clicked_ready_LJTD.png" />
-    <None Include="Resources\LJTD_Button_CLOSE_Clicked_ready_Config.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
@@ -429,6 +295,57 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MiniMap_WardMap.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Ward_orig.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Ward_orig_small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Ward_10sec_small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Ward_30sec_small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="LJTD_gray.ico" />
+    <Content Include="LJTD_green.ico" />
+    <None Include="Resources\LJTD_green.ico" />
+    <None Include="Resources\Config_Tab_SLIDEOUT.png" />
+    <None Include="Resources\Config_Tab_MINIMAP.png" />
+    <None Include="Resources\Config_Tab_NAME.png" />
+    <None Include="Resources\Config_Button_SAVE.png" />
+    <None Include="Resources\LJTD_Button_STOP_small.png" />
+    <None Include="Resources\LJTD_Button_START_small.png" />
+    <None Include="Resources\LJTD_Button_MINIMAP_small.png" />
+    <None Include="Resources\Config_Tab_W2C.png" />
+    <None Include="Resources\Config_Tab_MAIN.png" />
+    <None Include="Resources\Config_Tab_HOTKEY.png" />
+    <None Include="Resources\Config_Tab_Design.png" />
+    <None Include="Resources\Config_Button_RESET.png" />
+    <None Include="Resources\About_BG.png" />
+    <None Include="Resources\Config_BG_Hotkey.png" />
+    <None Include="Resources\Config_BG_Design.png" />
+    <None Include="Resources\Config_BG_W2C.png" />
+    <None Include="Resources\Config_BG_Slideout.png" />
+    <None Include="Resources\Config_BG_Name.png" />
+    <None Include="Resources\Config_BG_MiniMap.png" />
+    <None Include="Resources\Config_BG_Main.png" />
+    <None Include="Resources\LJTD_Panel.png" />
+    <None Include="Resources\LJTD_Button_SLIDE_OUT_small.png" />
+    <None Include="Resources\LJTD_Button_SLIDE_IN_small.png" />
+    <None Include="Resources\LJTD_Button_MINIMIZE_small.png" />
+    <None Include="Resources\LJTD_Button_CLOSE_small.png" />
+    <None Include="Resources\Config_Button_LINKS_youtube.png" />
+    <None Include="Resources\Config_Button_LINKS_twitter.png" />
+    <None Include="Resources\Config_Button_LINKS_facebook.png" />
+    <None Include="Resources\Config_Button_CLOSE_small.png" />
+    <None Include="Resources\MINIMAP_Button_RED-BLUE_small.png" />
+    <None Include="Resources\MINIMAP_Button_BLUE-RED_small.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

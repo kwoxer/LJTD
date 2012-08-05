@@ -31,6 +31,10 @@ Partial Class MiniMap
         Me.Panel_Right = New System.Windows.Forms.Panel()
         Me.Timer_Top_Most = New System.Windows.Forms.Timer(Me.components)
         Me.Button_Hide = New System.Windows.Forms.Button()
+        Me.Panel_Ward_Map = New System.Windows.Forms.Panel()
+        Me.Timer_Ward_Map_Cleaner = New System.Windows.Forms.Timer(Me.components)
+        Me.Timer_Ward_Removing = New System.Windows.Forms.Timer(Me.components)
+        Me.Timer_Update_Remaining_Ward_Time = New System.Windows.Forms.Timer(Me.components)
         Me.Panel_Top.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -48,7 +52,7 @@ Partial Class MiniMap
         'Button_Team
         '
         Me.Button_Team.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.Button_Team.BackgroundImage = Global.LJTD.My.Resources.Resources.MINIMAP_Button_TEAM_BLUE_RED_ready
+        Me.Button_Team.BackgroundImage = Global.LJTD.My.Resources.Resources.MINIMAP_Button_BLUE_RED_small
         Me.Button_Team.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.Button_Team.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button_Team.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -100,12 +104,39 @@ Partial Class MiniMap
         Me.Button_Hide.TabIndex = 0
         Me.Button_Hide.UseVisualStyleBackColor = False
         '
+        'Panel_Ward_Map
+        '
+        Me.Panel_Ward_Map.BackColor = System.Drawing.Color.Black
+        Me.Panel_Ward_Map.BackgroundImage = Global.LJTD.My.Resources.Resources.MiniMap_WardMap
+        Me.Panel_Ward_Map.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.Panel_Ward_Map.Location = New System.Drawing.Point(0, 25)
+        Me.Panel_Ward_Map.Name = "Panel_Ward_Map"
+        Me.Panel_Ward_Map.Size = New System.Drawing.Size(280, 278)
+        Me.Panel_Ward_Map.TabIndex = 1
+        Me.Panel_Ward_Map.Visible = False
+        '
+        'Timer_Ward_Map_Cleaner
+        '
+        Me.Timer_Ward_Map_Cleaner.Enabled = True
+        Me.Timer_Ward_Map_Cleaner.Interval = 1000
+        '
+        'Timer_Ward_Removing
+        '
+        Me.Timer_Ward_Removing.Enabled = True
+        Me.Timer_Ward_Removing.Interval = 1000
+        '
+        'Timer_Update_Remaining_Ward_Time
+        '
+        Me.Timer_Update_Remaining_Ward_Time.Enabled = True
+        Me.Timer_Update_Remaining_Ward_Time.Interval = 1000
+        '
         'MiniMap
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.ClientSize = New System.Drawing.Size(600, 600)
+        Me.Controls.Add(Me.Panel_Ward_Map)
         Me.Controls.Add(Me.Button_Hide)
         Me.Controls.Add(Me.Panel_Right)
         Me.Controls.Add(Me.Panel_Top)
@@ -130,4 +161,8 @@ Partial Class MiniMap
     Friend WithEvents Label_Location_X As System.Windows.Forms.Label
     Friend WithEvents Label_Location_Y As System.Windows.Forms.Label
     Friend WithEvents Button_Team As System.Windows.Forms.Button
+    Friend WithEvents Panel_Ward_Map As System.Windows.Forms.Panel
+    Friend WithEvents Timer_Ward_Map_Cleaner As System.Windows.Forms.Timer
+    Friend WithEvents Timer_Ward_Removing As System.Windows.Forms.Timer
+    Friend WithEvents Timer_Update_Remaining_Ward_Time As System.Windows.Forms.Timer
 End Class

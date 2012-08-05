@@ -178,7 +178,7 @@ Partial Class About
         'Button_Close
         '
         Me.Button_Close.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.Button_Close.BackgroundImage = Global.LJTD.My.Resources.Resources.Config_Button_CLOSE_ready
+        Me.Button_Close.BackgroundImage = Global.LJTD.My.Resources.Resources.Config_Button_CLOSE_small
         Me.Button_Close.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.Button_Close.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button_Close.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))

@@ -4,6 +4,7 @@ Imports System.Text
 Imports System.Timers
 
 Public Class Configuration
+    Public _show_Form As Boolean
     Private _Write2Config As New Write2Config
     Private _Resource As Resources = Resources.GetObject()
     Private _button(6) As Boolean
@@ -14,10 +15,11 @@ Public Class Configuration
     Private _New_Update_Available As Boolean
     Private _Download_Link As String() = {"http://www.kwoxer.de/app/download/5606583350/LJTD+x86.rar",
                                           "http://www.kwoxer.de/app/download/5606583150/LJTD+x64.rar"}
+    Private _Colors As LJTDColor = LJTDColor.GetObject()
 
     Private Sub Configuration_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         _panel(0) = Panel_Main
-        _panel(0).BackgroundImage = My.Resources.Config_Main
+        _panel(0).BackgroundImage = My.Resources.Config_BG_Main
         _panel(1) = Panel_Slideout
         _panel(2) = Panel_W2C
         _panel(3) = Panel_Hotkey
@@ -25,10 +27,11 @@ Public Class Configuration
         _panel(5) = Panel_MiniMap
         _panel(6) = Panel_Name
         button_Click_Events(0)
-        Button_Main.BackgroundImage = My.Resources.Config_Button_MAIN_Clicked
+        Tab_Main.BackgroundImage = My.Resources.Config_Tab_MAIN
         _Resource.readConfigFile()
         initialize_Panels()
         LJTD.Timer_Top_Most.Stop()
+        MiniMap.Timer_Top_Most.Stop()
     End Sub
     Private Sub Panel_MouseDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Panel_Main.MouseDown, Panel_Slideout.MouseDown, Panel_W2C.MouseDown, Panel_Hotkey.MouseDown, Panel_Design.MouseDown, Panel_MiniMap.MouseDown, Panel_Name.MouseDown
         If (e.Button = Windows.Forms.MouseButtons.Left) Then
@@ -39,30 +42,33 @@ Public Class Configuration
     Private Sub Button_Close_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Close.Click
         Me.Close()
         LJTD.Timer_Top_Most.Start()
+        MiniMap.Timer_Top_Most.Start()
+        _show_Form = False
     End Sub
     Private Sub Button_Close_MouseEnter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Close.MouseEnter
-        Button_Close.BackgroundImage = My.Resources.LJTD_Button_CLOSE_MouseHover_ready
+        _Colors.set_color_mousehover(Button_Close)
     End Sub
     Private Sub Button_Close_MouseLeave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Close.MouseLeave
-        Button_Close.BackgroundImage = My.Resources.LJTD_Button_CLOSE_ready
+        _Colors.set_color_normal(Button_Close)
     End Sub
 #Region "Button Save"
     Private Sub Button_Save_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Save.Click
         _Save_Clicked = True
         collect_Changes()
-        Button_Save.BackgroundImage = My.Resources.Config_Button_SAVE_Clicked
+        _Colors.set_color_clicked(Button_Save)
         _Write2Config.prepare(_Resource)
         LJTD.refreshLJTD()
+        MiniMap.refreshMiniMap()
     End Sub
     Private Sub Button_Save_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button_Save.MouseEnter
         If _Save_Clicked Then
             _Save_Clicked = False
         End If
-        Button_Save.BackgroundImage = My.Resources.Config_Button_SAVE_Mouseover
+        _Colors.set_color_mousehover(Button_Save)
     End Sub
     Private Sub Button_Save_MouseLeave(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button_Save.MouseLeave
         If _Save_Clicked = False Then
-            Button_Save.BackgroundImage = My.Resources.Config_Button_SAVE
+            _Colors.set_color_normal(Button_Save)
         End If
     End Sub
 #End Region
@@ -73,11 +79,11 @@ Public Class Configuration
         initialize_Panels()
     End Sub
     Private Sub Button_Reset_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button_Reset.MouseEnter
-        Button_Reset.BackgroundImage = My.Resources.Config_Button_RESET_Mouseover
+        _Colors.set_color_mousehover(Button_Reset)
     End Sub
 
     Private Sub Button_Reset_MouseLeave(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button_Reset.MouseLeave
-        Button_Reset.BackgroundImage = My.Resources.Config_Button_RESET
+        _Colors.set_color_normal(Button_Reset)
     End Sub
 #End Region
     Public Sub initialize_Panels()
@@ -101,23 +107,23 @@ Public Class Configuration
 #Region "Panel Main"
     Private Sub initialize_Panel_Main()
         Main_GroupBox_CheckVersion_Label_Update.Text = "Your current version: " & My.Application.Info.Version.ToString
-        Main_GroupBox_Time_NumericUpDown_Baron.Text = _Resource.time_int(0, 1)
-        Main_GroupBox_Time_NumericUpDown_Dragon.Text = _Resource.time_int(1, 1)
-        Main_GroupBox_Time_NumericUpDown_BR.Text = _Resource.time_int(2, 1)
-        Main_GroupBox_Time_NumericUpDown_Ward.Text = _Resource.time_int(3, 1)
+        Main_GroupBox_Time_NumericUpDown_Baron.Text = _Resource.time(0, 1)
+        Main_GroupBox_Time_NumericUpDown_Dragon.Text = _Resource.time(1, 1)
+        Main_GroupBox_Time_NumericUpDown_BR.Text = _Resource.time(2, 1)
+        Main_GroupBox_Time_NumericUpDown_Ward.Text = _Resource.time(3, 1)
         Main_GroupBox_ShowWard_CheckBox.Checked = _Resource.config_bool(3)
         Main_GroupBox_OpenInTray_CheckBox.Checked = _Resource.config_bool(4)
-        Main_GroupBox_TimingDelay_NumericUpDown.Text = _Resource.config_int(11)
+        Main_GroupBox_TimingDelay_NumericUpDown.Text = _Resource.config(11, 1)
         Main_GroupBox_SearchLog_TextBox.Text = _Resource.config(0, 1)
     End Sub
     Private Sub collect_Changes_Main()
-        _Resource.time_int(0, 1) = Main_GroupBox_Time_NumericUpDown_Baron.Text
-        _Resource.time_int(1, 1) = Main_GroupBox_Time_NumericUpDown_Dragon.Text
-        _Resource.time_int(2, 1) = Main_GroupBox_Time_NumericUpDown_BR.Text
-        _Resource.time_int(3, 1) = Main_GroupBox_Time_NumericUpDown_Ward.Text
+        _Resource.time_int(0, 1) = CInt(Main_GroupBox_Time_NumericUpDown_Baron.Text)
+        _Resource.time_int(1, 1) = CInt(Main_GroupBox_Time_NumericUpDown_Dragon.Text)
+        _Resource.time_int(2, 1) = CInt(Main_GroupBox_Time_NumericUpDown_BR.Text)
+        _Resource.time_int(3, 1) = CInt(Main_GroupBox_Time_NumericUpDown_Ward.Text)
         _Resource.config(3, 1) = CStr(Main_GroupBox_ShowWard_CheckBox.Checked)
         _Resource.config(4, 1) = CStr(Main_GroupBox_OpenInTray_CheckBox.Checked)
-        _Resource.config_int(11) = Main_GroupBox_TimingDelay_NumericUpDown.Text
+        _Resource.config_int(11) = CInt(Main_GroupBox_TimingDelay_NumericUpDown.Text)
         _Resource.config(0, 1) = Main_GroupBox_SearchLog_TextBox.Text
     End Sub
     Private Sub Main_GroupBox_CheckVersion_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Main_GroupBox_CheckVersion_Button_Update.Click
@@ -152,7 +158,7 @@ Public Class Configuration
         Try
             Dim dl As New WebClient()
             With SaveFileDialog
-                .InitialDirectory = Environment.SpecialFolder.DesktopDirectory
+                .InitialDirectory = CStr(Environment.SpecialFolder.DesktopDirectory)
                 .Title = " Where to save the update?"
                 .FileName = "LoL Jungle Timer Deluxe v" & _Newest_Version & "-" & version & ".rar"
                 .RestoreDirectory = True
@@ -205,7 +211,7 @@ Public Class Configuration
         W2C_GroupBox_Features_CheckBox_Ward.Checked = _Resource.chat_bool(2)
         W2C_GroupBox_Endtime_Show_CheckBox.Checked = _Resource.config_bool(6)
         W2C_GroupBox_Seperator_TextBox_Seperator.Text = _Resource.config(1, 1)
-        W2C_GroupBox_Endtime_Size_NumericUpDown.Text = _Resource.config_int(10)
+        W2C_GroupBox_Endtime_Size_NumericUpDown.Text = _Resource.config(10, 1)
         W2C_GroupBox_Delay_NumericUpDown_Foreground.Value = _Resource.delay_int(0, 1)
         W2C_GroupBox_Delay_NumericUpDown_Enter.Value = _Resource.delay_int(1, 1)
         W2C_GroupBox_Delay_NumericUpDown_AfterText.Value = _Resource.delay_int(2, 1)
@@ -275,25 +281,25 @@ Public Class Configuration
     End Sub
     Private Sub Hotkey_refresh_Real_Hotkeys()
         If Hotkey_GroupBox_Hotkeys_NumericUpDown_Baron.Text <> "" Then
-            Hotkey_GroupBox_Hotkeys_LabelAns_Baron.Text = Chr((Hotkey_GroupBox_Hotkeys_NumericUpDown_Baron.Text))
+            Hotkey_GroupBox_Hotkeys_LabelAns_Baron.Text = Chr(CInt(Hotkey_GroupBox_Hotkeys_NumericUpDown_Baron.Text))
         End If
         If Hotkey_GroupBox_Hotkeys_NumericUpDown_Dragon.Text <> "" Then
-            Hotkey_GroupBox_Hotkeys_LabelAns_Dragon.Text = Chr(Hotkey_GroupBox_Hotkeys_NumericUpDown_Dragon.Text)
+            Hotkey_GroupBox_Hotkeys_LabelAns_Dragon.Text = Chr(CInt(Hotkey_GroupBox_Hotkeys_NumericUpDown_Dragon.Text))
         End If
         If Hotkey_GroupBox_Hotkeys_NumericUpDown_OB.Text <> "" Then
-            Hotkey_GroupBox_Hotkeys_LabelAns_OB.Text = Chr(Hotkey_GroupBox_Hotkeys_NumericUpDown_OB.Text)
+            Hotkey_GroupBox_Hotkeys_LabelAns_OB.Text = Chr(CInt(Hotkey_GroupBox_Hotkeys_NumericUpDown_OB.Text))
         End If
         If Hotkey_GroupBox_Hotkeys_NumericUpDown_OR.Text <> "" Then
-            Hotkey_GroupBox_Hotkeys_LabelAns_OR.Text = Chr(Hotkey_GroupBox_Hotkeys_NumericUpDown_OR.Text)
+            Hotkey_GroupBox_Hotkeys_LabelAns_OR.Text = Chr(CInt(Hotkey_GroupBox_Hotkeys_NumericUpDown_OR.Text))
         End If
         If Hotkey_GroupBox_Hotkeys_NumericUpDown_TB.Text <> "" Then
-            Hotkey_GroupBox_Hotkeys_LabelAns_TB.Text = Chr(Hotkey_GroupBox_Hotkeys_NumericUpDown_TB.Text)
+            Hotkey_GroupBox_Hotkeys_LabelAns_TB.Text = Chr(CInt(Hotkey_GroupBox_Hotkeys_NumericUpDown_TB.Text))
         End If
         If Hotkey_GroupBox_Hotkeys_NumericUpDown_TR.Text <> "" Then
-            Hotkey_GroupBox_Hotkeys_LabelAns_TR.Text = Chr(Hotkey_GroupBox_Hotkeys_NumericUpDown_TR.Text)
+            Hotkey_GroupBox_Hotkeys_LabelAns_TR.Text = Chr(CInt(Hotkey_GroupBox_Hotkeys_NumericUpDown_TR.Text))
         End If
         If Hotkey_GroupBox_Hotkeys_NumericUpDown_Ward.Text <> "" Then
-            Hotkey_GroupBox_Hotkeys_LabelAns_Ward.Text = Chr(Hotkey_GroupBox_Hotkeys_NumericUpDown_Ward.Text)
+            Hotkey_GroupBox_Hotkeys_LabelAns_Ward.Text = Chr(CInt(Hotkey_GroupBox_Hotkeys_NumericUpDown_Ward.Text))
         End If
     End Sub
 #End Region
@@ -306,6 +312,9 @@ Public Class Configuration
         Design_GroupBox_Color_PictureBox_TB.BackColor = Color.FromArgb(255, _Resource.color_int(4, 1), _Resource.color_int(4, 2), _Resource.color_int(4, 3))
         Design_GroupBox_Color_PictureBox_TR.BackColor = Color.FromArgb(255, _Resource.color_int(5, 1), _Resource.color_int(5, 2), _Resource.color_int(5, 3))
         Design_GroupBox_Color_PictureBox_Ward.BackColor = Color.FromArgb(255, _Resource.color_int(6, 1), _Resource.color_int(6, 2), _Resource.color_int(6, 3))
+        Design_GroupBox_LJTDColors_PictureBox_Normal.BackColor = Color.FromArgb(255, _Resource.color_int(7, 1), _Resource.color_int(7, 2), _Resource.color_int(7, 3))
+        Design_GroupBox_LJTDColors_PictureBox_Active.BackColor = Color.FromArgb(255, _Resource.color_int(8, 1), _Resource.color_int(8, 2), _Resource.color_int(8, 3))
+        Design_GroupBox_LJTDColors_PictureBox_Mousehover.BackColor = Color.FromArgb(255, _Resource.color_int(9, 1), _Resource.color_int(9, 2), _Resource.color_int(9, 3))
         Design_GroupBox_Hide_CheckBox.Checked = _Resource.config_bool(7)
         Design_GroupBox_FontSize_TextBox_Name.Text = _Resource.font(0, 1)
         Design_GroupBox_FontSize_NumericUpDown_Baron.Value = _Resource.font_int(1)
@@ -336,6 +345,15 @@ Public Class Configuration
         _Resource.color(6, 1) = CStr(Design_GroupBox_Color_PictureBox_Ward.BackColor.R)
         _Resource.color(6, 2) = CStr(Design_GroupBox_Color_PictureBox_Ward.BackColor.G)
         _Resource.color(6, 3) = CStr(Design_GroupBox_Color_PictureBox_Ward.BackColor.B)
+        _Resource.color(7, 1) = CStr(Design_GroupBox_LJTDColors_PictureBox_Normal.BackColor.R)
+        _Resource.color(7, 2) = CStr(Design_GroupBox_LJTDColors_PictureBox_Normal.BackColor.G)
+        _Resource.color(7, 3) = CStr(Design_GroupBox_LJTDColors_PictureBox_Normal.BackColor.B)
+        _Resource.color(8, 1) = CStr(Design_GroupBox_LJTDColors_PictureBox_Active.BackColor.R)
+        _Resource.color(8, 2) = CStr(Design_GroupBox_LJTDColors_PictureBox_Active.BackColor.G)
+        _Resource.color(8, 3) = CStr(Design_GroupBox_LJTDColors_PictureBox_Active.BackColor.B)
+        _Resource.color(9, 1) = CStr(Design_GroupBox_LJTDColors_PictureBox_Mousehover.BackColor.R)
+        _Resource.color(9, 2) = CStr(Design_GroupBox_LJTDColors_PictureBox_Mousehover.BackColor.G)
+        _Resource.color(9, 3) = CStr(Design_GroupBox_LJTDColors_PictureBox_Mousehover.BackColor.B)
         _Resource.config(7, 1) = CStr(Design_GroupBox_Hide_CheckBox.Checked)
         _Resource.font(0, 1) = Design_GroupBox_FontSize_TextBox_Name.Text
         _Resource.font(1, 1) = CStr(Design_GroupBox_FontSize_NumericUpDown_Baron.Value)
@@ -379,6 +397,25 @@ Public Class Configuration
             Design_GroupBox_Color_PictureBox_Ward.BackColor = ColorDialog.Color
         End If
     End Sub
+
+    Private Sub Design_GroupBox_LJTDColors_PictureBox_Normal_Click(sender As System.Object, e As System.EventArgs) Handles Design_GroupBox_LJTDColors_PictureBox_Normal.Click
+        If ColorDialog.ShowDialog() = DialogResult.OK Then
+            Design_GroupBox_LJTDColors_PictureBox_Normal.BackColor = ColorDialog.Color
+            LJTD.refresh_LJTD_colors()
+        End If
+    End Sub
+    Private Sub Design_GroupBox_LJTDColors_PictureBox_Active_Click(sender As System.Object, e As System.EventArgs) Handles Design_GroupBox_LJTDColors_PictureBox_Active.Click
+        If ColorDialog.ShowDialog() = DialogResult.OK Then
+            Design_GroupBox_LJTDColors_PictureBox_Active.BackColor = ColorDialog.Color
+            LJTD.refresh_LJTD_colors()
+        End If
+    End Sub
+    Private Sub Design_GroupBox_LJTDColors_PictureBox_Mousehover_Click(sender As System.Object, e As System.EventArgs) Handles Design_GroupBox_LJTDColors_PictureBox_Mousehover.Click
+        If ColorDialog.ShowDialog() = DialogResult.OK Then
+            Design_GroupBox_LJTDColors_PictureBox_Mousehover.BackColor = ColorDialog.Color
+            LJTD.refresh_LJTD_colors()
+        End If
+    End Sub
 #End Region
 #Region "Panel MiniMap"
     Private Sub initialize_Panel_MiniMap()
@@ -400,7 +437,7 @@ Public Class Configuration
         _Resource.remember(0, 1) = MiniMap_GroupBox_Remember_TextBox_1.Text
         _Resource.remember(1, 1) = MiniMap_GroupBox_Remember_TextBox_2.Text
         _Resource.remember(2, 1) = MiniMap_GroupBox_Remember_TextBox_3.Text
-        _Resource.minimap_int(5) = MiniMap_GroupBox_PingTime_NumericUpDown.Text
+        _Resource.minimap_int(5) = CInt(MiniMap_GroupBox_PingTime_NumericUpDown.Text)
         _Resource.minimap_bool(3) = MiniMap_GroupBox_AutoStart_CheckBox.Checked
         _Resource.config_bool(9) = MiniMap_GroupBox_PlaySound_CheckBox.Checked
         _Resource.minimap_bool(4) = MiniMap_GroupBox_Fullmode_CheckBox.Checked
@@ -416,13 +453,18 @@ Public Class Configuration
         Name_GroupBox_TextBox_TR.Text = _Resource.name(5, 1)
         Name_GroupBox_TextBox_Ward.Text = _Resource.name(6, 1)
         Name_GroupBox_Makro_CheckBox.Checked = _Resource.makro_bool(0)
-        Name_GroupBox_Makro_ComboBox_Opener.Text = _Resource.makro(1, 1).ToUpper
-        Name_GroupBox_Makro_TextBox_Chat_1.Text = _Resource.makro(8, 1)
-        Name_GroupBox_Makro_TextBox_Chat_2.Text = _Resource.makro(9, 1)
-        Name_GroupBox_Makro_TextBox_Chat_3.Text = _Resource.makro(10, 1)
-        Name_GroupBox_Makro_TextBox_Chat_4.Text = _Resource.makro(11, 1)
-        Name_GroupBox_Makro_TextBox_Chat_5.Text = _Resource.makro(12, 1)
-        Name_GroupBox_Makro_TextBox_Chat_6.Text = _Resource.makro(13, 1)
+        Name_GroupBox_Makro_ComboBox_Opener_1.Text = _Resource.makro(8, 1)
+        Name_GroupBox_Makro_ComboBox_Opener_2.Text = _Resource.makro(9, 1)
+        Name_GroupBox_Makro_ComboBox_Opener_3.Text = _Resource.makro(10, 1)
+        Name_GroupBox_Makro_ComboBox_Opener_4.Text = _Resource.makro(11, 1)
+        Name_GroupBox_Makro_ComboBox_Opener_5.Text = _Resource.makro(12, 1)
+        Name_GroupBox_Makro_ComboBox_Opener_6.Text = _Resource.makro(13, 1)
+        Name_GroupBox_Makro_TextBox_Chat_1.Text = _Resource.makro(14, 1)
+        Name_GroupBox_Makro_TextBox_Chat_2.Text = _Resource.makro(15, 1)
+        Name_GroupBox_Makro_TextBox_Chat_3.Text = _Resource.makro(16, 1)
+        Name_GroupBox_Makro_TextBox_Chat_4.Text = _Resource.makro(17, 1)
+        Name_GroupBox_Makro_TextBox_Chat_5.Text = _Resource.makro(18, 1)
+        Name_GroupBox_Makro_TextBox_Chat_6.Text = _Resource.makro(19, 1)
         Name_GroupBox_Makro_NumericUpDown_Chat_1.Text = _Resource.makro(2, 1)
         Name_GroupBox_Makro_NumericUpDown_Chat_2.Text = _Resource.makro(3, 1)
         Name_GroupBox_Makro_NumericUpDown_Chat_3.Text = _Resource.makro(4, 1)
@@ -440,13 +482,18 @@ Public Class Configuration
         _Resource.name(5, 1) = Name_GroupBox_TextBox_TR.Text
         _Resource.name(6, 1) = Name_GroupBox_TextBox_Ward.Text
         _Resource.makro_bool(0) = Name_GroupBox_Makro_CheckBox.Checked
-        _Resource.makro(1, 1) = Name_GroupBox_Makro_ComboBox_Opener.Text
-        _Resource.makro(8, 1) = Name_GroupBox_Makro_TextBox_Chat_1.Text
-        _Resource.makro(9, 1) = Name_GroupBox_Makro_TextBox_Chat_2.Text
-        _Resource.makro(10, 1) = Name_GroupBox_Makro_TextBox_Chat_3.Text
-        _Resource.makro(11, 1) = Name_GroupBox_Makro_TextBox_Chat_4.Text
-        _Resource.makro(12, 1) = Name_GroupBox_Makro_TextBox_Chat_5.Text
-        _Resource.makro(13, 1) = Name_GroupBox_Makro_TextBox_Chat_6.Text
+        _Resource.makro(8, 1) = Name_GroupBox_Makro_ComboBox_Opener_1.Text.ToUpper
+        _Resource.makro(9, 1) = Name_GroupBox_Makro_ComboBox_Opener_2.Text.ToUpper
+        _Resource.makro(10, 1) = Name_GroupBox_Makro_ComboBox_Opener_3.Text.ToUpper
+        _Resource.makro(11, 1) = Name_GroupBox_Makro_ComboBox_Opener_4.Text.ToUpper
+        _Resource.makro(12, 1) = Name_GroupBox_Makro_ComboBox_Opener_5.Text.ToUpper
+        _Resource.makro(13, 1) = Name_GroupBox_Makro_ComboBox_Opener_6.Text.ToUpper
+        _Resource.makro(14, 1) = Name_GroupBox_Makro_TextBox_Chat_1.Text
+        _Resource.makro(15, 1) = Name_GroupBox_Makro_TextBox_Chat_2.Text
+        _Resource.makro(16, 1) = Name_GroupBox_Makro_TextBox_Chat_3.Text
+        _Resource.makro(17, 1) = Name_GroupBox_Makro_TextBox_Chat_4.Text
+        _Resource.makro(18, 1) = Name_GroupBox_Makro_TextBox_Chat_5.Text
+        _Resource.makro(19, 1) = Name_GroupBox_Makro_TextBox_Chat_6.Text
         _Resource.makro(2, 1) = Name_GroupBox_Makro_NumericUpDown_Chat_1.Text
         _Resource.makro(3, 1) = Name_GroupBox_Makro_NumericUpDown_Chat_2.Text
         _Resource.makro(4, 1) = Name_GroupBox_Makro_NumericUpDown_Chat_3.Text
@@ -454,27 +501,26 @@ Public Class Configuration
         _Resource.makro(6, 1) = Name_GroupBox_Makro_NumericUpDown_Chat_5.Text
         _Resource.makro(7, 1) = Name_GroupBox_Makro_NumericUpDown_Chat_6.Text
     End Sub
-    Public Sub set_Key_Code(ByVal key As Integer, ByVal keyOpenerPressed As Boolean)
+    Public Sub set_Key_Code_Name(ByVal key As Integer, ByVal keyOpenerPressed As Boolean, ByVal hotkey_Number As Byte)
         If keyOpenerPressed Then
-            Me.Name_GroupBox_FindHotkey_Label.Text = CStr(key)
             Select Case key
-                Case _Resource.makro_int(2)
+                Case _Resource.makro_int(2) And CInt(hotkey_Number = 0)
                     write_2_Chat(Name_GroupBox_Makro_TextBox_Chat_1.Text, 0)
-                Case _Resource.makro_int(3)
+                Case _Resource.makro_int(3) And CInt(hotkey_Number = 1)
                     write_2_Chat(Name_GroupBox_Makro_TextBox_Chat_2.Text, 1)
-                Case _Resource.makro_int(4)
+                Case _Resource.makro_int(4) And CInt(hotkey_Number = 2)
                     write_2_Chat(Name_GroupBox_Makro_TextBox_Chat_3.Text, 2)
-                Case _Resource.makro_int(5)
+                Case _Resource.makro_int(5) And CInt(hotkey_Number = 3)
                     write_2_Chat(Name_GroupBox_Makro_TextBox_Chat_4.Text, 3)
-                Case _Resource.makro_int(6)
+                Case _Resource.makro_int(6) And CInt(hotkey_Number = 4)
                     write_2_Chat(Name_GroupBox_Makro_TextBox_Chat_5.Text, 4)
-                Case _Resource.makro_int(7)
+                Case _Resource.makro_int(7) And CInt(hotkey_Number = 5)
                     write_2_Chat(Name_GroupBox_Makro_TextBox_Chat_6.Text, 5)
             End Select
         End If
     End Sub
     Private Sub write_2_Chat(ByVal text As String, ByVal i As Integer)
-        If _Resource.makro(0, 1) Then
+        If _Resource.makro_bool(0) Then
             If LJTD.Timer_bool(i) = True Then
                 LJTD.Timer_bool(i) = False
                 LJTD.Timer(i).Start()
@@ -489,27 +535,27 @@ Public Class Configuration
     End Sub
     Private Sub Name_refresh_Real_Hotkeys()
         If Name_GroupBox_Makro_NumericUpDown_Chat_1.Text <> "" Then
-            Name_GroupBox_Makro_LabelHotkey_Chat_1.Text = Chr(Name_GroupBox_Makro_NumericUpDown_Chat_1.Text)
+            Name_GroupBox_Makro_LabelHotkey_Chat_1.Text = Chr(CInt(Name_GroupBox_Makro_NumericUpDown_Chat_1.Text))
         End If
         If Name_GroupBox_Makro_NumericUpDown_Chat_2.Text <> "" Then
-            Name_GroupBox_Makro_LabelHotkey_Chat_2.Text = Chr(Name_GroupBox_Makro_NumericUpDown_Chat_2.Text)
+            Name_GroupBox_Makro_LabelHotkey_Chat_2.Text = Chr(CInt(Name_GroupBox_Makro_NumericUpDown_Chat_2.Text))
         End If
         If Name_GroupBox_Makro_NumericUpDown_Chat_3.Text <> "" Then
-            Name_GroupBox_Makro_LabelHotkey_Chat_3.Text = Chr(Name_GroupBox_Makro_NumericUpDown_Chat_3.Text)
+            Name_GroupBox_Makro_LabelHotkey_Chat_3.Text = Chr(CInt(Name_GroupBox_Makro_NumericUpDown_Chat_3.Text))
         End If
         If Name_GroupBox_Makro_NumericUpDown_Chat_4.Text <> "" Then
-            Name_GroupBox_Makro_LabelHotkey_Chat_4.Text = Chr(Name_GroupBox_Makro_NumericUpDown_Chat_4.Text)
+            Name_GroupBox_Makro_LabelHotkey_Chat_4.Text = Chr(CInt(Name_GroupBox_Makro_NumericUpDown_Chat_4.Text))
         End If
         If Name_GroupBox_Makro_NumericUpDown_Chat_5.Text <> "" Then
-            Name_GroupBox_Makro_LabelHotkey_Chat_5.Text = Chr(Name_GroupBox_Makro_NumericUpDown_Chat_5.Text)
+            Name_GroupBox_Makro_LabelHotkey_Chat_5.Text = Chr(CInt(Name_GroupBox_Makro_NumericUpDown_Chat_5.Text))
         End If
         If Name_GroupBox_Makro_NumericUpDown_Chat_6.Text <> "" Then
-            Name_GroupBox_Makro_LabelHotkey_Chat_6.Text = Chr(Name_GroupBox_Makro_NumericUpDown_Chat_6.Text)
+            Name_GroupBox_Makro_LabelHotkey_Chat_6.Text = Chr(CInt(Name_GroupBox_Makro_NumericUpDown_Chat_6.Text))
         End If
     End Sub
     Private Sub Name_GroupBox_Makro_CheckBox_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Name_GroupBox_Makro_CheckBox.CheckedChanged
         If Name_GroupBox_Makro_CheckBox.Checked Then
-            Name_GroupBox_Makro_ComboBox_Opener.Enabled = True
+            Name_GroupBox_Makro_ComboBox_Opener_1.Enabled = True
             Name_GroupBox_Makro_TextBox_Chat_1.Enabled = True
             Name_GroupBox_Makro_TextBox_Chat_2.Enabled = True
             Name_GroupBox_Makro_TextBox_Chat_3.Enabled = True
@@ -523,7 +569,7 @@ Public Class Configuration
             Name_GroupBox_Makro_NumericUpDown_Chat_5.Enabled = True
             Name_GroupBox_Makro_NumericUpDown_Chat_6.Enabled = True
         Else
-            Name_GroupBox_Makro_ComboBox_Opener.Enabled = False
+            Name_GroupBox_Makro_ComboBox_Opener_1.Enabled = False
             Name_GroupBox_Makro_TextBox_Chat_1.Enabled = False
             Name_GroupBox_Makro_TextBox_Chat_2.Enabled = False
             Name_GroupBox_Makro_TextBox_Chat_3.Enabled = False
@@ -557,39 +603,39 @@ Public Class Configuration
     End Sub
     Private Sub load_Button_Picture(ByVal i As Integer)
         If i = 0 Then
-            Button_Main.BackgroundImage = My.Resources.Config_Button_MAIN_Clicked
+            _Colors.set_color_clicked(Tab_Main)
         Else
-            Button_Main.BackgroundImage = My.Resources.Config_Button_MAIN
+            _Colors.set_color_normal(Tab_Main)
         End If
         If i = 1 Then
-            Button_Slide.BackgroundImage = My.Resources.Config_Button_SLIDEOUT_Clicked
+            _Colors.set_color_clicked(Tab_Slide)
         Else
-            Button_Slide.BackgroundImage = My.Resources.Config_Button_SLIDEOUT
+            _Colors.set_color_normal(Tab_Slide)
         End If
         If i = 2 Then
-            Button_W2C.BackgroundImage = My.Resources.Config_Button_W2C_Clicked
+            _Colors.set_color_clicked(Tab_W2C)
         Else
-            Button_W2C.BackgroundImage = My.Resources.Config_Button_W2C
+            _Colors.set_color_normal(Tab_W2C)
         End If
         If i = 3 Then
-            Button_Hotkey.BackgroundImage = My.Resources.Config_Button_HOTKEY_Clicked
+            _Colors.set_color_clicked(Tab_Hotkey)
         Else
-            Button_Hotkey.BackgroundImage = My.Resources.Config_Button_HOTKEY
+            _Colors.set_color_normal(Tab_Hotkey)
         End If
         If i = 4 Then
-            Button_Design.BackgroundImage = My.Resources.Config_Button_DESIGN_Clicked
+            _Colors.set_color_clicked(Tab_Design)
         Else
-            Button_Design.BackgroundImage = My.Resources.Config_Button_Design
+            _Colors.set_color_normal(Tab_Design)
         End If
         If i = 5 Then
-            Button_MiniMap.BackgroundImage = My.Resources.Config_Button_MINIMAP_Clicked
+            _Colors.set_color_clicked(Tab_MiniMap)
         Else
-            Button_MiniMap.BackgroundImage = My.Resources.Config_Button_MINIMAP
+            _Colors.set_color_normal(Tab_MiniMap)
         End If
         If i = 6 Then
-            Button_Name.BackgroundImage = My.Resources.Config_Button_NAME_Clicked
+            _Colors.set_color_clicked(Tab_Name)
         Else
-            Button_Name.BackgroundImage = My.Resources.Config_Button_NAME
+            _Colors.set_color_normal(Tab_Name)
         End If
     End Sub
     Private Sub button_Click_Events(ByVal i As Integer)
@@ -598,92 +644,91 @@ Public Class Configuration
         hide_All_Panels(i)
         load_Button_Picture(i)
     End Sub
-    Private Sub Button_Main_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Main.Click
+    Private Sub Button_Main_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Tab_Main.Click
         button_Click_Events(0)
-        Panel_Main.BackgroundImage = My.Resources.Config_Main
+        Panel_Main.BackgroundImage = My.Resources.Config_BG_Main
     End Sub
-    Private Sub Button_Main_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button_Main.MouseEnter
-        Button_Main.BackgroundImage = My.Resources.Config_Button_MAIN_Clicked
+    Private Sub Button_Main_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles Tab_Main.MouseEnter
+        _Colors.set_color_mousehover(Tab_Main)
     End Sub
-    Private Sub Button_Main_MouseLeave(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button_Main.MouseLeave
+    Private Sub Button_Main_MouseLeave(ByVal sender As Object, ByVal e As System.EventArgs) Handles Tab_Main.MouseLeave
         If _button(0) = False Then
-            Button_Main.BackgroundImage = My.Resources.Config_Button_MAIN
+            _Colors.set_color_normal(Tab_Main)
         End If
     End Sub
-    Private Sub Button_Slide_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Slide.Click
+    Private Sub Button_Slide_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Tab_Slide.Click
         button_Click_Events(1)
-        Panel_Slideout.BackgroundImage = My.Resources.Config_Slideout
+        Panel_Slideout.BackgroundImage = My.Resources.Config_BG_Slideout
     End Sub
-    Private Sub Button_Slide_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button_Slide.MouseEnter
-        Button_Slide.BackgroundImage = My.Resources.Config_Button_SLIDEOUT_Clicked
+    Private Sub Button_Slide_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles Tab_Slide.MouseEnter
+        _Colors.set_color_mousehover(Tab_Slide)
     End Sub
-    Private Sub Button_Slide_MouseLeave(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button_Slide.MouseLeave
+    Private Sub Button_Slide_MouseLeave(ByVal sender As Object, ByVal e As System.EventArgs) Handles Tab_Slide.MouseLeave
         If _button(1) = False Then
-            Button_Slide.BackgroundImage = My.Resources.Config_Button_SLIDEOUT
+            _Colors.set_color_normal(Tab_Slide)
         End If
     End Sub
-    Private Sub Button_W2C_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_W2C.Click
+    Private Sub Button_W2C_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Tab_W2C.Click
         button_Click_Events(2)
-        Panel_W2C.BackgroundImage = My.Resources.Config_W2C
+        Panel_W2C.BackgroundImage = My.Resources.Config_BG_W2C
     End Sub
-    Private Sub Button_W2C_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button_W2C.MouseEnter
-        Button_W2C.BackgroundImage = My.Resources.Config_Button_W2C_Clicked
+    Private Sub Button_W2C_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles Tab_W2C.MouseEnter
+        _Colors.set_color_mousehover(Tab_W2C)
     End Sub
-    Private Sub Button_W2C_MouseLeave(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button_W2C.MouseLeave
+    Private Sub Button_W2C_MouseLeave(ByVal sender As Object, ByVal e As System.EventArgs) Handles Tab_W2C.MouseLeave
         If _button(2) = False Then
-            Button_W2C.BackgroundImage = My.Resources.Config_Button_W2C
+            _Colors.set_color_normal(Tab_W2C)
         End If
     End Sub
-    Private Sub Button_Hotkey_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Hotkey.Click
+    Private Sub Button_Hotkey_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Tab_Hotkey.Click
         button_Click_Events(3)
-        Panel_Hotkey.BackgroundImage = My.Resources.Config_Hotkey
+        Panel_Hotkey.BackgroundImage = My.Resources.Config_BG_Hotkey
     End Sub
-    Private Sub Button_Hotkey_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button_Hotkey.MouseEnter
-        Button_Hotkey.BackgroundImage = My.Resources.Config_Button_HOTKEY_Clicked
+    Private Sub Button_Hotkey_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles Tab_Hotkey.MouseEnter
+        _Colors.set_color_mousehover(Tab_Hotkey)
     End Sub
-    Private Sub Button_Hotkey_MouseLeave(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button_Hotkey.MouseLeave
+    Private Sub Button_Hotkey_MouseLeave(ByVal sender As Object, ByVal e As System.EventArgs) Handles Tab_Hotkey.MouseLeave
         If _button(3) = False Then
-            Button_Hotkey.BackgroundImage = My.Resources.Config_Button_HOTKEY
+            _Colors.set_color_normal(Tab_Hotkey)
         End If
     End Sub
-    Private Sub Button_Design_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Design.Click
+    Private Sub Button_Design_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Tab_Design.Click
         button_Click_Events(4)
-        Panel_Design.BackgroundImage = My.Resources.Config_Design
+        Panel_Design.BackgroundImage = My.Resources.Config_BG_Design
     End Sub
-    Private Sub Button_Design_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button_Design.MouseEnter
-        Button_Design.BackgroundImage = My.Resources.Config_Button_DESIGN_Clicked
+    Private Sub Button_Design_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles Tab_Design.MouseEnter
+        _Colors.set_color_mousehover(Tab_Design)
     End Sub
-    Private Sub Button_Design_MouseLeave(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button_Design.MouseLeave
+    Private Sub Button_Design_MouseLeave(ByVal sender As Object, ByVal e As System.EventArgs) Handles Tab_Design.MouseLeave
         If _button(4) = False Then
-            Button_Design.BackgroundImage = My.Resources.Config_Button_Design
+            _Colors.set_color_normal(Tab_Design)
         End If
     End Sub
-    Private Sub Button_MiniMap_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_MiniMap.Click
+    Private Sub Button_MiniMap_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Tab_MiniMap.Click
         button_Click_Events(5)
-        Panel_MiniMap.BackgroundImage = My.Resources.Config_MiniMap
+        Panel_MiniMap.BackgroundImage = My.Resources.Config_BG_MiniMap
     End Sub
-    Private Sub Button_MiniMap_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button_MiniMap.MouseEnter
-        Button_MiniMap.BackgroundImage = My.Resources.Config_Button_MINIMAP_Clicked
+    Private Sub Button_MiniMap_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles Tab_MiniMap.MouseEnter
+        _Colors.set_color_mousehover(Tab_MiniMap)
     End Sub
-    Private Sub Button_MiniMap_MouseLeave(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button_MiniMap.MouseLeave
+    Private Sub Button_MiniMap_MouseLeave(ByVal sender As Object, ByVal e As System.EventArgs) Handles Tab_MiniMap.MouseLeave
         If _button(5) = False Then
-            Button_MiniMap.BackgroundImage = My.Resources.Config_Button_MINIMAP
+            _Colors.set_color_normal(Tab_MiniMap)
         End If
     End Sub
-    Private Sub Button_Name_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Name.Click
+    Private Sub Button_Name_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Tab_Name.Click
         button_Click_Events(6)
-        Panel_Name.BackgroundImage = My.Resources.Config_Name
+        Panel_Name.BackgroundImage = My.Resources.Config_BG_Name
     End Sub
-    Private Sub Button_Name_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button_Name.MouseEnter
-        Button_Name.BackgroundImage = My.Resources.Config_Button_NAME_Clicked
+    Private Sub Button_Name_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles Tab_Name.MouseEnter
+        _Colors.set_color_mousehover(Tab_Name)
     End Sub
-    Private Sub Button_Name_MouseLeave(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button_Name.MouseLeave
+    Private Sub Button_Name_MouseLeave(ByVal sender As Object, ByVal e As System.EventArgs) Handles Tab_Name.MouseLeave
         If _button(6) = False Then
-            Button_Name.BackgroundImage = My.Resources.Config_Button_NAME
+            _Colors.set_color_normal(Tab_Name)
         End If
     End Sub
 #End Region
-
 #Region "Links Buttons"
     Private Sub Button_Links_Youtube_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Links_Youtube.Click
         Process.Start("http://www.youtube.com/user/LoLJungleTimerDeluxe")
@@ -696,5 +741,5 @@ Public Class Configuration
     End Sub
 #End Region
 
-  
+   
 End Class
