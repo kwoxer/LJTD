@@ -83,6 +83,7 @@ Public Class Buff
     Public Sub ends()
         _Running = False
         _Timer.Enabled = False
+        _Diff = 0
     End Sub
     Public Function generateText(text As String) As String
         Return _Name & _Resource.config(1, 1) & text

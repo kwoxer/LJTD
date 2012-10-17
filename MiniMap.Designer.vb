@@ -25,22 +25,31 @@ Partial Class MiniMap
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MiniMap))
         Me.Panel_Top = New System.Windows.Forms.Panel()
+        Me.Button_Resize = New System.Windows.Forms.Button()
+        Me.Label_Size_Y = New System.Windows.Forms.Label()
+        Me.Label_Size_X = New System.Windows.Forms.Label()
         Me.Button_Team = New System.Windows.Forms.Button()
         Me.Label_Location_Y = New System.Windows.Forms.Label()
         Me.Label_Location_X = New System.Windows.Forms.Label()
         Me.Panel_Right = New System.Windows.Forms.Panel()
-        Me.Timer_Top_Most = New System.Windows.Forms.Timer(Me.components)
+        Me.Timer_TopMost = New System.Windows.Forms.Timer(Me.components)
         Me.Button_Hide = New System.Windows.Forms.Button()
-        Me.Panel_Ward_Map = New System.Windows.Forms.Panel()
-        Me.Timer_Ward_Map_Cleaner = New System.Windows.Forms.Timer(Me.components)
-        Me.Timer_Ward_Removing = New System.Windows.Forms.Timer(Me.components)
-        Me.Timer_Update_Remaining_Ward_Time = New System.Windows.Forms.Timer(Me.components)
+        Me.Panel_WardMap = New System.Windows.Forms.Panel()
+        Me.Timer_WardMapCleaner = New System.Windows.Forms.Timer(Me.components)
+        Me.Timer_WardRemoving = New System.Windows.Forms.Timer(Me.components)
+        Me.Timer_UpdateRemainingWardTime = New System.Windows.Forms.Timer(Me.components)
         Me.Panel_Top.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel_Top
         '
-        Me.Panel_Top.BackColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.Panel_Top.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Panel_Top.BackColor = System.Drawing.Color.Silver
+        Me.Panel_Top.BackgroundImage = Global.LJTD.My.Resources.Resources.LJTD_Panel
+        Me.Panel_Top.Controls.Add(Me.Button_Resize)
+        Me.Panel_Top.Controls.Add(Me.Label_Size_Y)
+        Me.Panel_Top.Controls.Add(Me.Label_Size_X)
         Me.Panel_Top.Controls.Add(Me.Button_Team)
         Me.Panel_Top.Controls.Add(Me.Label_Location_Y)
         Me.Panel_Top.Controls.Add(Me.Label_Location_X)
@@ -49,14 +58,49 @@ Partial Class MiniMap
         Me.Panel_Top.Size = New System.Drawing.Size(300, 25)
         Me.Panel_Top.TabIndex = 0
         '
+        'Button_Resize
+        '
+        Me.Button_Resize.BackColor = System.Drawing.Color.DarkGray
+        Me.Button_Resize.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.Button_Resize.Image = Global.LJTD.My.Resources.Resources.MINIMAP_Button_Resize
+        Me.Button_Resize.Location = New System.Drawing.Point(0, 0)
+        Me.Button_Resize.Name = "Button_Resize"
+        Me.Button_Resize.Size = New System.Drawing.Size(25, 25)
+        Me.Button_Resize.TabIndex = 2
+        Me.Button_Resize.UseVisualStyleBackColor = False
+        '
+        'Label_Size_Y
+        '
+        Me.Label_Size_Y.AutoSize = True
+        Me.Label_Size_Y.BackColor = System.Drawing.Color.Transparent
+        Me.Label_Size_Y.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label_Size_Y.ForeColor = System.Drawing.Color.WhiteSmoke
+        Me.Label_Size_Y.Location = New System.Drawing.Point(65, 0)
+        Me.Label_Size_Y.Name = "Label_Size_Y"
+        Me.Label_Size_Y.Size = New System.Drawing.Size(30, 12)
+        Me.Label_Size_Y.TabIndex = 12
+        Me.Label_Size_Y.Text = "Size Y"
+        '
+        'Label_Size_X
+        '
+        Me.Label_Size_X.AutoSize = True
+        Me.Label_Size_X.BackColor = System.Drawing.Color.Transparent
+        Me.Label_Size_X.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label_Size_X.ForeColor = System.Drawing.Color.WhiteSmoke
+        Me.Label_Size_X.Location = New System.Drawing.Point(26, 0)
+        Me.Label_Size_X.Name = "Label_Size_X"
+        Me.Label_Size_X.Size = New System.Drawing.Size(31, 12)
+        Me.Label_Size_X.TabIndex = 11
+        Me.Label_Size_X.Text = "Size X"
+        '
         'Button_Team
         '
         Me.Button_Team.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.Button_Team.BackgroundImage = Global.LJTD.My.Resources.Resources.MINIMAP_Button_BLUE_RED_small
         Me.Button_Team.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.Button_Team.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button_Team.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button_Team.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.Button_Team.Image = Global.LJTD.My.Resources.Resources.MINIMAP_Button_BLUE_RED
         Me.Button_Team.Location = New System.Drawing.Point(130, 0)
         Me.Button_Team.Name = "Button_Team"
         Me.Button_Team.Size = New System.Drawing.Size(30, 26)
@@ -66,33 +110,42 @@ Partial Class MiniMap
         'Label_Location_Y
         '
         Me.Label_Location_Y.AutoSize = True
-        Me.Label_Location_Y.Location = New System.Drawing.Point(47, 4)
+        Me.Label_Location_Y.BackColor = System.Drawing.Color.Transparent
+        Me.Label_Location_Y.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label_Location_Y.ForeColor = System.Drawing.Color.Gainsboro
+        Me.Label_Location_Y.Location = New System.Drawing.Point(65, 11)
         Me.Label_Location_Y.Name = "Label_Location_Y"
-        Me.Label_Location_Y.Size = New System.Drawing.Size(14, 13)
+        Me.Label_Location_Y.Size = New System.Drawing.Size(10, 12)
         Me.Label_Location_Y.TabIndex = 1
         Me.Label_Location_Y.Text = "Y"
         '
         'Label_Location_X
         '
         Me.Label_Location_X.AutoSize = True
-        Me.Label_Location_X.Location = New System.Drawing.Point(3, 4)
+        Me.Label_Location_X.BackColor = System.Drawing.Color.Transparent
+        Me.Label_Location_X.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label_Location_X.ForeColor = System.Drawing.Color.Gainsboro
+        Me.Label_Location_X.Location = New System.Drawing.Point(26, 11)
         Me.Label_Location_X.Name = "Label_Location_X"
-        Me.Label_Location_X.Size = New System.Drawing.Size(14, 13)
+        Me.Label_Location_X.Size = New System.Drawing.Size(11, 12)
         Me.Label_Location_X.TabIndex = 0
         Me.Label_Location_X.Text = "X"
         '
         'Panel_Right
         '
-        Me.Panel_Right.BackColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.Panel_Right.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Panel_Right.BackColor = System.Drawing.Color.Silver
+        Me.Panel_Right.BackgroundImage = Global.LJTD.My.Resources.Resources.LJTD_Panel_Vertical
         Me.Panel_Right.Location = New System.Drawing.Point(280, 0)
         Me.Panel_Right.Name = "Panel_Right"
         Me.Panel_Right.Size = New System.Drawing.Size(20, 300)
         Me.Panel_Right.TabIndex = 0
         '
-        'Timer_Top_Most
+        'Timer_TopMost
         '
-        Me.Timer_Top_Most.Enabled = True
-        Me.Timer_Top_Most.Interval = 2000
+        Me.Timer_TopMost.Enabled = True
+        Me.Timer_TopMost.Interval = 2000
         '
         'Button_Hide
         '
@@ -104,42 +157,45 @@ Partial Class MiniMap
         Me.Button_Hide.TabIndex = 0
         Me.Button_Hide.UseVisualStyleBackColor = False
         '
-        'Panel_Ward_Map
+        'Panel_WardMap
         '
-        Me.Panel_Ward_Map.BackColor = System.Drawing.Color.Black
-        Me.Panel_Ward_Map.BackgroundImage = Global.LJTD.My.Resources.Resources.MiniMap_WardMap
-        Me.Panel_Ward_Map.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.Panel_Ward_Map.Location = New System.Drawing.Point(0, 25)
-        Me.Panel_Ward_Map.Name = "Panel_Ward_Map"
-        Me.Panel_Ward_Map.Size = New System.Drawing.Size(280, 278)
-        Me.Panel_Ward_Map.TabIndex = 1
-        Me.Panel_Ward_Map.Visible = False
+        Me.Panel_WardMap.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Panel_WardMap.BackColor = System.Drawing.Color.Black
+        Me.Panel_WardMap.BackgroundImage = Global.LJTD.My.Resources.Resources.MINIMAP_WardMap_SR
+        Me.Panel_WardMap.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.Panel_WardMap.Location = New System.Drawing.Point(0, 25)
+        Me.Panel_WardMap.Name = "Panel_WardMap"
+        Me.Panel_WardMap.Size = New System.Drawing.Size(280, 278)
+        Me.Panel_WardMap.TabIndex = 1
+        Me.Panel_WardMap.Visible = False
         '
-        'Timer_Ward_Map_Cleaner
+        'Timer_WardMapCleaner
         '
-        Me.Timer_Ward_Map_Cleaner.Enabled = True
-        Me.Timer_Ward_Map_Cleaner.Interval = 1000
+        Me.Timer_WardMapCleaner.Enabled = True
+        Me.Timer_WardMapCleaner.Interval = 1000
         '
-        'Timer_Ward_Removing
+        'Timer_WardRemoving
         '
-        Me.Timer_Ward_Removing.Enabled = True
-        Me.Timer_Ward_Removing.Interval = 1000
+        Me.Timer_WardRemoving.Enabled = True
+        Me.Timer_WardRemoving.Interval = 1000
         '
-        'Timer_Update_Remaining_Ward_Time
+        'Timer_UpdateRemainingWardTime
         '
-        Me.Timer_Update_Remaining_Ward_Time.Enabled = True
-        Me.Timer_Update_Remaining_Ward_Time.Interval = 1000
+        Me.Timer_UpdateRemainingWardTime.Enabled = True
+        Me.Timer_UpdateRemainingWardTime.Interval = 1000
         '
         'MiniMap
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.ClientSize = New System.Drawing.Size(600, 600)
-        Me.Controls.Add(Me.Panel_Ward_Map)
+        Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(244, Byte), Integer), CType(CType(244, Byte), Integer), CType(CType(244, Byte), Integer))
+        Me.ClientSize = New System.Drawing.Size(300, 300)
         Me.Controls.Add(Me.Button_Hide)
         Me.Controls.Add(Me.Panel_Right)
         Me.Controls.Add(Me.Panel_Top)
+        Me.Controls.Add(Me.Panel_WardMap)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.ImeMode = System.Windows.Forms.ImeMode.Katakana
@@ -148,7 +204,7 @@ Partial Class MiniMap
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "MiniMap"
         Me.TopMost = True
-        Me.TransparencyKey = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.TransparencyKey = System.Drawing.Color.FromArgb(CType(CType(244, Byte), Integer), CType(CType(244, Byte), Integer), CType(CType(244, Byte), Integer))
         Me.Panel_Top.ResumeLayout(False)
         Me.Panel_Top.PerformLayout()
         Me.ResumeLayout(False)
@@ -156,13 +212,16 @@ Partial Class MiniMap
     End Sub
     Friend WithEvents Panel_Top As System.Windows.Forms.Panel
     Friend WithEvents Panel_Right As System.Windows.Forms.Panel
-    Friend WithEvents Timer_Top_Most As System.Windows.Forms.Timer
+    Friend WithEvents Timer_TopMost As System.Windows.Forms.Timer
     Friend WithEvents Button_Hide As System.Windows.Forms.Button
     Friend WithEvents Label_Location_X As System.Windows.Forms.Label
     Friend WithEvents Label_Location_Y As System.Windows.Forms.Label
     Friend WithEvents Button_Team As System.Windows.Forms.Button
-    Friend WithEvents Panel_Ward_Map As System.Windows.Forms.Panel
-    Friend WithEvents Timer_Ward_Map_Cleaner As System.Windows.Forms.Timer
-    Friend WithEvents Timer_Ward_Removing As System.Windows.Forms.Timer
-    Friend WithEvents Timer_Update_Remaining_Ward_Time As System.Windows.Forms.Timer
+    Friend WithEvents Panel_WardMap As System.Windows.Forms.Panel
+    Friend WithEvents Timer_WardMapCleaner As System.Windows.Forms.Timer
+    Friend WithEvents Timer_WardRemoving As System.Windows.Forms.Timer
+    Friend WithEvents Timer_UpdateRemainingWardTime As System.Windows.Forms.Timer
+    Friend WithEvents Button_Resize As System.Windows.Forms.Button
+    Friend WithEvents Label_Size_Y As System.Windows.Forms.Label
+    Friend WithEvents Label_Size_X As System.Windows.Forms.Label
 End Class

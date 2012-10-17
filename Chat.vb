@@ -2,9 +2,8 @@
 Module Chat
     Public Declare Function SetForegroundWindow Lib "user32.dll" (ByVal hwnd As IntPtr) As Int32
     Private _Resource As Resources = Resources.GetObject()
+    Dim THandle As Long = Taskbar.FindWindow(vbNullString, "League of Legends (TM) Client")
     Public Sub write(text As String)
-        Dim THandle As Long
-        THandle = Taskbar.FindWindow(vbNullString, "League of Legends (TM) Client")
         If THandle <> 0 Then
             Try
                 SetForegroundWindow(THandle)
@@ -22,8 +21,6 @@ Module Chat
         End If
     End Sub
     Public Sub setForgroundWindow()
-        Dim THandle As Long
-        THandle = Taskbar.FindWindow(vbNullString, "League of Legends (TM) Client")
         SetForegroundWindow(THandle)
     End Sub
 End Module

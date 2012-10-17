@@ -10,9 +10,9 @@ Public Class WardMap
     Private _Timer4Buff As New System.Timers.Timer()
     Private _Timing As New Timing
     Private myPicture As New PictureBox
-    Private _img_ward As Image = My.Resources.Ward_orig_small
-    Private _img_ward_30 As Image = My.Resources.Ward_30sec_small
-    Private _img_ward_10 As Image = My.Resources.Ward_10sec_small
+    Private _img_ward As Image = My.Resources.MINIMAP_Ward_180sec
+    Private _img_ward_30 As Image = My.Resources.MINIMAP_Ward_30sec
+    Private _img_ward_10 As Image = My.Resources.MINIMAP_Ward_10sec
     Public finished As Boolean
 
     Public Sub New(ByVal x As Integer, ByVal y As Integer)
@@ -20,7 +20,7 @@ Public Class WardMap
         AddHandler _Timer4Buff.Elapsed, AddressOf TimerBuff
         _Timer4Buff.Interval = 1000
         _Timer4Buff.Enabled = True
-        _OverallDuration = 40
+        _OverallDuration = 180
         _RemainingTime = _OverallDuration
         _x = x
         _y = y

@@ -1,4 +1,4 @@
-Copyright (c) 2009-2012 KWOXER UN!TED
+Copyright (c) 2009-2011 KWOXER UN!TED
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the Attribution-NonCommercial-ShareAlike 2.0 
@@ -7,6 +7,6 @@ Generic (CC BY-NC-SA 2.0) License.
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-CC License for more details.
+CC License below for more details.
 
 See <https://creativecommons.org/licenses/by-nc-sa/2.0/> for more information.
