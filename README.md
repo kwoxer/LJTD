@@ -9,11 +9,11 @@ For more information about how to use this tool you should have a look on the de
 
 Jungle Timer
 ------------
-Such timers are helping optimize timing your buffs and respawning times. LJTD also giving the possibility to time infite wards!
+Such timers are helping optimize timing your buffs and respawning times. LJTD also giving the possibility to time infinite wards!
 
 The brand new feature TeamSync is helping your whole team. Try it out, it's kicking asses ;)
 
-Beyond that the LJTD has many other features. We hope you will have as much fun as we with this tool and would appreciate to see you on our forum: http://www.ljtd.net/forum/
+Beyond that the LJTD has many other features. [here](http://www.ljtd.net/features/) We hope you will have as much fun as we with this tool and would appreciate to see you on our forum: http://www.ljtd.net/forum/
 
 Donate or become a fan!
 -----------------------
