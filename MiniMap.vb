@@ -1,40 +1,34 @@
 ﻿Imports System.Timers
 Public Class MiniMap
-    Public team_BlueRed As Boolean = True
-    Public showForm As Boolean = False
-    Private _PicBox(6) As PictureBox
-    Private _ShowTimeFinished(6) As Boolean
-    Private _Timer(6) As System.Timers.Timer
-    Private _Timer_Counter(6) As Integer
-    Private _Resource As Resources = Resources.GetObject()
-    Private _HidePanel As Boolean = False
-    Private _Display_Width, _Display_Height, _Actual_Width, _Actual_Height As Integer
-    Private _List_WardMap As New List(Of WardMap)
-    Private _Image_Blink, _Image_BlinkHint As Image
-    Private _Tooltip As New ToolTip()
-
-    Private Declare Function SendMessage Lib "user32.dll" Alias "SendMessageA" (ByVal hwnd As IntPtr, ByVal wMsg As Int32, ByVal wParam As Int32, ByVal lParam As IntPtr) As Int32
-    Private Declare Function ReleaseCapture Lib "user32.dll" () As Int32
+    Public TeamBlueRed As Boolean = True
+    Public ShowForm As Boolean = False
+    Private picBox(6) As PictureBox
+    Private showTimeFinished(6) As Boolean
+    Private timer(6) As System.Timers.Timer
+    Private timerCounter(6) As Integer
+    Private resource As Resources = Resources.GetObject
+    Private hidePanel As Boolean = False
+    Private displayWidth, displayHeight, actualWidth, actualHeight As Integer
+    Private listWardMap As New List(Of Ward)
+    Private imageBlink, imageBlinkHint As Image
+    Private tooltip As New ToolTip()
     Private Const HTBOTTOMLEFT As Int32 = 13
     Private Const WM_NCLBUTTONDOWN As Int32 = &HA1
-
-    Private Sub Button_Resize_MouseDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Button_Resize.MouseDown
-        ReleaseCapture()
-        SendMessage(Me.Handle, WM_NCLBUTTONDOWN, HTBOTTOMLEFT, IntPtr.Zero)
-        update_SizeLocationValues()
-    End Sub
+    Public Function GetWardMapSize() As Size
+        Return Panel_WardMap.Size
+    End Function
 
     Private Sub MiniMap_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Try
-            _Image_Blink = Image.FromFile(_Resource.pic_Misc_Minimap_Blink(0))
-            _Image_BlinkHint = Image.FromFile(_Resource.pic_Misc_Minimap_Blink(1))
+            imageBlink = Image.FromFile(resource.PropPicMiscMinimapBlink(0))
+            imageBlinkHint = Image.FromFile(resource.PropPicMiscMinimapBlink(1))
         Catch ex As Exception
         End Try
-        _Display_Width = SystemInformation.PrimaryMonitorSize.Width
-        _Display_Height = SystemInformation.PrimaryMonitorSize.Height
-        _Actual_Width = _Display_Width - CInt(Width / 11.5) - CInt(Me.Size.Width / 2)
-        _Actual_Height = _Display_Height - CInt(Width / 10.5) - CInt(Me.Size.Height / 2)
-        refreshMiniMap()
+        displayWidth = SystemInformation.PrimaryMonitorSize.Width
+        displayHeight = SystemInformation.PrimaryMonitorSize.Height
+        actualWidth = displayWidth - CInt(Width / 11.5) - CInt(Me.Size.Width / 2)
+        actualHeight = displayHeight - CInt(Width / 10.5) - CInt(Me.Size.Height / 2)
+        RefreshMiniMap()
     End Sub
     Protected Overrides ReadOnly Property CreateParams() As CreateParams
         Get
@@ -44,102 +38,86 @@ Public Class MiniMap
         End Get
     End Property
 
-    Public Sub refreshMiniMap()
-        If _Resource.minimap_int(1) = 0 Then
-            _Resource.minimap_int(1) = _Actual_Width
+#Region "Advanced MiniMap"
+    Public Sub RefreshMiniMap()
+        If resource.PropMinimapInt(1) = 0 Then
+            resource.PropMinimapInt(1) = actualWidth
         End If
-        If _Resource.minimap_int(2) = 0 Then
-            _Resource.minimap_int(2) = _Actual_Height
+        If resource.PropMinimapInt(2) = 0 Then
+            resource.PropMinimapInt(2) = actualHeight
         End If
-        Me.Size = New Size(_Resource.minimap_int(0), _Resource.minimap_int(6))
-        Me.Location = New Point(_Resource.minimap_int(1), _Resource.minimap_int(2))
-        Panel_Top.Size = New Size(_Resource.minimap_int(0), 25)
-        Panel_Right.Location = New Point(_Resource.minimap_int(0) - 20)
-        Panel_Right.Size = New Size(25, _Resource.minimap_int(6))
-        Panel_WardMap.Size = New Size(_Resource.minimap_int(0) - 20, _Resource.minimap_int(6) - 22)
-        For i = 0 To _PicBox.Length - 1
-            _PicBox(i) = New PictureBox()
-            _PicBox(i).Size = New Size(20, 20)
-            _PicBox(i).SizeMode = ImageLayout.Tile
-            _PicBox(i).Image = _Image_Blink
+        Me.Size = New Size(resource.PropMinimapInt(0), resource.PropMinimapInt(6))
+        Me.Location = New Point(resource.PropMinimapInt(1), resource.PropMinimapInt(2))
+        Panel_Top.Size = New Size(resource.PropMinimapInt(0) + 20, 25)
+        Panel_Right.Location = New Point(resource.PropMinimapInt(0) - 20)
+        Panel_Right.Size = New Size(20, resource.PropMinimapInt(6))
+        Panel_WardMap.Size = New Size(resource.PropMinimapInt(0) - 20, resource.PropMinimapInt(6) - 22)
+        For i = 0 To picBox.Length - 1
+            picBox(i) = New PictureBox()
+            picBox(i).Size = New Size(20, 20)
+            picBox(i).SizeMode = ImageLayout.Tile
+            picBox(i).Image = imageBlink
         Next
-        For i = 0 To _Timer.Length - 1
-            _Timer(i) = New System.Timers.Timer
-            _Timer(i).Interval = 1000
-            _Timer_Counter(i) = 0
+        For i = 0 To timer.Length - 1
+            timer(i) = New System.Timers.Timer
+            timer(i).Interval = 1000
+            timerCounter(i) = 0
         Next
-        AddHandler _Timer(0).Elapsed, AddressOf TimerBuff_Baron
-        AddHandler _Timer(1).Elapsed, AddressOf TimerBuff_Dragon
-        AddHandler _Timer(2).Elapsed, AddressOf TimerBuff_OB
-        AddHandler _Timer(3).Elapsed, AddressOf TimerBuff_OR
-        AddHandler _Timer(4).Elapsed, AddressOf TimerBuff_TB
-        AddHandler _Timer(5).Elapsed, AddressOf TimerBuff_TR
-        update_SizeLocationValues()
-        If _Resource.minimap_bool(4) = False Then
+        AddHandler timer(0).Elapsed, AddressOf TimerBuffBaron
+        AddHandler timer(1).Elapsed, AddressOf TimerBuffDragon
+        AddHandler timer(2).Elapsed, AddressOf TimerBuffOB
+        AddHandler timer(3).Elapsed, AddressOf TimerBuffOR
+        AddHandler timer(4).Elapsed, AddressOf TimerBuffTB
+        AddHandler timer(5).Elapsed, AddressOf TimerBuffTR
+        UpdateSizeLocationValues()
+        If resource.PropMinimapBool(4) = False Then
             Button_Hide.PerformClick()
         End If
     End Sub
-    Private Sub switchBlinkImage(buff As Integer, blinkHint As Boolean)
-        _PicBox(buff) = New PictureBox()
-        _PicBox(buff).Size = New Size(20, 20)
-        _PicBox(buff).SizeMode = ImageLayout.Tile
+    Private Sub SwitchBlinkImage(buff As Integer, blinkHint As Boolean)
         If blinkHint Then
-            _PicBox(buff).Image = _Image_Blink
+            picBox(buff).Image = imageBlink
         Else
-            _PicBox(buff).Image = _Image_BlinkHint
+            picBox(buff).Image = imageBlinkHint
         End If
     End Sub
-    Public Sub createPing(i As Integer, blinkHint As Boolean)
-        If team_BlueRed = False Then
+    Public Sub CreatePing(i As Integer, blinkHint As Boolean)
+        If TeamBlueRed = False Then
             Select Case i
-                Case 2
-                    i = 4
-                Case 3
-                    i = 5
-                Case 4
-                    i = 2
-                Case 5
-                    i = 3
+                Case 2 : i = 4
+                Case 3 : i = 5
+                Case 4 : i = 2
+                Case 5 : i = 3
             End Select
         End If
-        switchBlinkImage(i, blinkHint)
+        SwitchBlinkImage(i, blinkHint)
         Select Case i
             Case 0
-                If _Resource.config_int(17) = 0 Then
-                    _PicBox(i).Location = New Point(CInt(Me.Size.Width / 3.3), CInt(Me.Size.Height / 3.2))
+                If resource.PropConfigInt(17) = 0 Then
+                    CreatePing(i, 0.3568, 0.3019)
                 Else
-                    _PicBox(i).Location = New Point(CInt(Me.Size.Width / 2.2), CInt(Me.Size.Height / 2.45))
+                    CreatePing(i, 0.5, 0.3546)
                 End If
-            Case 1
-                If _Resource.config_int(17) = 0 Then
-                    _PicBox(i).Location = New Point(CInt(Me.Size.Width / 1.6), CInt(Me.Size.Height / 1.45))
-                Else
-                    _PicBox(i).Location = New Point(CInt(Me.Size.Width / 2.2), CInt(Me.Size.Height / 1.7))
-                End If
-            Case 2
-                _PicBox(i).Location = New Point(CInt(Me.Size.Width / 4.45), CInt(Me.Size.Height / 2.15))
-            Case 3
-                _PicBox(i).Location = New Point(CInt(Me.Size.Width / 2.05), CInt(Me.Size.Height / 1.4))
-            Case 4
-                _PicBox(i).Location = New Point(CInt(Me.Size.Width / 1.47), CInt(Me.Size.Height / 1.93))
-            Case 5
-                _PicBox(i).Location = New Point(CInt(Me.Size.Width / 2.35), CInt(Me.Size.Height / 3.6))
+            Case 1 : If resource.PropConfigInt(17) = 0 Then CreatePing(i, 0.6902, 0.7098)
+            Case 2 : CreatePing(i, 0.2824, 0.4745)
+            Case 3 : CreatePing(i, 0.549, 0.7294)
+            Case 4 : CreatePing(i, 0.7529, 0.5254)
+            Case 5 : CreatePing(i, 0.4823, 0.2667)
         End Select
-        _Timer_Counter(i) = 0
-        _Timer(i).Start()
-        Me.Controls.Add(_PicBox(i))
+        timerCounter(i) = 0
+        timer(i).Start()
+        Me.Controls.Add(picBox(i))
     End Sub
-   
-    Private Sub Panel_MouseDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Panel_Top.MouseDown, Panel_Right.MouseDown, _
+    Private Sub CreatePing(i As Integer, scaleX As Double, scaleY As Double)
+        picBox(i).Location = New Point(CInt((Me.Size.Width - 20) * scaleX) - 10, CInt((Me.Size.Height - 25) * scaleY) + 15)
+    End Sub
+    Private Sub Panels_MouseDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Panel_Top.MouseDown, Panel_Right.MouseDown, _
         Label_Location_X.MouseDown, Label_Location_Y.MouseDown, Label_Size_X.MouseDown, Label_Size_Y.MouseDown
-        If (e.Button = Windows.Forms.MouseButtons.Left) Then
-            ReleaseCapture()
-            MoveWindow.SendMessage(Handle.ToInt32, WM_NCLBUTTONDOWN, HT_CAPTION, 0)
-        End If
-        update_SizeLocationValues()
+        Module_MoveWindow.InitializeMoveEvent(e, Handle)
+        UpdateSizeLocationValues()
     End Sub
-    Private Sub Panel_Top_SizeChanged(sender As Object, e As System.EventArgs) Handles Panel_Top.SizeChanged, Panel_Right.SizeChanged
-        update_SizeLocationValues()
+    Private Sub Panel_Top_SizeChanged(sender As Object, e As System.EventArgs) Handles Panel_Top.SizeChanged, Panel_Right.SizeChanged, Panel_Top.MouseMove, Panel_Right.MouseMove
+        UpdateSizeLocationValues()
         Configuration.MiniMap_GroupBox_Style_NumericUpDown_Size_X.Text = CStr(Panel_Top.Width)
         Configuration.MiniMap_GroupBox_Style_NumericUpDown_Size_Y.Text = CStr(Panel_Right.Height)
         Configuration.MiniMap_GroupBox_Style_NumericUpDown_Location_X.Text = CStr(Me.Location.X)
@@ -148,130 +126,140 @@ Public Class MiniMap
     Private Sub Timer_TopMost_Tick(sender As System.Object, e As System.EventArgs) Handles Timer_TopMost.Tick
         Me.TopMost = True
     End Sub
-    Private Sub update_SizeLocationValues()
+    Private Sub UpdateSizeLocationValues()
         Label_Size_X.Text = CStr(Panel_Top.Width)
         Label_Size_Y.Text = CStr(Panel_Right.Height)
         Label_Location_X.Text = "X=" & Me.Location.X
         Label_Location_Y.Text = "Y=" & Me.Location.Y
     End Sub
-
+#End Region
 #Region "TimerBuff"
-    Private Sub TimerBuff_Baron(source As Object, e As ElapsedEventArgs)
-        _Timer_Counter(0) += 1
-        If _Timer_Counter(0) >= _Resource.minimap_int(5) Then
-            _Timer(0).Stop()
-            _ShowTimeFinished(0) = True
-        End If
+    Private Sub TimerBuffBaron(source As Object, e As ElapsedEventArgs)
+        TimerBuff(0)
     End Sub
-    Private Sub TimerBuff_Dragon(source As Object, e As ElapsedEventArgs)
-        _Timer_Counter(1) += 1
-        If _Timer_Counter(1) >= _Resource.minimap_int(5) Then
-            _Timer(1).Stop()
-            _ShowTimeFinished(1) = True
-        End If
+    Private Sub TimerBuffDragon(source As Object, e As ElapsedEventArgs)
+        TimerBuff(1)
     End Sub
-    Private Sub TimerBuff_OB(source As Object, e As ElapsedEventArgs)
-        _Timer_Counter(2) += 1
-        If _Timer_Counter(2) >= _Resource.minimap_int(5) Then
-            _Timer(2).Stop()
-            _ShowTimeFinished(2) = True
-        End If
+    Private Sub TimerBuffOB(source As Object, e As ElapsedEventArgs)
+        TimerBuff(2)
     End Sub
-    Private Sub TimerBuff_OR(source As Object, e As ElapsedEventArgs)
-        _Timer_Counter(3) += 1
-        If _Timer_Counter(3) >= _Resource.minimap_int(5) Then
-            _Timer(3).Stop()
-            _ShowTimeFinished(3) = True
-        End If
+    Private Sub TimerBuffOR(source As Object, e As ElapsedEventArgs)
+        TimerBuff(3)
     End Sub
-    Private Sub TimerBuff_TB(source As Object, e As ElapsedEventArgs)
-        _Timer_Counter(4) += 1
-        If _Timer_Counter(4) >= _Resource.minimap_int(5) Then
-            _Timer(4).Stop()
-            _ShowTimeFinished(4) = True
-        End If
+    Private Sub TimerBuffTB(source As Object, e As ElapsedEventArgs)
+        TimerBuff(4)
     End Sub
-    Private Sub TimerBuff_TR(source As Object, e As ElapsedEventArgs)
-        _Timer_Counter(5) += 1
-        If _Timer_Counter(5) >= _Resource.minimap_int(5) Then
-            _Timer(5).Stop()
-            _ShowTimeFinished(5) = True
+    Private Sub TimerBuffTR(source As Object, e As ElapsedEventArgs)
+        TimerBuff(5)
+    End Sub
+    Private Sub TimerBuff(i As Integer)
+        timerCounter(i) += 1
+        If timerCounter(i) >= resource.PropMinimapInt(5) Then
+            timer(i).Stop()
+            showTimeFinished(i) = True
         End If
     End Sub
 #End Region
 #Region "Buttons"
     Private Sub Button_Hide_Click(sender As System.Object, e As System.EventArgs) Handles Button_Hide.Click
-        If _HidePanel Then
+        If hidePanel Then
             Panel_Right.Visible = True
             Panel_Top.Visible = True
-            _HidePanel = False
-            showForm = True
+            hidePanel = False
+            ShowForm = True
         Else
             Panel_Right.Visible = False
             Panel_Top.Visible = False
-            _HidePanel = True
-            showForm = False
+            hidePanel = True
+            ShowForm = False
         End If
     End Sub
     Private Sub Button_Team_Click(sender As System.Object, e As System.EventArgs) Handles Button_Team.Click
-        If team_BlueRed Then
-            team_BlueRed = False
+        If TeamBlueRed Then
+            TeamBlueRed = False
             Button_Team.Image = My.Resources.MINIMAP_Button_RED_BLUE
         Else
-            team_BlueRed = True
+            TeamBlueRed = True
             Button_Team.Image = My.Resources.MINIMAP_Button_BLUE_RED
         End If
     End Sub
     Private Sub Button_Team_MouseEnter(sender As Object, e As System.EventArgs) Handles Button_Team.MouseEnter
-        If team_BlueRed Then
+        If TeamBlueRed Then
             Button_Team.Image = My.Resources.MINIMAP_Button_BLUE_RED
         Else
             Button_Team.Image = My.Resources.MINIMAP_Button_RED_BLUE
         End If
     End Sub
     Private Sub Button_Team_MouseLeave(sender As Object, e As System.EventArgs) Handles Button_Team.MouseLeave
-        If team_BlueRed Then
+        If TeamBlueRed Then
             Button_Team.Image = My.Resources.MINIMAP_Button_BLUE_RED
         Else
             Button_Team.Image = My.Resources.MINIMAP_Button_RED_BLUE
         End If
     End Sub
+    Private Sub Button_Resize_MouseDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Button_Resize.MouseDown
+        ReleaseCapture()
+        SendMessage(CInt(Me.Handle), WM_NCLBUTTONDOWN, HTBOTTOMLEFT, CInt(IntPtr.Zero))
+        UpdateSizeLocationValues()
+    End Sub
 #End Region
 #Region "WardMap"
     Private Sub Timer_WardRemoving_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_WardRemoving.Tick
         For i = 0 To 5
-            If _ShowTimeFinished(i) Then
-                _ShowTimeFinished(i) = False
-                Me.Controls.Remove(_PicBox(i))
+            If showTimeFinished(i) Then
+                showTimeFinished(i) = False
+                Me.Controls.Remove(picBox(i))
             End If
         Next
     End Sub
-    Public Sub show_WM(ByVal show_WardMap As Boolean)
-        If show_WardMap And _Resource.wardmap_bool(0, 1) Then
+    Public Sub ShowWardMap(ByVal showWardMap As Boolean)
+        If showWardMap And resource.PropWardmapBool(0, 1) Then
             Panel_WardMap.Visible = True
         Else
             Panel_WardMap.Visible = False
-            Chat.setForgroundWindow()
+            'Module_Write2Chat.SetForgroundWindow()
         End If
     End Sub
-    Private Sub Panel_WardMap_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Panel_WardMap.MouseDown
-        Dim newWard As New WardMap(e.X, e.Y)
-        Me.Controls.Add(newWard.createPicture)
-        _List_WardMap.Add(newWard)
+    Public Function GetWardList() As List(Of Ward)
+        Return listWardMap
+    End Function
+    Public Sub CreateTeamSyncWards(wardList As List(Of Coordinate))
+        For Each i In wardList
+            Dim newWard As New Ward(i.Coord(0), i.Coord(1))
+            listWardMap.Add(newWard)
+            Me.Controls.Add(newWard.CreatePicture)
+        Next
+    End Sub
+    Public Sub DeleteTeamSyncWards(wardList As List(Of Coordinate))
+        For Each i In wardList
+            Dim deleteWard = listWardMap.Find(Function(x) x.ScaleX = i.Coord(0) And x.ScaleY = i.Coord(1))
+            listWardMap.Remove(deleteWard)
+            Me.Controls.Remove(deleteWard.DestroyPicture)
+        Next
+    End Sub
+    Private Sub CreateClickWards(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Panel_WardMap.MouseDown
+        Dim newWard As New Ward(e.X, e.Y)
+        Me.Controls.Add(newWard.CreatePicture)
+        listWardMap.Add(newWard)
+    End Sub
+    Public Sub DeleteClickWards(scaleX As Double, scaleY As Double)
+       ' Dim newWard As New Ward(scaleX, scaleY)
+        'Dim deleteWard = listWardMap.Find(Function(x) x.ScaleX = scaleX And x.ScaleY = scaleY)
+        'Me.Controls.Remove(newWard.DestroyPicture)
+        'listWardMap.Remove(deleteWard)
     End Sub
     Private Sub Timer_WardMapCleaner_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_WardMapCleaner.Tick
-        For Each ward In _List_WardMap
-            If ward.finished Then
-                Me.Controls.Remove(ward.destroyPicture)
+        For Each wardSample In listWardMap
+            If wardSample.Finished Then
+                Ward.updateFinishedTeamSyncWards(wardSample.ScaleX, wardSample.ScaleY)
+                Me.Controls.Remove(wardSample.DestroyPicture)
             End If
         Next
     End Sub
     Private Sub Timer_UpdateRemainingWardTime_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_UpdateRemainingWardTime.Tick
-        For Each ward In _List_WardMap
-            _Tooltip.SetToolTip(ward.getPicture, CStr(ward.getRemainingTime))
+        For Each ward In listWardMap
+            tooltip.SetToolTip(ward.GetPicture, CStr(ward.GetRemainingTime))
         Next
     End Sub
 #End Region
-
-   
 End Class

@@ -11,12 +11,9 @@
         End Get
     End Property
     Private Sub Panel_MouseDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseDown
-        If (e.Button = Windows.Forms.MouseButtons.Left) Then
-            ReleaseCapture()
-            MoveWindow.SendMessage(Handle.ToInt32, WM_NCLBUTTONDOWN, HT_CAPTION, 0)
-        End If
+        Module_MoveWindow.InitializeMoveEvent(e, Handle)
     End Sub
-    Public Sub showSign()
+    Public Sub ShowSign()
         Me.Location = New Point(LJTD.Location.X + LJTD.Size.Width, LJTD.Location.Y)
         opacityValue = 100
         Timer_Opacity.Start()
