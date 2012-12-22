@@ -13,7 +13,7 @@ Such timers are helping optimize timing your buffs and respawning times. LJTD al
 
 The brand new feature TeamSync is helping your whole team. Try it out, it's kicking asses ;)
 
-Beyond that the LJTD has many other features. [here](http://www.ljtd.net/features/) We hope you will have as much fun as we with this tool and would appreciate to see you on our forum: http://www.ljtd.net/forum/
+Beyond that the LJTD has many other [**features**](http://www.ljtd.net/features/). We hope you will have as much fun as we with this tool and would appreciate to see you on our forum: http://www.ljtd.net/forum/
 
 Donate or become a fan!
 -----------------------
