@@ -48,7 +48,7 @@ Public Class MiniMap
         End If
         Me.Size = New Size(resource.PropMinimapInt(0), resource.PropMinimapInt(6))
         Me.Location = New Point(resource.PropMinimapInt(1), resource.PropMinimapInt(2))
-        Panel_Top.Size = New Size(resource.PropMinimapInt(0) + 20, 25)
+        Panel_Top.Size = New Size(resource.PropMinimapInt(0), 25)
         Panel_Right.Location = New Point(resource.PropMinimapInt(0) - 20)
         Panel_Right.Size = New Size(20, resource.PropMinimapInt(6))
         Panel_WardMap.Size = New Size(resource.PropMinimapInt(0) - 20, resource.PropMinimapInt(6) - 22)
@@ -122,6 +122,7 @@ Public Class MiniMap
         Configuration.MiniMap_GroupBox_Style_NumericUpDown_Size_Y.Text = CStr(Panel_Right.Height)
         Configuration.MiniMap_GroupBox_Style_NumericUpDown_Location_X.Text = CStr(Me.Location.X)
         Configuration.MiniMap_GroupBox_Style_NumericUpDown_Location_Y.Text = CStr(Me.Location.Y)
+        SetForeground()
     End Sub
     Private Sub Timer_TopMost_Tick(sender As System.Object, e As System.EventArgs) Handles Timer_TopMost.Tick
         Me.TopMost = True
@@ -161,7 +162,7 @@ Public Class MiniMap
     End Sub
 #End Region
 #Region "Buttons"
-    Private Sub Button_Hide_Click(sender As System.Object, e As System.EventArgs) Handles Button_Hide.Click
+    Private Sub Button_Hide_Click(sender As System.Object, e As System.EventArgs) Handles Button_Hide.MouseDown
         If hidePanel Then
             Panel_Right.Visible = True
             Panel_Top.Visible = True
@@ -173,8 +174,9 @@ Public Class MiniMap
             hidePanel = True
             ShowForm = False
         End If
+        SetForeground()
     End Sub
-    Private Sub Button_Team_Click(sender As System.Object, e As System.EventArgs) Handles Button_Team.Click
+    Private Sub Button_Team_Click(sender As System.Object, e As System.EventArgs) Handles Button_Team.MouseDown
         If TeamBlueRed Then
             TeamBlueRed = False
             Button_Team.Image = My.Resources.MINIMAP_Button_RED_BLUE
@@ -182,6 +184,7 @@ Public Class MiniMap
             TeamBlueRed = True
             Button_Team.Image = My.Resources.MINIMAP_Button_BLUE_RED
         End If
+        SetForeground()
     End Sub
     Private Sub Button_Team_MouseEnter(sender As Object, e As System.EventArgs) Handles Button_Team.MouseEnter
         If TeamBlueRed Then
@@ -201,6 +204,7 @@ Public Class MiniMap
         ReleaseCapture()
         SendMessage(CInt(Me.Handle), WM_NCLBUTTONDOWN, HTBOTTOMLEFT, CInt(IntPtr.Zero))
         UpdateSizeLocationValues()
+        SetForeground()
     End Sub
 #End Region
 #Region "WardMap"
@@ -262,4 +266,10 @@ Public Class MiniMap
         Next
     End Sub
 #End Region
+
+    Private Sub SetForeground()
+        If LJTD.initalTimerRunning Then
+            Module_Write2Chat.SetForgroundWindow()
+        End If
+    End Sub
 End Class

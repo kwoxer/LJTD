@@ -23,7 +23,7 @@ Public Class LJTD
     Private write2Chat As String() = {"W2C enabled", "W2C disabled"}, logFile As String
     Private overlay As Button
     Private stopButton As Image
-    Private initalTimerRunning As Boolean = False
+    Public initalTimerRunning As Boolean = False
     Private buffRunningPreventLags(6) As Boolean
     Private showBalloonTipDuration As Integer = 5000
     Private initialTimerPresetValue As String = "0:"
@@ -100,19 +100,24 @@ Public Class LJTD
         CheckResourceBuffLabels()
         InitializeFileStreamWatcher()
     End Sub
-    Private Sub Panel_MouseClick(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles Panel.MouseClick
+    Private Sub MouseClicks(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles Panel.MouseClick, Label_OurBlue.MouseClick, Label_OurBlue.DoubleClick, _
+        Label_OurBlueEndtime.MouseClick, Label_OurBlueEndtime.DoubleClick, Label_OurRed.MouseClick, Label_OurRed.DoubleClick, Label_OurRedEndtime.MouseClick, _
+        Label_OurRedEndtime.DoubleClick, Label_Dragon.MouseClick, Label_Dragon.DoubleClick, Label_DragonEndtime.MouseClick, Label_DragonEndtime.DoubleClick, _
+        Label_Baron.MouseClick, Label_Baron.DoubleClick, Label_BaronEndtime.MouseClick, Label_BaronEndtime.DoubleClick, Label_TheirBlue.MouseClick, Label_TheirBlue.DoubleClick, _
+        Label_TheirBlueEndtime.MouseClick, Label_TheirBlueEndtime.DoubleClick, Label_TheirRed.MouseClick, Label_TheirRed.DoubleClick, Label_TheirRedEndtime.MouseClick, _
+        Label_TheirRedEndtime.DoubleClick, Label_Ward.MouseClick, Label_Ward.DoubleClick, Label_InitalTime.MouseClick, Label_InitalTime.DoubleClick, Button_Minimap.MouseClick
         If initalTimerRunning Then
             Module_Write2Chat.SetForgroundWindow()
         End If
     End Sub
-    Private Sub Panel_MouseDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Panel.MouseDown, Label_OurBlue.MouseDown, _
+    Private Sub MouseDowns(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Panel.MouseDown, Label_OurBlue.MouseDown, _
          Label_OurBlueEndtime.MouseDown, Label_OurRed.MouseDown, Label_OurRedEndtime.MouseDown, Label_Dragon.MouseDown, Label_DragonEndtime.MouseDown, Label_InitalTime.MouseDown, _
          Label_Baron.MouseDown, Label_BaronEndtime.MouseDown, Label_TheirBlue.MouseDown, Label_TheirBlueEndtime.MouseDown, Label_TheirRed.MouseDown, Label_TheirRedEndtime.MouseDown, Label_Ward.MouseDown
         If initalTimerRunning = False Then
             Module_MoveWindow.InitializeMoveEvent(e, Handle)
         End If
     End Sub
-    Private Sub LJTD_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button_Baron.MouseEnter, Button_Dragon.MouseEnter, _
+    Private Sub MouseEnters(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button_Baron.MouseEnter, Button_Dragon.MouseEnter, _
         Button_OurBlue.MouseEnter, Button_OurRed.MouseEnter, Button_TheirBlue.MouseEnter, Button_TheirRed.MouseEnter, Button_Close.MouseEnter, _
         Button_Minimap.MouseEnter, Button_SlideInBot.MouseEnter, Button_SlideInTop.MouseEnter, Button_SlideOutBot.MouseEnter, Panel.MouseEnter, _
         Button_SlideOutTop.MouseEnter, Label_OurBlue.MouseEnter, Label_OurBlueEndtime.MouseEnter, Label_OurRed.MouseEnter, Label_OurRedEndtime.MouseEnter, _
@@ -641,9 +646,9 @@ Public Class LJTD
                             Module_Write2Chat.Write(buff(i).GenerateText(timing.BuffEnding(buff(i).GetDurationMin, difference, startingDateTime)))
                         End If
                 End Select
-                Module_Write2Chat.SetForgroundWindow()
             End If
         End If
+        Module_Write2Chat.SetForgroundWindow()
     End Sub
 #End Region
 #Region "Buttons"
@@ -687,7 +692,7 @@ Public Class LJTD
         Me.Close()
     End Sub
     Private Sub LJTD_FormClosing(ByVal sender As System.Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
-        taskbar.show()
+        taskbar.Show()
         NotifyIcon.Dispose()
         Module_IPChecker.AddDatabaseEntry(0)
         Configuration.TeamSyncResetBuffs()

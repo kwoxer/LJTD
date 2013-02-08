@@ -62,10 +62,10 @@ Public Class Buff
         End Get
     End Property
 
-    Public Sub New(ByVal name As String, ByVal duration As Integer, ByVal hotkey As Integer)
+    Public Sub New(ByVal buffName As String, ByVal duration As Integer, ByVal hotkey As Integer)
         AddHandler timer.Elapsed, AddressOf timerBuff
         timer.Interval = 1000
-        name = name
+        name = buffName
         startingTime = Now()
         durationMin = duration
         durationSec = duration * 60

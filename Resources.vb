@@ -183,7 +183,7 @@ Public Class Resources
                                    {"SLIDE", "0"},
                                    {"SHOW_ENDTIME_LABEL", "True"},
                                    {"HIDE_TASKBAR", "False"},
-                                   {"TOP_MOST", "False"},
+                                   {"TOP_MOST", "True"},
                                    {"SOUND", "True"},
                                    {"ENDTIME_LABEL_SIZE", "8,25"},
                                    {"INITIAL_TIMER_DELAY", "15"},
