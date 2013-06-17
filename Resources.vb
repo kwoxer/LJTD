@@ -176,17 +176,17 @@ Public Class Resources
     End Property
     ' ### Configuration
     Private config As String(,) = {{"CONFIG_LOG", "C:\Riot Games\League of Legends\Logs\Game - R3d Logs"},
-                                   {"SEPERATOR_BUFF", " at "},
+                                   {"PLACEKEEPER", "PLACEKEEPER"},
                                    {"HOTKEY_OPENER", "ALT"},
                                    {"SHOW_WARD", "True"},
                                    {"OPEN_IN_TRAY", "False"},
                                    {"SLIDE", "0"},
                                    {"SHOW_ENDTIME_LABEL", "True"},
-                                   {"HIDE_TASKBAR", "False"},
+                                   {"GAME_CLOCK_ENABLED", "True"},
                                    {"TOP_MOST", "True"},
                                    {"SOUND", "True"},
                                    {"ENDTIME_LABEL_SIZE", "8,25"},
-                                   {"INITIAL_TIMER_DELAY", "15"},
+                                   {"GAME_CLOCK_DELAY", "45"},
                                    {"OPACTIY", "70"},
                                    {"LJTD_START_X", "UNSET"},
                                    {"LJTD_START_Y", "UNSET"},
@@ -258,13 +258,13 @@ Public Class Resources
         End Get
     End Property
     ' ### Hotkeys
-    Private hotkey As String(,) = {{"HOTKEY_BARON", "67"},
-                                    {"HOTKEY_DRAGON", "88"},
-                                    {"HOTKEY_OUR_BLUE", "65"},
-                                    {"HOTKEY_OUR_RED", "83"},
-                                    {"HOTKEY_THEIR_BLUE", "68"},
-                                    {"HOTKEY_THEIR_RED", "70"},
-                                    {"HOTKEY_WARD", "87"}}
+    Private hotkey As String(,) = {{"HOTKEY_BARON", "49"},
+                                    {"HOTKEY_DRAGON", "50"},
+                                    {"HOTKEY_OUR_BLUE", "51"},
+                                    {"HOTKEY_OUR_RED", "52"},
+                                    {"HOTKEY_THEIR_BLUE", "53"},
+                                    {"HOTKEY_THEIR_RED", "54"},
+                                    {"HOTKEY_WARD", "55"}}
     Public Property PropHotkey(i As Integer, j As Integer) As String
         Get
             If hotkey(i, j).Length > 1 Then
@@ -298,12 +298,12 @@ Public Class Resources
                                    {"MACRO_HOTKEY_4", "52"},
                                    {"MACRO_HOTKEY_5", "53"},
                                    {"MACRO_HOTKEY_6", "54"},
-                                   {"MACRO_HOTKEY_OPENER_1", "ALT"},
-                                   {"MACRO_HOTKEY_OPENER_2", "ALT"},
-                                   {"MACRO_HOTKEY_OPENER_3", "ALT"},
-                                   {"MACRO_HOTKEY_OPENER_4", "ALT"},
-                                   {"MACRO_HOTKEY_OPENER_5", "ALT"},
-                                   {"MACRO_HOTKEY_OPENER_6", "ALT"},
+                                   {"MACRO_HOTKEY_OPENER_1", "SPACE"},
+                                   {"MACRO_HOTKEY_OPENER_2", "SPACE"},
+                                   {"MACRO_HOTKEY_OPENER_3", "SPACE"},
+                                   {"MACRO_HOTKEY_OPENER_4", "SPACE"},
+                                   {"MACRO_HOTKEY_OPENER_5", "SPACE"},
+                                   {"MACRO_HOTKEY_OPENER_6", "SPACE"},
                                    {"MACRO_TEXT_1", ">>>>> SS TOP <<<<<"},
                                    {"MACRO_TEXT_2", ">>>>> SS MID <<<<<"},
                                    {"MACRO_TEXT_3", ">>>>> SS BOT <<<<<"},
@@ -340,12 +340,28 @@ Public Class Resources
     End Property
     ' ### MiniMap system
     Private minimap As String(,) = {{"MINIMAP_SIZE_X", "273"},
-                                    {"MINIMAP_LOCATION_X", "1420"},
-                                    {"MINIMAP_LOCATION_Y", "766"},
+                                    {"MINIMAP_LOCATION_X", "1"},
+                                    {"MINIMAP_LOCATION_Y", "1"},
                                     {"MINIMAP_AUTOSTART", "True"},
                                     {"MINIMAP_FULLMODE", "True"},
                                     {"MINIMAP_PING_TIME", "2"},
-                                    {"MINIMAP_SIZE_Y", "273"}}
+                                    {"MINIMAP_SIZE_Y", "273"},
+                                    {"MINIMAP_SHOW_PING", "True"},
+                                    {"MINIMAP_SHOW_DURATION_ENABLED", "True"},
+                                    {"MINIMAP_SHOW_DURATION_SIZE", "8"},
+                                    {"MINIMAP_SHOW_DURATION_BARON_X", "10"},
+                                    {"MINIMAP_SHOW_DURATION_BARON_Y", "10"},
+                                    {"MINIMAP_SHOW_DURATION_DRAGON_X", "20"},
+                                    {"MINIMAP_SHOW_DURATION_DRAGON_Y", "20"},
+                                    {"MINIMAP_SHOW_DURATION_OB_X", "30"},
+                                    {"MINIMAP_SHOW_DURATION_OB_Y", "30"},
+                                    {"MINIMAP_SHOW_DURATION_OR_X", "40"},
+                                    {"MINIMAP_SHOW_DURATION_OR_Y", "40"},
+                                    {"MINIMAP_SHOW_DURATION_TB_X", "50"},
+                                    {"MINIMAP_SHOW_DURATION_TB_Y", "50"},
+                                    {"MINIMAP_SHOW_DURATION_TR_X", "60"},
+                                    {"MINIMAP_SHOW_DURATION_TR_Y", "60"},
+                                    {"MINIMAP_SHOW_DURATION_USEOWN", "False"}}
     Public Property PropMinimap(i As Integer, j As Integer) As String
         Get
             Return (minimap(i, j))
@@ -374,13 +390,13 @@ Public Class Resources
         End Set
     End Property
     ' ### Names
-    Private name As String(,) = {{"NAME_BARON", "Baron"},
-                                  {"NAME_DRAGON", "Dragon"},
-                                  {"NAME_OUR_BLUE", "OB"},
-                                  {"NAME_OUR_RED", "OR"},
-                                  {"NAME_THEIR_BLUE", "TB"},
-                                  {"NAME_THEIR_RED", "TR"},
-                                  {"NAME_WARD", "Ward"}}
+    Private name As String(,) = {{"NAME_BARON", "Baron at "},
+                                  {"NAME_DRAGON", "Dragon at "},
+                                  {"NAME_OUR_BLUE", "OB at "},
+                                  {"NAME_OUR_RED", "OR at "},
+                                  {"NAME_THEIR_BLUE", "TB at "},
+                                  {"NAME_THEIR_RED", "TR at "},
+                                  {"NAME_WARD", "Ward at "}}
     Public Property PropName(i As Integer, j As Integer) As String
         Get
             Return name(i, j)
@@ -402,10 +418,13 @@ Public Class Resources
         End Set
     End Property
     ' ### Times
-    Private time As String(,) = {{"TIME_BARON", "7"},
-                                  {"TIME_DRAGON", "6"},
-                                  {"TIME_BR", "5"},
-                                  {"TIME_WARD", "3"}}
+    Private time As String(,) = {{"TIME_BARON", "420"},
+                                  {"TIME_DRAGON", "360"},
+                                  {"TIME_OB", "300"},
+                                  {"TIME_OR", "300"},
+                                  {"TIME_TB", "300"},
+                                  {"TIME_TR", "300"},
+                                  {"TIME_WARD", "180"}}
     Public Property PropTime(i As Integer, j As Integer) As String
         Get
             Return (time(i, j))
@@ -423,7 +442,7 @@ Public Class Resources
         End Set
     End Property
     ' ### WardMap
-    Private wardmap As String(,) = {{"WARDMAP_ENABLED", "False"},
+    Private wardmap As String(,) = {{"WARDMAP_ENABLED", "True"},
                                   {"WARDMAP_HOTKEY", "114"}}
     Public Property PropWardmap(i As Integer, j As Integer) As String
         Get

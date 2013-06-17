@@ -32,4 +32,7 @@
             Return "1:00"
         End Try
     End Function
+    Public Shared Function ParseTimeSpan2MinSec(timespan As TimeSpan) As String
+        Return String.Format("{0:D1}:{1:D2}", timespan.Minutes, timespan.Seconds)
+    End Function
 End Class

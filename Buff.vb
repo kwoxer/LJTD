@@ -67,9 +67,12 @@ Public Class Buff
         timer.Interval = 1000
         name = buffName
         startingTime = Now()
-        durationMin = duration
-        durationSec = duration * 60
-        actualShownTime = duration & ":00"
+        durationMin = CInt(Math.Floor(duration / 60))
+        durationSec = duration
+        Dim test As TimeSpan = TimeSpan.FromSeconds(durationSec)
+        ' MsgBox(Math.Floor(test.TotalMinutes).ToString & ":" & Math.Floor(test.Seconds).ToString)
+        actualShownTime = Module_Timing.ParseTimeSpan2MinSec(test)
+        'Math.Floor(test.TotalMinutes).ToString & ":" & TimeSpan.Parse("00", test).ToString
         overallTime = GetActualShownTime
         running = False
         hotkey = hotkey
@@ -86,7 +89,7 @@ Public Class Buff
         diff = 0
     End Sub
     Public Function GenerateText(text As String) As String
-        Return name & resource.PropConfig(1, 1) & text
+        Return name & text
     End Function
     Private Sub timerBuff(source As Object, e As ElapsedEventArgs)
         diff = timing.DateDiffSec(startingTime, Now())

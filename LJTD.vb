@@ -4,9 +4,10 @@ Public Class LJTD
     Public TimerChatMacro(5) As System.Timers.Timer
     Public TimerChatMacroBool(5) As Boolean
     Public Shared TeamSyncOfflineBuffRunning(6) As Boolean
+    Public InitalTimerRunning As Boolean = False
     Private showForm As Boolean = True, gameFinished As Boolean = True, autoStartSearch As Boolean = True
-    Private difference As Integer, slideFading As Integer, slideFadingAmount As Integer, slideFadingAmounts As Integer() = {8.4, 10.5, 0}
-    Private buff(6) As Buff, label(6) As Label, labelEndtime(5) As Label, button(6) As Button
+    Private runningTime As Integer, slideFading As Integer, slideFadingAmount As Integer, slideFadingAmounts As Integer() = {8.4, 10.5, 0}
+    Public buff(6) As Buff, label(6) As Label, labelEndtime(5) As Label, button(6) As Button
     Private pushHotkey As New Module_PushHotkey
     Private WithEvents fileStreamWatcher As New FileSystemWatcher
     Private startingDateTime As Date
@@ -23,10 +24,10 @@ Public Class LJTD
     Private write2Chat As String() = {"W2C enabled", "W2C disabled"}, logFile As String
     Private overlay As Button
     Private stopButton As Image
-    Public initalTimerRunning As Boolean = False
     Private buffRunningPreventLags(6) As Boolean
     Private showBalloonTipDuration As Integer = 5000
     Private initialTimerPresetValue As String = "0:"
+    Private faqWebsite As String = "http://www.ljtd.net/misc/faq/"
 
     Private Sub LJTD_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
         Me.Visible = False
@@ -37,6 +38,7 @@ Public Class LJTD
         Catch ex As Exception
             stopButton = My.Resources.LJTD_Button_STOP
         End Try
+        MiniMap.InitializeMiniMap(True)
         InitializeLocation()
         InitializeButtons()
         InitializeButtonImage()
@@ -45,7 +47,7 @@ Public Class LJTD
         Timer_CheckBuffs.Start()
         InitializeAutoStartTimer()
         InitializeBuffs()
-        Configuration.InitializePanels()
+        Configuration.SelectInitializion()
         AddSign.Show()
         pushHotkey.KeyHookEnable() = True
         CheckResourceOpenInTray()
@@ -53,6 +55,7 @@ Public Class LJTD
         ShowUpdateAvailable()
         InitializeGameModeWardMap()
         Configuration.InitializeBackgrounds()
+        Configuration.Initialize()
         InitializeExternalImages()
         CreateIP()
         ReloadLJTD(False)
@@ -82,6 +85,7 @@ Public Class LJTD
         InitializeForeColors()
         InitializeFonts()
         InitializeBuffs()
+        InitializeShowInTaskbar()
         initialTimerDelay = resource.PropConfigInt(11)
         Label_InitalTime.Text = initialTimerPresetValue & initialTimerDelay
         CheckResourceTopMost()
@@ -98,6 +102,7 @@ Public Class LJTD
         CheckResourceLJTDBackgroundImage()
         CheckResourceOpacity()
         CheckResourceBuffLabels()
+        CheckResourceGameClock()
         InitializeFileStreamWatcher()
     End Sub
     Private Sub MouseClicks(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles Panel.MouseClick, Label_OurBlue.MouseClick, Label_OurBlue.DoubleClick, _
@@ -106,14 +111,14 @@ Public Class LJTD
         Label_Baron.MouseClick, Label_Baron.DoubleClick, Label_BaronEndtime.MouseClick, Label_BaronEndtime.DoubleClick, Label_TheirBlue.MouseClick, Label_TheirBlue.DoubleClick, _
         Label_TheirBlueEndtime.MouseClick, Label_TheirBlueEndtime.DoubleClick, Label_TheirRed.MouseClick, Label_TheirRed.DoubleClick, Label_TheirRedEndtime.MouseClick, _
         Label_TheirRedEndtime.DoubleClick, Label_Ward.MouseClick, Label_Ward.DoubleClick, Label_InitalTime.MouseClick, Label_InitalTime.DoubleClick, Button_Minimap.MouseClick
-        If initalTimerRunning Then
+        If InitalTimerRunning Then
             Module_Write2Chat.SetForgroundWindow()
         End If
     End Sub
     Private Sub MouseDowns(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Panel.MouseDown, Label_OurBlue.MouseDown, _
          Label_OurBlueEndtime.MouseDown, Label_OurRed.MouseDown, Label_OurRedEndtime.MouseDown, Label_Dragon.MouseDown, Label_DragonEndtime.MouseDown, Label_InitalTime.MouseDown, _
          Label_Baron.MouseDown, Label_BaronEndtime.MouseDown, Label_TheirBlue.MouseDown, Label_TheirBlueEndtime.MouseDown, Label_TheirRed.MouseDown, Label_TheirRedEndtime.MouseDown, Label_Ward.MouseDown
-        If initalTimerRunning = False Then
+        If InitalTimerRunning = False Then
             Module_MoveWindow.InitializeMoveEvent(e, Handle)
         End If
     End Sub
@@ -124,9 +129,6 @@ Public Class LJTD
         Label_Dragon.MouseEnter, Label_DragonEndtime.MouseEnter, Label_InitalTime.MouseEnter, Label_Baron.MouseEnter, Label_BaronEndtime.MouseEnter, _
         Label_TheirBlue.MouseEnter, Label_TheirBlueEndtime.MouseEnter, Label_TheirRed.MouseEnter, Label_TheirRedEndtime.MouseEnter, Label_Ward.MouseEnter
         Me.Opacity = opacities(0)
-        If resource.PropConfigBool(7) = True Then
-            taskbar.Hide()
-        End If
     End Sub
     Private Sub LJTD_MouseLeave(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button_Baron.MouseLeave, Button_Dragon.MouseLeave, _
         Button_OurBlue.MouseLeave, Button_OurRed.MouseLeave, Button_TheirBlue.MouseLeave, Button_TheirRed.MouseLeave, Button_Close.MouseLeave, _
@@ -137,6 +139,12 @@ Public Class LJTD
         Button_SlideOutTop.MouseLeave
         Me.Opacity = resource.PropConfigInt(12) / 100
     End Sub
+    ''' <summary>
+    ''' Buff Events happening when keys are pushed
+    ''' </summary>
+    ''' <param name="key"></param>
+    ''' <param name="keyOpenerPressed"></param>
+    ''' <remarks>Used performClick to use disabled buttons</remarks>
     Public Sub PerformClicks(ByVal key As Integer, ByVal keyOpenerPressed As Boolean)
         If keyOpenerPressed Then
             Select Case key
@@ -180,17 +188,13 @@ Public Class LJTD
         End If
     End Sub
     Private Sub Timer_Update_Current_Time_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_UpdateCurrentTime.Tick
-        difference = timing.DateDiffSec(startingDateTime, Now()) + timing.DelayValue
-        Label_InitalTime.Text = timing.ParseMin(difference, 0) & ":" & timing.ParseSecond(difference)
+        runningTime = timing.DateDiffSec(startingDateTime, Now()) + timing.DelayValue
+        Label_InitalTime.Text = timing.ParseMin(runningTime, 0) & ":" & timing.ParseSecond(runningTime)
         For i = 0 To buff.Length - 1
-            If buff(i).GetRunning = False And i <> 6 Then
-                labelEndtime(i).Visible = False
-            End If
+            If buff(i).GetRunning = False And i <> 6 Then labelEndtime(i).Visible = False
         Next
         For i = 0 To 5
-            If Configuration.TeamSyncOnlineBuffChanges(i) Then
-                BuffStart(i)
-            End If
+            If Configuration.TeamSyncOnlineBuffChanges(i) Then BuffStart(i)
         Next
     End Sub
     Private Sub ResetInitialTimer()
@@ -198,7 +202,10 @@ Public Class LJTD
         Label_InitalTime.Text = initialTimerPresetValue & initialTimerDelay
     End Sub
     Private Sub Timer_Top_Most_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_TopMost.Tick
-        Me.TopMost = True
+        If Configuration.ShowForm = False Then
+            Me.BringToFront()
+            MiniMap.BringToFront()
+        End If
     End Sub
 
 #Region "Initilization"
@@ -223,9 +230,9 @@ Public Class LJTD
         AddHandler menuItemEnableW2C.Click, New System.EventHandler(AddressOf MenuItemWrite2ChatClicked)
         menuItemOpenConfigFile = New MenuItem("Config &file")
         AddHandler menuItemOpenConfigFile.Click, New System.EventHandler(AddressOf MenuItemConfigFileClicked)
-        menuItemShowHide = New MenuItem("&Show/Hide")
+        menuItemShowHide = New MenuItem("Show/&Hide")
         AddHandler menuItemShowHide.Click, New System.EventHandler(AddressOf MenuItemShowHideClicked)
-        menuItemOpenConfigGUI = New MenuItem("&Config GUI")
+        menuItemOpenConfigGUI = New MenuItem("&Settings")
         AddHandler menuItemOpenConfigGUI.Click, New System.EventHandler(AddressOf MenuItemConfigGUIClicked)
         menuItemClose = New MenuItem("&Exit")
         AddHandler menuItemClose.Click, New System.EventHandler(AddressOf MenuItemExitClicked)
@@ -325,12 +332,10 @@ Public Class LJTD
         End Try
     End Sub
     Private Sub InitializeBuffs()
-        buff(0) = New Buff(resource.PropName(0, 1), resource.PropTimeInt(0, 1), resource.PropHotkeyInt(0))
-        buff(1) = New Buff(resource.PropName(1, 1), resource.PropTimeInt(1, 1), resource.PropHotkeyInt(1))
-        For i = 2 To 5
-            buff(i) = New Buff(resource.PropName(i, 1), resource.PropTimeInt(2, 1), resource.PropHotkeyInt(i))
+        For i = 0 To 6
+            buff(i) = New Buff(resource.PropName(i, 1), resource.PropTimeInt(i, 1), resource.PropHotkeyInt(i))
         Next
-        buff(6) = New Buff(resource.PropName(6, 1), resource.PropTimeInt(3, 1), resource.PropHotkeyInt(6))
+
         For i = 0 To button.Length - 1
             buff(i).GetHotkey = resource.PropHotkeyInt(i)
         Next
@@ -340,9 +345,7 @@ Public Class LJTD
             For i = 0 To button.Length - 1
                 button(i).Image = Image.FromFile(resource.PropPicBuffSR(i))
             Next
-            If resource.PropConfigInt(17) = 1 Then
-                button(0).Image = Image.FromFile(resource.PropPicBuffTT)
-            End If
+            If resource.PropConfigInt(17) = 1 Then button(0).Image = Image.FromFile(resource.PropPicBuffTT)
         Catch ex As Exception
         End Try
     End Sub
@@ -383,21 +386,25 @@ Public Class LJTD
         For i = 0 To label.Length - 1
             label(i).ForeColor = Color.FromArgb(255, resource.PropColorInt(i, 1), resource.PropColorInt(i, 2), resource.PropColorInt(i, 3))
             button(i).ForeColor = Color.FromArgb(255, resource.PropColorInt(i, 1), resource.PropColorInt(i, 2), resource.PropColorInt(i, 3))
-            If i <> 6 Then
-                labelEndtime(i).ForeColor = Color.FromArgb(255, resource.PropColorInt(i, 1), resource.PropColorInt(i, 2), resource.PropColorInt(i, 3))
-            End If
+            If i <> 6 Then labelEndtime(i).ForeColor = Color.FromArgb(255, resource.PropColorInt(i, 1), resource.PropColorInt(i, 2), resource.PropColorInt(i, 3))
         Next
     End Sub
     Public Sub InitializeSetForeColor(i As Integer, color As Color)
         label(i).ForeColor = color
         button(i).ForeColor = color
-        If i <> 6 Then
-            labelEndtime(i).ForeColor = color
-        End If
+        If i <> 6 Then labelEndtime(i).ForeColor = color
     End Sub
     Public Sub InitializeLJTDColors()
         ljtdColor.InitializeColors()
     End Sub
+    Public Sub InitializeShowInTaskbar()
+        If resource.PropConfigBool(18) = False Then
+            Me.ShowInTaskbar = False
+        Else
+            Me.ShowInTaskbar = True
+        End If
+    End Sub
+
 #End Region
 #Region "Check Resources"
     Private Sub CheckResourceDisableAutoStartButton()
@@ -405,6 +412,13 @@ Public Class LJTD
             Button_DisableAutoStart.Visible = True
         Else
             Button_DisableAutoStart.Visible = False
+        End If
+    End Sub
+    Private Sub CheckResourceGameClock()
+        If resource.PropConfigBool(7) Then
+            Label_InitalTime.Visible = True
+        Else
+            Label_InitalTime.Visible = False
         End If
     End Sub
     Private Sub CheckResourceEndtimeLabels()
@@ -415,7 +429,6 @@ Public Class LJTD
         Else
             For i = 0 To labelEndtime.Length - 1
                 labelEndtime(i).Visible = True
-
             Next
         End If
         If resource.PropConfigInt(17) = 0 Then
@@ -466,19 +479,6 @@ Public Class LJTD
         End If
         Return False
     End Function
-    Private Sub CheckResourceRemember(i As Integer)
-        If (CheckResourceRememberLabels(i, 0) Or CheckResourceRememberLabels(i, 1) Or CheckResourceRememberLabels(i, 2)) Then
-            If MiniMap.Visible = True Then
-                MiniMap.CreatePing(i, CheckResourceRememberLabels(i, 2))
-            End If
-            If resource.PropConfigBool(9) Then
-                Try
-                    My.Computer.Audio.Play(Path.GetFullPath(resource.PropSound(0)), AudioPlayMode.Background)
-                Catch ex As Exception
-                End Try
-            End If
-        End If
-    End Sub
     Private Sub CheckResourceLJTDBackgroundImage()
         If resource.PropConfigBool(19) Then
             Me.Panel.BackgroundImage = My.Resources.HUD
@@ -560,93 +560,77 @@ Public Class LJTD
     End Sub
 #End Region
 #Region "Buffs"
+    ''' <summary>
+    ''' Ticking down buffs till their end.
+    ''' Will letting the buff end when running status changed.
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
     Private Sub Timer_CheckBuffs_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_CheckBuffs.Tick
         For i = 0 To buff.Length - 1
             If buff(i).GetRunning Then
                 buffRunningPreventLags(i) = True
                 label(i).Text = buff(i).GetActualShownTime.ToString
-                CheckResourceRemember(i)
-                If buff(i).GetDiff >= 5 Then
-                    button(i).Enabled = True
-                End If
+                If buff(i).GetDiff >= 5 Then button(i).Enabled = True
             Else
                 If buffRunningPreventLags(i) Then
                     buffRunningPreventLags(i) = False
                     label(i).Text = buff(i).GetOverallTime
                     button(i).Enabled = True
                     buff(i).Ends()
-                    If difference > 0 And i <> 6 Then
-                        Configuration.TeamSyncSetChanges(i, True)
+                    If i <> 6 Then
+                        MiniMap.MinimapPing(i).Ends()
                     End If
+                    If runningTime > 0 And i <> 6 Then Configuration.TeamSyncSetChanges(i, True)
                 End If
             End If
         Next
     End Sub
-    Private Sub Button_Baron_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Baron.Click
-        UpdateBuffRunnings(0)
-        Configuration.TeamSyncSetChanges(0, False)
-    End Sub
-    Private Sub Button_Dragon_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Dragon.Click
-        UpdateBuffRunnings(1)
-        Configuration.TeamSyncSetChanges(1, False)
-    End Sub
-    Private Sub Button_OurBlue_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_OurBlue.Click
-        UpdateBuffRunnings(2)
-        Configuration.TeamSyncSetChanges(2, False)
-    End Sub
-    Private Sub Button_OurRed_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_OurRed.Click
-        UpdateBuffRunnings(3)
-        Configuration.TeamSyncSetChanges(3, False)
-    End Sub
-    Private Sub Button_TheirBlue_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_TheirBlue.Click
-        UpdateBuffRunnings(4)
-        Configuration.TeamSyncSetChanges(4, False)
-    End Sub
-    Private Sub Button_TheirRed_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_TheirRed.Click
-        UpdateBuffRunnings(5)
-        Configuration.TeamSyncSetChanges(5, False)
+    Private Sub Button_Buff_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Baron.Click, Button_Dragon.Click, Button_OurBlue.Click, _
+        Button_OurRed.Click, Button_TheirBlue.Click, Button_TheirRed.Click
+        PerformBuffClicks(sender)
     End Sub
     Private Sub Button_Ward_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Ward.Click
-        BuffStart(6)
+        If InitalTimerRunning Then
+            BuffStart(6)
+        End If
     End Sub
-    Public Sub UpdateBuffRunnings(id As Integer)
-        If Configuration.TeamSyncValid = False Or Configuration.TeamSyncOnlineRightsOwner Or Configuration.TeamSyncOnlineRightsBuff Then
-            teamSyncUpdateBuffRunning.Start()
-            BuffStart(id)
-            For i = 0 To buff.Length - 1
-                TeamSyncOfflineBuffRunning(i) = buff(i).GetRunning
-            Next
+    Private Sub PerformBuffClicks(ByVal sender As System.Object)
+        If InitalTimerRunning Then
+            Dim button As Button = DirectCast(sender, Button)
+            If Configuration.TeamSyncValid = False Or Configuration.TeamSyncOnlineRightsOwner Or Configuration.TeamSyncOnlineRightsBuff Then
+                teamSyncUpdateBuffRunning.Start()
+                BuffStart(CInt(button.Tag))
+                For i = 0 To buff.Length - 1
+                    TeamSyncOfflineBuffRunning(i) = buff(i).GetRunning
+                Next
+            End If
+            Configuration.TeamSyncSetChanges(CInt(button.Tag), False)
         End If
     End Sub
     Public Sub BuffStart(ByVal i As Integer)
-        If difference <> 0 Then
+        If buff(i).GetRunning Then
             button(i).Enabled = False
-            If buff(i).GetRunning Then
-                buff(i).Ends()
-            Else
-                If resource.PropConfigBool(6) And i <> 6 Then
-                    labelEndtime(i).Visible = True
-                    labelEndtime(i).Text = timing.BuffEnding(buff(i).GetDurationMin, difference, startingDateTime)
-                End If
-                buff(i).Starts()
-                If resource.PropConfigBool(15) Then
-                    AddSign.ShowSign()
-                End If
-                Select Case i
-                    Case 0 To 1
-                        If resource.PropChatBool(0) Then
-                            Module_Write2Chat.Write(buff(i).GenerateText(timing.BuffEnding(buff(i).GetDurationMin, difference, startingDateTime)))
-                        End If
-                    Case 2 To 5
-                        If resource.PropChatBool(1) Then
-                            Module_Write2Chat.Write(buff(i).GenerateText(timing.BuffEnding(buff(i).GetDurationMin, difference, startingDateTime)))
-                        End If
-                    Case 6
-                        If resource.PropChatBool(2) Then
-                            Module_Write2Chat.Write(buff(i).GenerateText(timing.BuffEnding(buff(i).GetDurationMin, difference, startingDateTime)))
-                        End If
-                End Select
+            buff(i).Ends()
+            If i <> 6 Then MiniMap.MinimapPing(i).Ends()
+        Else
+            buff(i).Starts()
+            button(i).Enabled = False
+            If resource.PropConfigBool(6) And i <> 6 Then
+                labelEndtime(i).Visible = True
+                labelEndtime(i).Text = timing.BuffEnding(buff(i).GetDurationMin, runningTime, startingDateTime)
             End If
+            If i <> 6 Then MiniMap.MinimapPing(i).Start()
+            If resource.PropConfigBool(15) Then AddSign.ShowSign()
+            Select Case i
+                Case 0 To 1
+                    If resource.PropChatBool(0) Then Module_Write2Chat.Write(buff(i).GenerateText(timing.BuffEnding(buff(i).GetDurationMin, runningTime, startingDateTime)))
+                Case 2 To 5
+                    If resource.PropChatBool(1) Then Module_Write2Chat.Write(buff(i).GenerateText(timing.BuffEnding(buff(i).GetDurationMin, runningTime, startingDateTime)))
+                Case 6
+                    If resource.PropChatBool(2) Then Module_Write2Chat.Write(buff(i).GenerateText(timing.BuffEnding(buff(i).GetDurationMin, runningTime, startingDateTime)))
+            End Select
         End If
         Module_Write2Chat.SetForgroundWindow()
     End Sub
@@ -671,18 +655,19 @@ Public Class LJTD
             startingDateTime = Now()
             Timer_UpdateCurrentTime.Start()
             gameFinished = False
-            initalTimerRunning = True
+            InitalTimerRunning = True
         Else
             Label_InitalTime.Text = initialTimerPresetValue & initialTimerDelay
             Button_Start.Image = My.Resources.LJTD_Button_START
             Timer_UpdateCurrentTime.Stop()
             For i = 0 To buff.Length - 1
                 buff(i).Ends()
+                If i <> 6 Then MiniMap.MinimapPing(i).Ends()
             Next
             gameFinished = True
-            initalTimerRunning = False
+            InitalTimerRunning = False
             Configuration.TeamSyncResetBuffs()
-            difference = 0
+            runningTime = 0
         End If
     End Sub
     Private Sub Button_Minimize_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Minimize.Click
@@ -741,7 +726,7 @@ Public Class LJTD
                 MiniMap.Show()
                 MiniMap.ShowForm = True
             End If
-            initalTimerRunning = True
+            InitalTimerRunning = True
             CheckResourceSlideout()
             Button_Start.Image = My.Resources.LJTD_Button_STOP
         End If
@@ -751,11 +736,12 @@ Public Class LJTD
             autoEndingStringFound = False
             For i = 0 To buff.Length - 1
                 buff(i).Ends()
+                If i <> 6 Then MiniMap.MinimapPing(i).Ends()
             Next
             ResetInitialTimer()
             MiniMap.Hide()
             MiniMap.ShowForm = False
-            initalTimerRunning = False
+            InitalTimerRunning = False
             Button_Start.Image = My.Resources.LJTD_Button_START
             Configuration.TeamSyncResetBuffs()
         End If
@@ -766,7 +752,7 @@ Public Class LJTD
         About.Show()
     End Sub
     Private Sub MenuItemFAQClicked(ByVal sender As [Object], ByVal e As EventArgs)
-        Process.Start("http://www.ljtd.net/misc/faq/")
+        Process.Start(faqWebsite)
     End Sub
     Private Sub MenuItemWrite2ChatClicked(ByVal sender As [Object], ByVal e As EventArgs)
         If resource.PropChatBool(0) Then
@@ -793,7 +779,7 @@ Public Class LJTD
         SwitchVisibilityStatus(False)
     End Sub
     Private Sub NotifyIcon_MouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles NotifyIcon.MouseClick
-        If resource.PropConfigBool(8) And Configuration.Show_Form = False Then
+        If resource.PropConfigBool(8) And Configuration.ShowForm = False Then
             Timer_TopMost.Start()
             MiniMap.Timer_TopMost.Start()
         End If
@@ -831,10 +817,4 @@ Public Class LJTD
         End If
     End Sub
 #End Region
-
-    Private Sub Timer_ShowInTaskbar_Tick(sender As System.Object, e As System.EventArgs) Handles Timer_ShowInTaskbar.Tick
-        If resource.PropConfigBool(18) = False Then
-            Me.ShowInTaskbar = False
-        End If
-    End Sub
 End Class

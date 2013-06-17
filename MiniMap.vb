@@ -2,15 +2,15 @@
 Public Class MiniMap
     Public TeamBlueRed As Boolean = True
     Public ShowForm As Boolean = False
-    Private picBox(6) As PictureBox
+    Public MinimapPing(5) As MinimapOverlays
     Private showTimeFinished(6) As Boolean
     Private timer(6) As System.Timers.Timer
+    Private timerMinimapPing As New Windows.Forms.Timer
     Private timerCounter(6) As Integer
     Private resource As Resources = Resources.GetObject
     Private hidePanel As Boolean = False
     Private displayWidth, displayHeight, actualWidth, actualHeight As Integer
     Private listWardMap As New List(Of Ward)
-    Private imageBlink, imageBlinkHint As Image
     Private tooltip As New ToolTip()
     Private Const HTBOTTOMLEFT As Int32 = 13
     Private Const WM_NCLBUTTONDOWN As Int32 = &HA1
@@ -18,17 +18,16 @@ Public Class MiniMap
         Return Panel_WardMap.Size
     End Function
 
+    Public Sub refreshResource()
+        resource = Resources.GetObject
+    End Sub
     Private Sub MiniMap_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Try
-            imageBlink = Image.FromFile(resource.PropPicMiscMinimapBlink(0))
-            imageBlinkHint = Image.FromFile(resource.PropPicMiscMinimapBlink(1))
-        Catch ex As Exception
-        End Try
         displayWidth = SystemInformation.PrimaryMonitorSize.Width
         displayHeight = SystemInformation.PrimaryMonitorSize.Height
         actualWidth = displayWidth - CInt(Width / 11.5) - CInt(Me.Size.Width / 2)
         actualHeight = displayHeight - CInt(Width / 10.5) - CInt(Me.Size.Height / 2)
         RefreshMiniMap()
+        AddHandler timerMinimapPing.Tick, AddressOf timerMinimapPingTick
     End Sub
     Protected Overrides ReadOnly Property CreateParams() As CreateParams
         Get
@@ -39,6 +38,62 @@ Public Class MiniMap
     End Property
 
 #Region "Advanced MiniMap"
+    ''' <summary>
+    ''' Initializes the 6 buffs at specific points on the Advanced MiniMap
+    ''' </summary>
+    ''' <remarks></remarks>
+    Public Sub InitializeMiniMap(bluered As Boolean)
+        ' Locations depends on the actual set Map (SR or TT)
+        If resource.PropConfigInt(17) = 0 Then
+            MinimapPing(0) = New MinimapOverlays(0.3568, 0.3019, TimeSpan.FromMinutes(7), 0)
+        Else
+            MinimapPing(0) = New MinimapOverlays(0.5, 0.3546, TimeSpan.FromMinutes(7), 0)
+        End If
+        MinimapPing(1) = New MinimapOverlays(0.6902, 0.7098, TimeSpan.FromMinutes(6), 1)
+        timerMinimapPing.Interval = 1000
+        timerMinimapPing.Start()
+        If bluered Then
+            MinimapPing(2) = New MinimapOverlays(0.2824, 0.4745, TimeSpan.FromMinutes(5), 2)
+            MinimapPing(3) = New MinimapOverlays(0.549, 0.7294, TimeSpan.FromMinutes(5), 3)
+            MinimapPing(4) = New MinimapOverlays(0.7529, 0.5254, TimeSpan.FromMinutes(5), 4)
+            MinimapPing(5) = New MinimapOverlays(0.4823, 0.2667, TimeSpan.FromMinutes(5), 5)
+        Else
+            MinimapPing(4) = New MinimapOverlays(0.2824, 0.4745, TimeSpan.FromMinutes(5), 2)
+            MinimapPing(5) = New MinimapOverlays(0.549, 0.7294, TimeSpan.FromMinutes(5), 3)
+            MinimapPing(2) = New MinimapOverlays(0.7529, 0.5254, TimeSpan.FromMinutes(5), 4)
+            MinimapPing(3) = New MinimapOverlays(0.4823, 0.2667, TimeSpan.FromMinutes(5), 5)
+        End If
+    End Sub
+
+    Private Sub ChangingLocationTeam(bluered As Boolean)
+        For Each ping In MinimapPing
+            If IsNothing(ping) = False Then
+                ping.teamBlueRed = bluered
+                ping.RefreshDurationLocation()
+            End If
+        Next
+        If bluered Then
+            MinimapPing(2).ChangeTeam(0.2824, 0.4745)
+            MinimapPing(3).ChangeTeam(0.549, 0.7294)
+            MinimapPing(4).ChangeTeam(0.7529, 0.5254)
+            MinimapPing(5).ChangeTeam(0.4823, 0.2667)
+        Else
+            MinimapPing(4).ChangeTeam(0.2824, 0.4745)
+            MinimapPing(5).ChangeTeam(0.549, 0.7294)
+            MinimapPing(2).ChangeTeam(0.7529, 0.5254)
+            MinimapPing(3).ChangeTeam(0.4823, 0.2667)
+        End If
+        For Each ping In MinimapPing
+            If IsNothing(ping) = False Then
+                ping.RefreshLocation()
+            End If
+        Next
+    End Sub
+    ''' <summary>
+    ''' Reloading Minimap configuration if changes happened or first start
+    ''' setting up the location and size of the Advanced MiniMap
+    ''' </summary>
+    ''' <remarks></remarks>
     Public Sub RefreshMiniMap()
         If resource.PropMinimapInt(1) = 0 Then
             resource.PropMinimapInt(1) = actualWidth
@@ -52,82 +107,49 @@ Public Class MiniMap
         Panel_Right.Location = New Point(resource.PropMinimapInt(0) - 20)
         Panel_Right.Size = New Size(20, resource.PropMinimapInt(6))
         Panel_WardMap.Size = New Size(resource.PropMinimapInt(0) - 20, resource.PropMinimapInt(6) - 22)
-        For i = 0 To picBox.Length - 1
-            picBox(i) = New PictureBox()
-            picBox(i).Size = New Size(20, 20)
-            picBox(i).SizeMode = ImageLayout.Tile
-            picBox(i).Image = imageBlink
-        Next
-        For i = 0 To timer.Length - 1
-            timer(i) = New System.Timers.Timer
-            timer(i).Interval = 1000
-            timerCounter(i) = 0
-        Next
-        AddHandler timer(0).Elapsed, AddressOf TimerBuffBaron
-        AddHandler timer(1).Elapsed, AddressOf TimerBuffDragon
-        AddHandler timer(2).Elapsed, AddressOf TimerBuffOB
-        AddHandler timer(3).Elapsed, AddressOf TimerBuffOR
-        AddHandler timer(4).Elapsed, AddressOf TimerBuffTB
-        AddHandler timer(5).Elapsed, AddressOf TimerBuffTR
-        UpdateSizeLocationValues()
+        UpdateSizeLocationLabelValues()
         If resource.PropMinimapBool(4) = False Then
-            Button_Hide.PerformClick()
+            Button_Hide_Click()
         End If
+        For Each ping In MinimapPing
+            If IsNothing(ping) = False Then
+                ping.RefreshDurationLocation()
+            End If
+        Next
     End Sub
-    Private Sub SwitchBlinkImage(buff As Integer, blinkHint As Boolean)
-        If blinkHint Then
-            picBox(buff).Image = imageBlink
-        Else
-            picBox(buff).Image = imageBlinkHint
-        End If
-    End Sub
-    Public Sub CreatePing(i As Integer, blinkHint As Boolean)
-        If TeamBlueRed = False Then
-            Select Case i
-                Case 2 : i = 4
-                Case 3 : i = 5
-                Case 4 : i = 2
-                Case 5 : i = 3
-            End Select
-        End If
-        SwitchBlinkImage(i, blinkHint)
-        Select Case i
-            Case 0
-                If resource.PropConfigInt(17) = 0 Then
-                    CreatePing(i, 0.3568, 0.3019)
-                Else
-                    CreatePing(i, 0.5, 0.3546)
-                End If
-            Case 1 : If resource.PropConfigInt(17) = 0 Then CreatePing(i, 0.6902, 0.7098)
-            Case 2 : CreatePing(i, 0.2824, 0.4745)
-            Case 3 : CreatePing(i, 0.549, 0.7294)
-            Case 4 : CreatePing(i, 0.7529, 0.5254)
-            Case 5 : CreatePing(i, 0.4823, 0.2667)
-        End Select
-        timerCounter(i) = 0
-        timer(i).Start()
-        Me.Controls.Add(picBox(i))
-    End Sub
-    Private Sub CreatePing(i As Integer, scaleX As Double, scaleY As Double)
-        picBox(i).Location = New Point(CInt((Me.Size.Width - 20) * scaleX) - 10, CInt((Me.Size.Height - 25) * scaleY) + 15)
+    ''' <summary>
+    ''' Sending ticks for all buffs to count down the elapsed time
+    ''' </summary>
+    ''' <param name="source">Object</param>
+    ''' <param name="e">ElapsedEventArgs</param>
+    ''' <remarks></remarks>
+    Private Sub timerMinimapPingTick(source As Object, e As EventArgs)
+        For Each ping In MinimapPing
+            ping.Tick(ping.buffID)
+        Next
     End Sub
     Private Sub Panels_MouseDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Panel_Top.MouseDown, Panel_Right.MouseDown, _
         Label_Location_X.MouseDown, Label_Location_Y.MouseDown, Label_Size_X.MouseDown, Label_Size_Y.MouseDown
         Module_MoveWindow.InitializeMoveEvent(e, Handle)
-        UpdateSizeLocationValues()
+        UpdateSizeLocationLabelValues()
     End Sub
-    Private Sub Panel_Top_SizeChanged(sender As Object, e As System.EventArgs) Handles Panel_Top.SizeChanged, Panel_Right.SizeChanged, Panel_Top.MouseMove, Panel_Right.MouseMove
-        UpdateSizeLocationValues()
+    Private Sub Panel_Changed(sender As Object, e As System.EventArgs) Handles Panel_Top.SizeChanged, Panel_Right.SizeChanged, Panel_Top.MouseMove, Panel_Right.MouseMove
+        UpdateSizeLocationLabelValues()
         Configuration.MiniMap_GroupBox_Style_NumericUpDown_Size_X.Text = CStr(Panel_Top.Width)
         Configuration.MiniMap_GroupBox_Style_NumericUpDown_Size_Y.Text = CStr(Panel_Right.Height)
         Configuration.MiniMap_GroupBox_Style_NumericUpDown_Location_X.Text = CStr(Me.Location.X)
         Configuration.MiniMap_GroupBox_Style_NumericUpDown_Location_Y.Text = CStr(Me.Location.Y)
-        SetForeground()
+        For Each ping In MinimapPing
+            If IsNothing(ping) = False Then
+                ping.RefreshLocation()
+            End If
+        Next
+        'SetForeground4LoLClient()
     End Sub
     Private Sub Timer_TopMost_Tick(sender As System.Object, e As System.EventArgs) Handles Timer_TopMost.Tick
         Me.TopMost = True
     End Sub
-    Private Sub UpdateSizeLocationValues()
+    Private Sub UpdateSizeLocationLabelValues()
         Label_Size_X.Text = CStr(Panel_Top.Width)
         Label_Size_Y.Text = CStr(Panel_Right.Height)
         Label_Location_X.Text = "X=" & Me.Location.X
@@ -162,7 +184,7 @@ Public Class MiniMap
     End Sub
 #End Region
 #Region "Buttons"
-    Private Sub Button_Hide_Click(sender As System.Object, e As System.EventArgs) Handles Button_Hide.MouseDown
+    Private Sub Button_Hide_Click() Handles Button_Hide.MouseDown
         If hidePanel Then
             Panel_Right.Visible = True
             Panel_Top.Visible = True
@@ -174,17 +196,24 @@ Public Class MiniMap
             hidePanel = True
             ShowForm = False
         End If
-        SetForeground()
+        SetForeground4LoLClient()
     End Sub
     Private Sub Button_Team_Click(sender As System.Object, e As System.EventArgs) Handles Button_Team.MouseDown
+        'For Each ping In MinimapPing
+        '    ping.Ends()
+        'Next
         If TeamBlueRed Then
+            'InitializeMiniMap(False)
+            ChangingLocationTeam(False)
             TeamBlueRed = False
             Button_Team.Image = My.Resources.MINIMAP_Button_RED_BLUE
         Else
+            'InitializeMiniMap(True)
+            ChangingLocationTeam(True)
             TeamBlueRed = True
             Button_Team.Image = My.Resources.MINIMAP_Button_BLUE_RED
         End If
-        SetForeground()
+        SetForeground4LoLClient()
     End Sub
     Private Sub Button_Team_MouseEnter(sender As Object, e As System.EventArgs) Handles Button_Team.MouseEnter
         If TeamBlueRed Then
@@ -201,27 +230,17 @@ Public Class MiniMap
         End If
     End Sub
     Private Sub Button_Resize_MouseDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Button_Resize.MouseDown
-        ReleaseCapture()
-        SendMessage(CInt(Me.Handle), WM_NCLBUTTONDOWN, HTBOTTOMLEFT, CInt(IntPtr.Zero))
-        UpdateSizeLocationValues()
-        SetForeground()
+        Module_MoveWindow.ReleaseCapture()
+        Module_MoveWindow.SendMessage(CInt(Me.Handle), WM_NCLBUTTONDOWN, HTBOTTOMLEFT, CInt(IntPtr.Zero))
+        UpdateSizeLocationLabelValues()
     End Sub
 #End Region
 #Region "WardMap"
-    Private Sub Timer_WardRemoving_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_WardRemoving.Tick
-        For i = 0 To 5
-            If showTimeFinished(i) Then
-                showTimeFinished(i) = False
-                Me.Controls.Remove(picBox(i))
-            End If
-        Next
-    End Sub
     Public Sub ShowWardMap(ByVal showWardMap As Boolean)
         If showWardMap And resource.PropWardmapBool(0, 1) Then
             Panel_WardMap.Visible = True
         Else
             Panel_WardMap.Visible = False
-            'Module_Write2Chat.SetForgroundWindow()
         End If
     End Sub
     Public Function GetWardList() As List(Of Ward)
@@ -246,12 +265,6 @@ Public Class MiniMap
         Me.Controls.Add(newWard.CreatePicture)
         listWardMap.Add(newWard)
     End Sub
-    Public Sub DeleteClickWards(scaleX As Double, scaleY As Double)
-       ' Dim newWard As New Ward(scaleX, scaleY)
-        'Dim deleteWard = listWardMap.Find(Function(x) x.ScaleX = scaleX And x.ScaleY = scaleY)
-        'Me.Controls.Remove(newWard.DestroyPicture)
-        'listWardMap.Remove(deleteWard)
-    End Sub
     Private Sub Timer_WardMapCleaner_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_WardMapCleaner.Tick
         For Each wardSample In listWardMap
             If wardSample.Finished Then
@@ -267,9 +280,10 @@ Public Class MiniMap
     End Sub
 #End Region
 
-    Private Sub SetForeground()
-        If LJTD.initalTimerRunning Then
+    Private Sub SetForeground4LoLClient()
+        If LJTD.InitalTimerRunning Then
             Module_Write2Chat.SetForgroundWindow()
         End If
     End Sub
+
 End Class

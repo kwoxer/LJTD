@@ -1,15 +1,15 @@
-LoL Jungle Timer Deluxe
-=======================
+LoL Jungle Timer Deluxe v.4.2
+=============================
 as known as LJTD
 ----------------
 is the leading and most popular jungle timer for League of Legends.
 
 For more information about how to use this tool you should have a look on the developing website:
-**http://www.ljtd.net/get-started/**
+[**Getting started**](http://www.ljtd.net/get-started/) or [**Frequently asked questions**](http://www.ljtd.net/misc/faq/)
 
 Jungle Timer
 ------------
-Such timers are helping to optimize your buff timings. LJTD is giving the possibility to time infinite wards, too!
+Such timers help to optimize your buff timings. LJTD is giving the possibility to time infinite wards, too!
 
 The brand new feature [**TeamSync**](http://www.ljtd.net/team/) is helping your whole team.
 

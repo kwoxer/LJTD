@@ -7,7 +7,7 @@
     Public Sub InitializeMoveEvent(e As Object, handle As Object)
         If (e.Button = Windows.Forms.MouseButtons.Left) Then
             ReleaseCapture()
-            Module_MoveWindow.SendMessage(handle.ToInt32, WM_NCLBUTTONDOWN, HT_CAPTION, 0)
+            SendMessage(handle.ToInt32, WM_NCLBUTTONDOWN, HT_CAPTION, 0)
         End If
     End Sub
 End Module

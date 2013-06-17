@@ -2,7 +2,7 @@
 Imports System.Timers
 Imports System.IO
 Public Class Configuration
-    Public Show_Form As Boolean
+    Public ShowForm As Boolean
     Public Panel(6) As DoubleBufferPanel
     Public PushedKey As String
     Public TeamSyncOnlineBuffChanges(5) As Boolean
@@ -10,7 +10,7 @@ Public Class Configuration
     Private write2Config As New Module_Write2Config
     Private resource As Resources = Resources.GetObject
     Private ljtdColor As Module_LJTDColor = Module_LJTDColor.GetObject
-    Private saveClicked As Boolean, newUpdateAvailable As Boolean
+    Private saveClicked As Boolean, resetClicked As Boolean, newUpdateAvailable As Boolean
     Private Const downloadURL As String = "http://www.kwoxer.de/programme/lol-jungle-timer-deluxe/update"
     Private newestVersion As String
     Private imgBg(6) As Image
@@ -47,9 +47,10 @@ Public Class Configuration
         InitializeBackgrounds()
         ButtonClickEvents(0)
         resource.ReadConfigFile()
-        InitializePanels()
+        Initialize()
         LJTD.Timer_TopMost.Stop()
         MiniMap.Timer_TopMost.Stop()
+        ShowForm = True
     End Sub
     Public Sub InitializeBackgrounds()
         imgBg(0) = My.Resources.Config_BG_Main
@@ -83,7 +84,7 @@ Public Class Configuration
         Me.Close()
         LJTD.Timer_TopMost.Start()
         MiniMap.Timer_TopMost.Start()
-        Show_Form = False
+        ShowForm = False
     End Sub
     Private Sub Button_Close_MouseEnter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Close.MouseEnter
         ljtdColor.setColorMousehover(Button_Close)
@@ -112,8 +113,7 @@ Public Class Configuration
 #Region "Button Save"
     Private Sub Button_Save_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Save.Click
         saveClicked = True
-        CollectChanges()
-        ljtdColor.setColorClicked(Button_Save)
+        SelectChange()
         write2Config.Prepare(resource)
         If button(0) Then
             LJTD.ReloadLJTD(True)
@@ -121,6 +121,7 @@ Public Class Configuration
             LJTD.ReloadLJTD(False)
         End If
         MiniMap.RefreshMiniMap()
+        ljtdColor.setColorClicked(Button_Save)
     End Sub
     Private Sub Button_Save_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button_Save.MouseEnter
         If saveClicked Then
@@ -136,9 +137,12 @@ Public Class Configuration
 #End Region
 #Region "Button Reset"
     Private Sub Button_Reset_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Reset.Click
+        resetClicked = True
         Resources.Reset()
         resource = Resources.GetObject
-        InitializePanels()
+
+        MiniMap.refreshResource()
+        SelectInitializion()
         LJTD.InitializeSetForeColor(0, Design_GroupBox_Color_PictureBox_Baron.BackColor)
         LJTD.InitializeSetForeColor(1, Design_GroupBox_Color_PictureBox_Dragon.BackColor)
         LJTD.InitializeSetForeColor(2, Design_GroupBox_Color_PictureBox_OB.BackColor)
@@ -147,15 +151,21 @@ Public Class Configuration
         LJTD.InitializeSetForeColor(5, Design_GroupBox_Color_PictureBox_TR.BackColor)
         LJTD.InitializeSetForeColor(6, Design_GroupBox_Color_PictureBox_Ward.BackColor)
         LJTD.InitializeLJTDColors()
+        ljtdColor.setColorClicked(Button_Reset)
     End Sub
     Private Sub Button_Reset_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button_Reset.MouseEnter
+        If resetClicked Then
+            resetClicked = False
+        End If
         ljtdColor.setColorMousehover(Button_Reset)
     End Sub
     Private Sub Button_Reset_MouseLeave(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button_Reset.MouseLeave
-        ljtdColor.setColorNormal(Button_Reset)
+        If resetClicked = False Then
+            ljtdColor.setColorNormal(Button_Reset)
+        End If
     End Sub
 #End Region
-    Public Sub InitializePanels()
+    Public Sub Initialize()
         InitializePanelMain()
         InitializePanelSlide()
         InitializePanelW2C()
@@ -164,36 +174,50 @@ Public Class Configuration
         InitializePanelMiniMap()
         InitializePanelName()
     End Sub
-    Private Sub CollectChanges()
+    Public Sub SelectInitializion()
+        If button(0) Then
+            InitializePanelMain()
+        ElseIf button(1) Then
+            InitializePanelSlide()
+        ElseIf button(2) Then
+            InitializePanelW2C()
+        ElseIf button(3) Then
+            InitializePanelHotkey()
+        ElseIf button(4) Then
+            InitializePanelDesign()
+        ElseIf button(5) Then
+            InitializePanelMiniMap()
+        ElseIf button(6) Then
+            InitializePanelName()
+        End If
+    End Sub
+    Private Sub SelectChange()
         If button(0) Then
             CollectChangesMain()
-        End If
-        If button(1) Then
+        ElseIf button(1) Then
             CollectChangesSlide()
-        End If
-        If button(2) Then
+        ElseIf button(2) Then
             CollectChangesW2C()
-        End If
-        If button(3) Then
+        ElseIf button(3) Then
             CollectChangesHotkey()
-        End If
-        If button(4) Then
+        ElseIf button(4) Then
             CollectChangesDesign()
-        End If
-        If button(5) Then
+        ElseIf button(5) Then
             CollectChangesMiniMap()
-        End If
-        If button(6) Then
+        ElseIf button(6) Then
             CollectChangesName()
         End If
     End Sub
 #Region "Panel Main"
     Private Sub InitializePanelMain()
         Main_GroupBox_CheckVersion_Label_Update.Text = "Your current version: " & My.Application.Info.Version.ToString & ljtdVersionAdditional
-        Main_GroupBox_Time_NumericUpDown_Baron.Text = resource.PropTime(0, 1)
-        Main_GroupBox_Time_NumericUpDown_Dragon.Text = resource.PropTime(1, 1)
-        Main_GroupBox_Time_NumericUpDown_BR.Text = resource.PropTime(2, 1)
-        Main_GroupBox_Time_NumericUpDown_Ward.Text = resource.PropTime(3, 1)
+        Main_GroupBox_TimeBaron_NumericUpDown.Text = resource.PropTime(0, 1)
+        Main_GroupBox_TimeDragon_NumericUpDown.Text = resource.PropTime(1, 1)
+        Main_GroupBox_TimeOB_NumericUpDown.Text = resource.PropTime(2, 1)
+        Main_GroupBox_TimeOR_NumericUpDown.Text = resource.PropTime(3, 1)
+        Main_GroupBox_TimeTB_NumericUpDown.Text = resource.PropTime(4, 1)
+        Main_GroupBox_TimeTR_NumericUpDown.Text = resource.PropTime(5, 1)
+        Main_GroupBox_TimeWard_NumericUpDown.Text = resource.PropTime(6, 1)
         Main_GroupBox_ShowWard_CheckBox.Checked = resource.PropConfigBool(3)
         Main_GroupBox_OpenInTray_CheckBox.Checked = resource.PropConfigBool(4)
         Main_GroupBox_TimingDelay_NumericUpDown.Text = resource.PropConfig(11, 1)
@@ -210,10 +234,13 @@ Public Class Configuration
         TeamSyncTimerGetChanges.Enabled = True
     End Sub
     Private Sub CollectChangesMain()
-        resource.PropTimeInt(0, 1) = CInt(Main_GroupBox_Time_NumericUpDown_Baron.Text)
-        resource.PropTimeInt(1, 1) = CInt(Main_GroupBox_Time_NumericUpDown_Dragon.Text)
-        resource.PropTimeInt(2, 1) = CInt(Main_GroupBox_Time_NumericUpDown_BR.Text)
-        resource.PropTimeInt(3, 1) = CInt(Main_GroupBox_Time_NumericUpDown_Ward.Text)
+        resource.PropTimeInt(0, 1) = CInt(Main_GroupBox_TimeBaron_NumericUpDown.Text)
+        resource.PropTimeInt(1, 1) = CInt(Main_GroupBox_TimeDragon_NumericUpDown.Text)
+        resource.PropTimeInt(2, 1) = CInt(Main_GroupBox_TimeOB_NumericUpDown.Text)
+        resource.PropTimeInt(3, 1) = CInt(Main_GroupBox_TimeOR_NumericUpDown.Text)
+        resource.PropTimeInt(4, 1) = CInt(Main_GroupBox_TimeTB_NumericUpDown.Text)
+        resource.PropTimeInt(5, 1) = CInt(Main_GroupBox_TimeTR_NumericUpDown.Text)
+        resource.PropTimeInt(6, 1) = CInt(Main_GroupBox_TimeWard_NumericUpDown.Text)
         resource.PropConfig(3, 1) = CStr(Main_GroupBox_ShowWard_CheckBox.Checked)
         resource.PropConfig(4, 1) = CStr(Main_GroupBox_OpenInTray_CheckBox.Checked)
         resource.PropConfigInt(11) = CInt(Main_GroupBox_TimingDelay_NumericUpDown.Text)
@@ -250,9 +277,9 @@ Public Class Configuration
     End Function
     Private Sub Main_GroupBox_GameMode_ComboBox_TextChanged(sender As Object, e As System.EventArgs) Handles Main_GroupBox_GameMode_ComboBox.SelectedIndexChanged
         If Main_GroupBox_GameMode_ComboBox.SelectedIndex = 0 Then
-            Main_GroupBox_Time_NumericUpDown_Baron.Text = CStr(7)
+            Main_GroupBox_TimeBaron_NumericUpDown.Text = CStr(420)
         Else
-            Main_GroupBox_Time_NumericUpDown_Baron.Text = CStr(5)
+            Main_GroupBox_TimeBaron_NumericUpDown.Text = CStr(300)
         End If
     End Sub
     Private Sub Main_GroupBox_CheckVersion_Button_Download_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Main_GroupBox_CheckVersion_Button_Download_32.Click
@@ -265,7 +292,7 @@ Public Class Configuration
     End Sub
     Private Sub Main_GroupBox_SearchLog_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Main_GroupBox_SearchLog_Button.Click
         Dim FolderBrowser As New FolderBrowserDialog
-        FolderBrowser.Description = "Please choose your RIOT Games Log folder."
+        FolderBrowser.Description = "Please choose your Riot Games Log folder."
         FolderBrowser.RootFolder = System.Environment.SpecialFolder.Desktop
         FolderBrowser.SelectedPath = My.Computer.FileSystem.SpecialDirectories.Desktop
         If FolderBrowser.ShowDialog = Windows.Forms.DialogResult.OK Then
@@ -492,7 +519,6 @@ Public Class Configuration
         W2C_GroupBox_Features_CheckBox_BR.Checked = resource.PropChatBool(1)
         W2C_GroupBox_Features_CheckBox_Ward.Checked = resource.PropChatBool(2)
         W2C_GroupBox_Endtime_Show_CheckBox.Checked = resource.PropConfigBool(6)
-        W2C_GroupBox_Seperator_TextBox_Seperator.Text = resource.PropConfig(1, 1)
         W2C_GroupBox_Endtime_Size_NumericUpDown.Text = resource.PropConfig(10, 1)
         W2C_GroupBox_Delay_NumericUpDown_Foreground.Value = resource.PropDelayInt(0, 1)
         W2C_GroupBox_Delay_NumericUpDown_Enter.Value = resource.PropDelayInt(1, 1)
@@ -503,9 +529,6 @@ Public Class Configuration
         resource.PropChat(1, 1) = CStr(W2C_GroupBox_Features_CheckBox_BR.Checked)
         resource.PropChat(2, 1) = CStr(W2C_GroupBox_Features_CheckBox_Ward.Checked)
         resource.PropConfig(6, 1) = CStr(W2C_GroupBox_Endtime_Show_CheckBox.Checked)
-        If W2C_GroupBox_Seperator_TextBox_Seperator.Text <> "" Then
-            resource.PropConfig(1, 1) = W2C_GroupBox_Seperator_TextBox_Seperator.Text
-        End If
         If W2C_GroupBox_Endtime_Size_NumericUpDown.Text <> "" Then
             resource.PropConfig(10, 1) = W2C_GroupBox_Endtime_Size_NumericUpDown.Text
         End If
@@ -561,7 +584,6 @@ Public Class Configuration
         Design_GroupBox_LJTDColors_PictureBox_Normal.BackColor = Color.FromArgb(255, resource.PropColorInt(7, 1), resource.PropColorInt(7, 2), resource.PropColorInt(7, 3))
         Design_GroupBox_LJTDColors_PictureBox_Active.BackColor = Color.FromArgb(255, resource.PropColorInt(8, 1), resource.PropColorInt(8, 2), resource.PropColorInt(8, 3))
         Design_GroupBox_LJTDColors_PictureBox_Mousehover.BackColor = Color.FromArgb(255, resource.PropColorInt(9, 1), resource.PropColorInt(9, 2), resource.PropColorInt(9, 3))
-        Design_GroupBox_Hide_CheckBox.Checked = resource.PropConfigBool(7)
         Design_GroupBox_FontSize_TextBox_Name.Text = resource.PropFont(0, 1)
         Design_GroupBox_FontSize_NumericUpDown_Baron.Value = resource.PropFontInt(1)
         Design_GroupBox_FontSize_NumericUpDown_Dragon.Value = resource.PropFontInt(2)
@@ -570,6 +592,7 @@ Public Class Configuration
         Design_GroupBox_TopMost_CheckBox.Checked = resource.PropConfigBool(8)
         Design_GroupBox_ShowInTaskbar_CheckBox.Checked = resource.PropConfigBool(18)
         Design_GroupBox_ShowPanel_CheckBox.Checked = resource.PropConfigBool(19)
+        Design_GroupBox_GameClock_CheckBox.Checked = resource.PropConfigBool(7)
     End Sub
     Private Sub CollectChangesDesign()
         resource.PropColor(0, 1) = CStr(Design_GroupBox_Color_PictureBox_Baron.BackColor.R)
@@ -602,7 +625,6 @@ Public Class Configuration
         resource.PropColor(9, 1) = CStr(Design_GroupBox_LJTDColors_PictureBox_Mousehover.BackColor.R)
         resource.PropColor(9, 2) = CStr(Design_GroupBox_LJTDColors_PictureBox_Mousehover.BackColor.G)
         resource.PropColor(9, 3) = CStr(Design_GroupBox_LJTDColors_PictureBox_Mousehover.BackColor.B)
-        resource.PropConfig(7, 1) = CStr(Design_GroupBox_Hide_CheckBox.Checked)
         resource.PropFont(0, 1) = Design_GroupBox_FontSize_TextBox_Name.Text
         resource.PropFont(1, 1) = CStr(Design_GroupBox_FontSize_NumericUpDown_Baron.Value)
         resource.PropFont(2, 1) = CStr(Design_GroupBox_FontSize_NumericUpDown_Dragon.Value)
@@ -611,6 +633,7 @@ Public Class Configuration
         resource.PropConfig(8, 1) = CStr(Design_GroupBox_TopMost_CheckBox.Checked)
         resource.PropConfig(18, 1) = CStr(Design_GroupBox_ShowInTaskbar_CheckBox.Checked)
         resource.PropConfig(19, 1) = CStr(Design_GroupBox_ShowPanel_CheckBox.Checked)
+        resource.PropConfig(7, 1) = CStr(Design_GroupBox_GameClock_CheckBox.Checked)
     End Sub
     Private Sub Color_GroupBox_Color_PictureBox_Baron_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Design_GroupBox_Color_PictureBox_Baron.Click
         If ColorDialog.ShowDialog() = DialogResult.OK Then
@@ -697,13 +720,33 @@ Public Class Configuration
         MiniMap_GroupBox_Remember_TextBox_1.Text = resource.PropRemember(0, 1)
         MiniMap_GroupBox_Remember_TextBox_2.Text = resource.PropRemember(1, 1)
         MiniMap_GroupBox_Remember_TextBox_3.Text = resource.PropRemember(2, 1)
-        MiniMap_GroupBox_PingTime_NumericUpDown.Text = CStr(resource.PropMinimapInt(5))
+        MiniMap_GroupBox_Pings_ShowCheckbox.Checked = resource.PropMinimapBool(7)
+        MiniMap_GroupBox_Pings_DurationNumericUpDown.Text = CStr(resource.PropMinimapInt(5))
+        MiniMap_GroupBox_ShowDurationsShow_CheckBox.Checked = resource.PropMinimapBool(8)
+        MiniMap_GroupBox_ShowDurationsSize_NumericUpDown.Text = CStr(resource.PropMinimapInt(9))
+        MiniMap_GroupBox_ShowDurationsUseOwn_CheckBox.Checked = resource.PropMinimapBool(22)
+        MiniMap_GroupBox_ShowDurationsLocation_Baron_NumericUpDown_x.Text = CStr(resource.PropMinimapInt(10))
+        MiniMap_GroupBox_ShowDurationsLocation_Baron_NumericUpDown_y.Text = CStr(resource.PropMinimapInt(11))
+        MiniMap_GroupBox_ShowDurationsLocation_Dragon_NumericUpDown_x.Text = CStr(resource.PropMinimapInt(12))
+        MiniMap_GroupBox_ShowDurationsLocation_Dragon_NumericUpDown_y.Text = CStr(resource.PropMinimapInt(13))
+        MiniMap_GroupBox_ShowDurationsLocation_OB_NumericUpDown_x.Text = CStr(resource.PropMinimapInt(14))
+        MiniMap_GroupBox_ShowDurationsLocation_OB_NumericUpDown_y.Text = CStr(resource.PropMinimapInt(15))
+        MiniMap_GroupBox_ShowDurationsLocation_OR_NumericUpDown_x.Text = CStr(resource.PropMinimapInt(16))
+        MiniMap_GroupBox_ShowDurationsLocation_OR_NumericUpDown_y.Text = CStr(resource.PropMinimapInt(17))
+        MiniMap_GroupBox_ShowDurationsLocation_TB_NumericUpDown_x.Text = CStr(resource.PropMinimapInt(18))
+        MiniMap_GroupBox_ShowDurationsLocation_TB_NumericUpDown_y.Text = CStr(resource.PropMinimapInt(19))
+        MiniMap_GroupBox_ShowDurationsLocation_TR_NumericUpDown_x.Text = CStr(resource.PropMinimapInt(20))
+        MiniMap_GroupBox_ShowDurationsLocation_TR_NumericUpDown_y.Text = CStr(resource.PropMinimapInt(21))
         MiniMap_GroupBox_AutoStart_CheckBox.Checked = resource.PropMinimapBool(3)
         MiniMap_GroupBox_PlaySound_CheckBox.Checked = resource.PropConfigBool(9)
         MiniMap_GroupBox_Fullmode_CheckBox.Checked = resource.PropMinimapBool(4)
         MiniMap_GroupBox_WardMap_CheckBox.Checked = resource.PropWardmapBool(0, 1)
         MiniMap_GroupBox_WardMap_TextBox.Text = CType(resource.PropWardmap(1, 1), Keys).ToString
         MiniMap_GroupBox_WardMap_TextBox.Tag = resource.PropWardmap(1, 1)
+        MiniMapGroupBoxWardMap_SetEnableStatus()
+        MiniMapGroupBoxPings_SetEnableStatus()
+        MiniMapGroupBoxShowDurations_SetEnableStatus()
+        MiniMapGroupBoxShowDurationsUseOwn_SetEnableStatus()
     End Sub
     Private Sub CollectChangesMiniMap()
         resource.PropMinimap(0, 1) = MiniMap_GroupBox_Style_NumericUpDown_Size_X.Text
@@ -713,13 +756,106 @@ Public Class Configuration
         resource.PropRemember(0, 1) = MiniMap_GroupBox_Remember_TextBox_1.Text
         resource.PropRemember(1, 1) = MiniMap_GroupBox_Remember_TextBox_2.Text
         resource.PropRemember(2, 1) = MiniMap_GroupBox_Remember_TextBox_3.Text
-        resource.PropMinimapInt(5) = CInt(MiniMap_GroupBox_PingTime_NumericUpDown.Text)
+        resource.PropMinimapBool(7) = MiniMap_GroupBox_Pings_ShowCheckbox.Checked
+        resource.PropMinimapInt(5) = CInt(MiniMap_GroupBox_Pings_DurationNumericUpDown.Text)
+        resource.PropMinimapBool(8) = MiniMap_GroupBox_ShowDurationsShow_CheckBox.Checked
+        resource.PropMinimapInt(9) = CInt(MiniMap_GroupBox_ShowDurationsSize_NumericUpDown.Text)
+        resource.PropMinimapBool(22) = MiniMap_GroupBox_ShowDurationsUseOwn_CheckBox.Checked
+        resource.PropMinimapInt(10) = CInt(MiniMap_GroupBox_ShowDurationsLocation_Baron_NumericUpDown_x.Text)
+        resource.PropMinimapInt(11) = CInt(MiniMap_GroupBox_ShowDurationsLocation_Baron_NumericUpDown_y.Text)
+        resource.PropMinimapInt(12) = CInt(MiniMap_GroupBox_ShowDurationsLocation_Dragon_NumericUpDown_x.Text)
+        resource.PropMinimapInt(13) = CInt(MiniMap_GroupBox_ShowDurationsLocation_Dragon_NumericUpDown_y.Text)
+        resource.PropMinimapInt(14) = CInt(MiniMap_GroupBox_ShowDurationsLocation_OB_NumericUpDown_x.Text)
+        resource.PropMinimapInt(15) = CInt(MiniMap_GroupBox_ShowDurationsLocation_OB_NumericUpDown_y.Text)
+        resource.PropMinimapInt(16) = CInt(MiniMap_GroupBox_ShowDurationsLocation_OR_NumericUpDown_x.Text)
+        resource.PropMinimapInt(17) = CInt(MiniMap_GroupBox_ShowDurationsLocation_OR_NumericUpDown_y.Text)
+        resource.PropMinimapInt(18) = CInt(MiniMap_GroupBox_ShowDurationsLocation_TB_NumericUpDown_x.Text)
+        resource.PropMinimapInt(19) = CInt(MiniMap_GroupBox_ShowDurationsLocation_TB_NumericUpDown_y.Text)
+        resource.PropMinimapInt(20) = CInt(MiniMap_GroupBox_ShowDurationsLocation_TR_NumericUpDown_x.Text)
+        resource.PropMinimapInt(21) = CInt(MiniMap_GroupBox_ShowDurationsLocation_TR_NumericUpDown_y.Text)
         resource.PropMinimapBool(3) = MiniMap_GroupBox_AutoStart_CheckBox.Checked
         resource.PropConfigBool(9) = MiniMap_GroupBox_PlaySound_CheckBox.Checked
         resource.PropMinimapBool(4) = MiniMap_GroupBox_Fullmode_CheckBox.Checked
         resource.PropWardmapBool(0, 1) = MiniMap_GroupBox_WardMap_CheckBox.Checked
         resource.PropWardmap(1, 1) = CStr(MiniMap_GroupBox_WardMap_TextBox.Tag)
     End Sub
+    Private Sub MiniMapGroupBoxWardMap_SetEnableStatus() Handles MiniMap_GroupBox_WardMap_CheckBox.CheckedChanged
+        If MiniMap_GroupBox_WardMap_CheckBox.Checked Then
+            MiniMap_GroupBox_WardMap_TextBox.Enabled = True
+        Else
+            MiniMap_GroupBox_WardMap_TextBox.Enabled = False
+        End If
+    End Sub
+    Private Sub MiniMapGroupBoxPings_SetEnableStatus() Handles MiniMap_GroupBox_Pings_ShowCheckbox.CheckedChanged
+        If MiniMap_GroupBox_Pings_ShowCheckbox.Checked Then
+            MiniMap_GroupBox_Pings_DurationNumericUpDown.Enabled = True
+        Else
+            MiniMap_GroupBox_Pings_DurationNumericUpDown.Enabled = False
+        End If
+    End Sub
+    Private Sub MiniMapGroupBoxShowDurations_SetEnableStatus() Handles MiniMap_GroupBox_ShowDurationsShow_CheckBox.CheckedChanged
+        If MiniMap_GroupBox_ShowDurationsShow_CheckBox.Checked Then
+            MiniMap_GroupBox_ShowDurationsSize_NumericUpDown.Enabled = True
+            MiniMap_GroupBox_ShowDurationsUseOwn_CheckBox.Enabled = True
+            MiniMap_GroupBox_ShowDurationsLocation_Baron_NumericUpDown_x.Enabled = True
+            MiniMap_GroupBox_ShowDurationsLocation_Dragon_NumericUpDown_x.Enabled = True
+            MiniMap_GroupBox_ShowDurationsLocation_OB_NumericUpDown_x.Enabled = True
+            MiniMap_GroupBox_ShowDurationsLocation_OR_NumericUpDown_x.Enabled = True
+            MiniMap_GroupBox_ShowDurationsLocation_TB_NumericUpDown_x.Enabled = True
+            MiniMap_GroupBox_ShowDurationsLocation_TR_NumericUpDown_x.Enabled = True
+            MiniMap_GroupBox_ShowDurationsLocation_Baron_NumericUpDown_y.Enabled = True
+            MiniMap_GroupBox_ShowDurationsLocation_Dragon_NumericUpDown_y.Enabled = True
+            MiniMap_GroupBox_ShowDurationsLocation_OB_NumericUpDown_y.Enabled = True
+            MiniMap_GroupBox_ShowDurationsLocation_OR_NumericUpDown_y.Enabled = True
+            MiniMap_GroupBox_ShowDurationsLocation_TB_NumericUpDown_y.Enabled = True
+            MiniMap_GroupBox_ShowDurationsLocation_TR_NumericUpDown_y.Enabled = True
+        Else
+            MiniMap_GroupBox_ShowDurationsSize_NumericUpDown.Enabled = False
+            MiniMap_GroupBox_ShowDurationsUseOwn_CheckBox.Enabled = False
+            MiniMap_GroupBox_ShowDurationsLocation_Baron_NumericUpDown_x.Enabled = False
+            MiniMap_GroupBox_ShowDurationsLocation_Dragon_NumericUpDown_x.Enabled = False
+            MiniMap_GroupBox_ShowDurationsLocation_OB_NumericUpDown_x.Enabled = False
+            MiniMap_GroupBox_ShowDurationsLocation_OR_NumericUpDown_x.Enabled = False
+            MiniMap_GroupBox_ShowDurationsLocation_TB_NumericUpDown_x.Enabled = False
+            MiniMap_GroupBox_ShowDurationsLocation_TR_NumericUpDown_x.Enabled = False
+            MiniMap_GroupBox_ShowDurationsLocation_Baron_NumericUpDown_y.Enabled = False
+            MiniMap_GroupBox_ShowDurationsLocation_Dragon_NumericUpDown_y.Enabled = False
+            MiniMap_GroupBox_ShowDurationsLocation_OB_NumericUpDown_y.Enabled = False
+            MiniMap_GroupBox_ShowDurationsLocation_OR_NumericUpDown_y.Enabled = False
+            MiniMap_GroupBox_ShowDurationsLocation_TB_NumericUpDown_y.Enabled = False
+            MiniMap_GroupBox_ShowDurationsLocation_TR_NumericUpDown_y.Enabled = False
+        End If
+    End Sub
+    Private Sub MiniMapGroupBoxShowDurationsUseOwn_SetEnableStatus() Handles MiniMap_GroupBox_ShowDurationsUseOwn_CheckBox.CheckedChanged
+        If MiniMap_GroupBox_ShowDurationsUseOwn_CheckBox.Checked Then
+            MiniMap_GroupBox_ShowDurationsLocation_Baron_NumericUpDown_x.Enabled = True
+            MiniMap_GroupBox_ShowDurationsLocation_Dragon_NumericUpDown_x.Enabled = True
+            MiniMap_GroupBox_ShowDurationsLocation_OB_NumericUpDown_x.Enabled = True
+            MiniMap_GroupBox_ShowDurationsLocation_OR_NumericUpDown_x.Enabled = True
+            MiniMap_GroupBox_ShowDurationsLocation_TB_NumericUpDown_x.Enabled = True
+            MiniMap_GroupBox_ShowDurationsLocation_TR_NumericUpDown_x.Enabled = True
+            MiniMap_GroupBox_ShowDurationsLocation_Baron_NumericUpDown_y.Enabled = True
+            MiniMap_GroupBox_ShowDurationsLocation_Dragon_NumericUpDown_y.Enabled = True
+            MiniMap_GroupBox_ShowDurationsLocation_OB_NumericUpDown_y.Enabled = True
+            MiniMap_GroupBox_ShowDurationsLocation_OR_NumericUpDown_y.Enabled = True
+            MiniMap_GroupBox_ShowDurationsLocation_TB_NumericUpDown_y.Enabled = True
+            MiniMap_GroupBox_ShowDurationsLocation_TR_NumericUpDown_y.Enabled = True
+        Else
+            MiniMap_GroupBox_ShowDurationsLocation_Baron_NumericUpDown_x.Enabled = False
+            MiniMap_GroupBox_ShowDurationsLocation_Dragon_NumericUpDown_x.Enabled = False
+            MiniMap_GroupBox_ShowDurationsLocation_OB_NumericUpDown_x.Enabled = False
+            MiniMap_GroupBox_ShowDurationsLocation_OR_NumericUpDown_x.Enabled = False
+            MiniMap_GroupBox_ShowDurationsLocation_TB_NumericUpDown_x.Enabled = False
+            MiniMap_GroupBox_ShowDurationsLocation_TR_NumericUpDown_x.Enabled = False
+            MiniMap_GroupBox_ShowDurationsLocation_Baron_NumericUpDown_y.Enabled = False
+            MiniMap_GroupBox_ShowDurationsLocation_Dragon_NumericUpDown_y.Enabled = False
+            MiniMap_GroupBox_ShowDurationsLocation_OB_NumericUpDown_y.Enabled = False
+            MiniMap_GroupBox_ShowDurationsLocation_OR_NumericUpDown_y.Enabled = False
+            MiniMap_GroupBox_ShowDurationsLocation_TB_NumericUpDown_y.Enabled = False
+            MiniMap_GroupBox_ShowDurationsLocation_TR_NumericUpDown_y.Enabled = False
+        End If
+    End Sub
+
 #End Region
 #Region "Panel Name"
     Private Sub InitializePanelName()
@@ -755,7 +891,7 @@ Public Class Configuration
         Name_GroupBox_Macro_TextBox_Hotkey_4.Tag = resource.PropMacro(5, 1)
         Name_GroupBox_Macro_TextBox_Hotkey_5.Tag = resource.PropMacro(6, 1)
         Name_GroupBox_Macro_TextBox_Hotkey_6.Tag = resource.PropMacro(7, 1)
-        NameGroupboxMacroSetDisabled()
+        NameGroupboxMacro_SetEnableStatus()
     End Sub
     Private Sub CollectChangesName()
         resource.PropName(0, 1) = Name_GroupBox_TextBox_Baron.Text
@@ -794,10 +930,7 @@ Public Class Configuration
             End If
         End If
     End Sub
-    Private Sub Name_GroupBox_Macro_CheckBox_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Name_GroupBox_Macro_CheckBox.CheckedChanged
-        NameGroupboxMacroSetDisabled()
-    End Sub
-    Private Sub NameGroupboxMacroSetDisabled()
+    Private Sub NameGroupboxMacro_SetEnableStatus() Handles Name_GroupBox_Macro_CheckBox.CheckedChanged
         If Name_GroupBox_Macro_CheckBox.Checked Then
             Name_GroupBox_Macro_ComboBox_Opener_1.Enabled = True
             Name_GroupBox_Macro_ComboBox_Opener_2.Enabled = True
@@ -1034,7 +1167,6 @@ Public Class Configuration
         sender.Text = sender.Text.ToUpper()
     End Sub
 #End Region
-
 
    
 End Class

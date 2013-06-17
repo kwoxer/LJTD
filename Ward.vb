@@ -70,7 +70,6 @@ Public Class Ward
     Private Sub StopWardClick()
         Configuration.TeamSyncTimerGetChanges.Stop()
         updateFinishedTeamSyncWards(ScaleX, ScaleY)
-        MiniMap.DeleteClickWards(ScaleX, ScaleY)
         timer4Buff.Stop()
         Finished = True
         Configuration.TeamSyncTimerGetChanges.Start()
