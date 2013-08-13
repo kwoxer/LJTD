@@ -10,15 +10,15 @@
             Return cp
         End Get
     End Property
-    Private Sub Panel_MouseDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseDown
-        Module_MoveWindow.InitializeMoveEvent(e, Handle)
+    Private Sub PanelMouseDown_event(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseDown
+        Module_MoveWindow.MoveEvent_Initialize(e, Handle)
     End Sub
-    Public Sub ShowSign()
+    Public Sub Sign_Show()
         Me.Location = New Point(LJTD.Location.X + LJTD.Size.Width, LJTD.Location.Y)
         opacityValue = 100
         Timer_Opacity.Start()
     End Sub
-    Private Sub Timer_Opacity_Tick(sender As System.Object, e As System.EventArgs) Handles Timer_Opacity.Tick
+    Private Sub TimerOpacity_Tick(sender As System.Object, e As System.EventArgs) Handles Timer_Opacity.Tick
         If opacityValue >= 0 Then
             opacityValue = opacityValue - 1
             Me.Opacity = opacityValue / 100

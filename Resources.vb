@@ -14,7 +14,7 @@ Public Class Resources
     End Property
     ' ### Pictures
     Private picBuffSR As String() = {"res\Buffs\SR\baron.png", "res\Buffs\SR\dragon.png", "res\Buffs\SR\ob.png", "res\Buffs\SR\or.png", "res\Buffs\SR\tb.png", _
-                                "res\Buffs\SR\tr.png", "res\Misc\ward.gif"}
+                                "res\Buffs\SR\tr.png", "res\Misc\flash.png"}
     Public ReadOnly Property PropPicBuffSR(i As Integer) As String
         Get
             Return picBuffSR(i)
@@ -116,11 +116,14 @@ Public Class Resources
     End Property
 
     ' ###### File Configuration
-    Private fileConfig As String = "res\ljtd.ini"
-    Public ReadOnly Property PropFileConfig() As String
+    Public fileConfig As String = "ljtd"
+    Public Property PropFileConfig() As String
         Get
-            Return fileConfig
+            Return "res\" & fileConfig & ".ini"
         End Get
+        Set(value As String)
+            fileConfig = "res\" & value & ".ini"
+        End Set
     End Property
 
     ' #################################################### Log file
@@ -130,24 +133,24 @@ Public Class Resources
             Return searchLogfile(i)
         End Get
     End Property
-    ' ### Chat
-    Private chat As String(,) = {{"W2C_DRBA", "False"},
+    ' ### Write2Chat
+    Private write2chat As String(,) = {{"W2C_DRBA", "False"},
                                   {"W2C_BR", "False"},
-                                  {"W2C_WARD", "False"}}
-    Public Property PropChat(ByVal i As Integer, ByVal j As Integer) As String
+                                  {"W2C_FLASH", "False"}}
+    Public Property PropWrite2Chat(ByVal i As Integer, ByVal j As Integer) As String
         Get
-            Return (chat(i, j))
+            Return (write2chat(i, j))
         End Get
         Set(ByVal value As String)
-            chat(i, j) = value
+            write2chat(i, j) = value
         End Set
     End Property
-    Public Property PropChatBool(ByVal i As Integer) As Boolean
+    Public Property PropWrite2ChatBool(ByVal i As Integer) As Boolean
         Get
-            Return CBool(chat(i, 1))
+            Return CBool(write2chat(i, 1))
         End Get
         Set(ByVal value As Boolean)
-            chat(i, 1) = CStr(value)
+            write2chat(i, 1) = CStr(value)
         End Set
     End Property
     ' ### Colors
@@ -157,7 +160,7 @@ Public Class Resources
                                     {"COLOR_OUR_RED", "240", "122", "15"},
                                     {"COLOR_THEIR_BLUE", "105", "210", "240"},
                                     {"COLOR_THEIR_RED", "240", "122", "15"},
-                                    {"COLOR_WARD", "255", "255", "0"},
+                                    {"COLOR_FLASH", "255", "255", "0"},
                                     {"COLOR_LJTD_NORMAL", "100", "100", "100"},
                                     {"COLOR_LJTD_ACTIVE", "20", "20", "20"},
                                     {"COLOR_LJTD_MOUSEHOVER", "192", "192", "192"}}
@@ -175,17 +178,17 @@ Public Class Resources
         End Get
     End Property
     ' ### Configuration
-    Private config As String(,) = {{"CONFIG_LOG", "C:\Riot Games\League of Legends\Logs\Game - R3d Logs"},
+    Private config As String(,) = {{"CONFIG_LOG", "C:\Riot Games"},
                                    {"PLACEKEEPER", "PLACEKEEPER"},
                                    {"HOTKEY_OPENER", "ALT"},
-                                   {"SHOW_WARD", "True"},
+                                   {"SHOW_FLASH", "True"},
                                    {"OPEN_IN_TRAY", "False"},
                                    {"SLIDE", "0"},
                                    {"SHOW_ENDTIME_LABEL", "True"},
                                    {"GAME_CLOCK_ENABLED", "True"},
                                    {"TOP_MOST", "True"},
                                    {"SOUND", "True"},
-                                   {"ENDTIME_LABEL_SIZE", "8,25"},
+                                   {"ENDTIME_LABEL_SIZE", "8"},
                                    {"GAME_CLOCK_DELAY", "45"},
                                    {"OPACTIY", "70"},
                                    {"LJTD_START_X", "UNSET"},
@@ -225,7 +228,7 @@ Public Class Resources
     Private delay As String(,) = {{"DELAY_AFTER_FOREGROUND", "50"},
                                     {"DELAY_AFTER_ENTER", "20"},
                                     {"DELAY_AFTER_TEXT", "20"}}
-    Public Property PropCelay(i As Integer, j As Integer) As String
+    Public Property PropDelay(i As Integer, j As Integer) As String
         Get
             Return (delay(i, j))
         End Get
@@ -243,7 +246,7 @@ Public Class Resources
                                   {"FONT_SIZE_BARON", "20"},
                                   {"FONT_SIZE_DRAGON", "20"},
                                   {"FONT_SIZE_RED_BLUE", "17"},
-                                  {"FONT_SIZE_WARD", "8"}}
+                                  {"FONT_SIZE_FLASH", "8"}}
     Public Property PropFont(i As Integer, j As Integer) As String
         Get
             Return font(i, j)
@@ -264,7 +267,7 @@ Public Class Resources
                                     {"HOTKEY_OUR_RED", "52"},
                                     {"HOTKEY_THEIR_BLUE", "53"},
                                     {"HOTKEY_THEIR_RED", "54"},
-                                    {"HOTKEY_WARD", "55"}}
+                                    {"HOTKEY_FLASH", "55"}}
     Public Property PropHotkey(i As Integer, j As Integer) As String
         Get
             If hotkey(i, j).Length > 1 Then
@@ -396,7 +399,7 @@ Public Class Resources
                                   {"NAME_OUR_RED", "OR at "},
                                   {"NAME_THEIR_BLUE", "TB at "},
                                   {"NAME_THEIR_RED", "TR at "},
-                                  {"NAME_WARD", "Ward at "}}
+                                  {"NAME_FLASH", "Flash at "}}
     Public Property PropName(i As Integer, j As Integer) As String
         Get
             Return name(i, j)
@@ -424,7 +427,7 @@ Public Class Resources
                                   {"TIME_OR", "300"},
                                   {"TIME_TB", "300"},
                                   {"TIME_TR", "300"},
-                                  {"TIME_WARD", "180"}}
+                                  {"TIME_FLASH", "300"}}
     Public Property PropTime(i As Integer, j As Integer) As String
         Get
             Return (time(i, j))
@@ -482,10 +485,10 @@ Public Class Resources
                 strParts = tempString(counter).Split(Seperator_config_file)(1)
             Catch ex As Exception
             End Try
-            For i = 0 To UBound(chat)
-                If tempString(counter).StartsWith(chat(i, 0)) Then
+            For i = 0 To UBound(write2chat)
+                If tempString(counter).StartsWith(write2chat(i, 0)) Then
                     If strParts <> "" Then
-                        chat(i, 1) = strParts
+                        write2chat(i, 1) = strParts
                     End If
                 End If
             Next

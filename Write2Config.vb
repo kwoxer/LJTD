@@ -1,5 +1,5 @@
-﻿Public Class Module_Write2Config
-    Public Sub Prepare(_Resource As Resources)
+﻿Public Class Write2Config
+    Public Sub ConfigFile_Prepare(_Resource As Resources)
         Dim tempString(,) As String = {
                                         {_Resource.PropConfig(15, 0), _Resource.PropConfig(15, 1)},
                                         {_Resource.PropColor(0, 0), _Resource.PropColor(0, 1) & "," & _Resource.PropColor(0, 2) & "," & _Resource.PropColor(0, 3)},
@@ -13,9 +13,9 @@
                                         {_Resource.PropColor(8, 0), _Resource.PropColor(8, 1) & "," & _Resource.PropColor(8, 2) & "," & _Resource.PropColor(8, 3)},
                                         {_Resource.PropColor(9, 0), _Resource.PropColor(9, 1) & "," & _Resource.PropColor(9, 2) & "," & _Resource.PropColor(9, 3)},
                                         {_Resource.PropConfig(0, 0), _Resource.PropConfig(0, 1)},
-                                        {_Resource.PropCelay(0, 0), _Resource.PropCelay(0, 1)},
-                                        {_Resource.PropCelay(1, 0), _Resource.PropCelay(1, 1)},
-                                        {_Resource.PropCelay(2, 0), _Resource.PropCelay(2, 1)},
+                                        {_Resource.PropDelay(0, 0), _Resource.PropDelay(0, 1)},
+                                        {_Resource.PropDelay(1, 0), _Resource.PropDelay(1, 1)},
+                                        {_Resource.PropDelay(2, 0), _Resource.PropDelay(2, 1)},
                                         {_Resource.PropConfig(16, 0), _Resource.PropConfig(16, 1)},
                                         {_Resource.PropConfig(10, 0), _Resource.PropConfig(10, 1)},
                                         {_Resource.PropFont(0, 0), _Resource.PropFont(0, 1)},
@@ -107,19 +107,30 @@
                                         {_Resource.PropConfig(8, 0), _Resource.PropConfig(8, 1)},
                                         {_Resource.PropWardmap(0, 0), _Resource.PropWardmap(0, 1)},
                                         {_Resource.PropWardmap(1, 0), _Resource.PropWardmap(1, 1)},
-                                        {_Resource.PropChat(0, 0), _Resource.PropChat(0, 1)},
-                                        {_Resource.PropChat(1, 0), _Resource.PropChat(1, 1)},
-                                        {_Resource.PropChat(2, 0), _Resource.PropChat(2, 1)}
+                                        {_Resource.PropWrite2Chat(0, 0), _Resource.PropWrite2Chat(0, 1)},
+                                        {_Resource.PropWrite2Chat(1, 0), _Resource.PropWrite2Chat(1, 1)},
+                                        {_Resource.PropWrite2Chat(2, 0), _Resource.PropWrite2Chat(2, 1)}
                                       }
-        WriteConfigFile(tempString, _Resource)
+        ConfigFile_Write(tempString, _Resource)
     End Sub
-    Public Sub WriteConfigFile(tempString(,) As String, resource As Resources)
-        If System.IO.File.Exists(resource.PropFileConfig) = True Then
-            Dim objWriter As New System.IO.StreamWriter(resource.PropFileConfig)
-            For i = 0 To UBound(tempString)
-                objWriter.WriteLine(tempString(i, 0) & "=" & tempString(i, 1))
-            Next
+    Public Sub ConfigFile_Write(tempString(,) As String, resource As Resources)
+        Dim objWriter
+        Try
+            objWriter = New System.IO.StreamWriter(resource.PropFileConfig)
+            If System.IO.File.Exists(resource.PropFileConfig) = True Then
+                For i = 0 To UBound(tempString)
+                    objWriter.WriteLine(tempString(i, 0) & "=" & tempString(i, 1))
+                Next
+                objWriter.Close()
+            Else
+                System.IO.File.Create(resource.PropFileConfig, 1, System.IO.FileOptions.Asynchronous)
+                For i = 0 To UBound(tempString)
+                    objWriter.WriteLine(tempString(i, 0) & "=" & tempString(i, 1))
+                Next
+                objWriter.Close()
+            End If
+        Catch ex As Exception
             objWriter.Close()
-        End If
+        End Try
     End Sub
 End Class

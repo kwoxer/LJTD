@@ -1,5 +1,4 @@
-﻿Imports System.Timers
-Public Class Ward
+﻿Public Class Ward
     Public ScaleX As Double
     Public ScaleY As Double
     Public Finished As Boolean
@@ -18,23 +17,21 @@ Public Class Ward
     Private Shared teamSyncGeneratedURLsWard As String() = {"http://www.ljtd.net/team/setWard.php", "http://www.ljtd.net/team/resetWard.php"}
     Private pictureSize As Integer = 10
     Private panelSizeX As Integer = 20, panelSizeY As Integer = 25
-
     Public Sub New(ByVal x As Double, ByVal y As Double)
         ' Created by TeamSync 
-        LoadingWard()
+        Ward_Load()
         ScaleX = x
         ScaleY = y
     End Sub
     Public Sub New(ByVal x As Integer, ByVal y As Integer)
         ' Created by MouseClick 
         Configuration.TeamSyncTimerGetChanges.Stop()
-        LoadingWard()
-        ScaleX = x / (MiniMap.GetWardMapSize.Width - panelSizeX)
-        ScaleY = y / (MiniMap.GetWardMapSize.Height - panelSizeY)
-        'MsgBox(Configuration.TeamSyncOnlineRightsWards)
+        Ward_Load()
+        ScaleX = x / (MiniMap.WardMapSize_Get.Width - panelSizeX)
+        ScaleY = y / (MiniMap.WardMapSize_Get.Height - panelSizeY)
         If Configuration.TeamSyncValid And (Configuration.TeamSyncOnlineRightsWards Or Configuration.TeamSyncOnlineRightsOwner) Then
             Dim webClient As New Net.WebClient
-            Dim nvc = Module_NVC.CreateNVCSetResetWard(Configuration.Main_GroupBox_TeamSync_TextBoxGeneratedKey.Text, ScaleX, ScaleY)
+            Dim nvc = Module_NVC.NVCSetResetWard_Create(Configuration.Main_GroupBox_TeamSync_TextBoxGeneratedKey.Text, ScaleX, ScaleY)
             Try
                 webClient.UploadValues(teamSyncGeneratedURLsWard(0), nvc)
             Catch ex As Exception
@@ -43,15 +40,15 @@ Public Class Ward
         End If
         Configuration.TeamSyncTimerGetChanges.Start()
     End Sub
-    Private Sub LoadingWard()
+    Private Sub Ward_Load()
         startingTime = Now()
-        AddHandler timer4Buff.Elapsed, AddressOf TimerBuff
+        AddHandler timer4Buff.Elapsed, AddressOf TimerBuff_Tick
         timer4Buff.Interval = wardTimerInterval
         timer4Buff.Enabled = True
         overallDuration = wardSeconds180
         remainingTime = overallDuration
     End Sub
-    Public Function CreatePicture() As PictureBox
+    Public Function Picture_Create() As PictureBox
         With picture
             .BringToFront()
             .BackgroundImage = imgWard180
@@ -59,45 +56,45 @@ Public Class Ward
             .Width = pictureSize
             .Location = CreateWardPosition(ScaleX, ScaleY)
         End With
-        AddHandler picture.MouseClick, AddressOf StopWardClick
-        AddHandler picture.MouseHover, AddressOf MouseWardHover
-        AddHandler picture.MouseLeave, AddressOf MouseWardLeave
+        AddHandler picture.MouseClick, AddressOf StopWard_Click
+        AddHandler picture.MouseHover, AddressOf MouseWard_Hover
+        AddHandler picture.MouseLeave, AddressOf MouseWard_Leave
         Return picture
     End Function
     Private Function CreateWardPosition(scaleX As Double, scaleY As Double) As Point
-        Return New Point(CInt((MiniMap.GetWardMapSize.Width - panelSizeX) * scaleX) - CInt(pictureSize / 2), CInt((MiniMap.GetWardMapSize.Height - panelSizeY) * scaleY) + panelSizeY - CInt(pictureSize / 2))
+        Return New Point(CInt((MiniMap.WardMapSize_Get.Width - panelSizeX) * scaleX) - CInt(pictureSize / 2), CInt((MiniMap.WardMapSize_Get.Height - panelSizeY) * scaleY) + panelSizeY - CInt(pictureSize / 2))
     End Function
-    Private Sub StopWardClick()
+    Private Sub StopWard_Click()
         Configuration.TeamSyncTimerGetChanges.Stop()
-        updateFinishedTeamSyncWards(ScaleX, ScaleY)
+        FinishedTeamSyncWards_Update(ScaleX, ScaleY)
         timer4Buff.Stop()
         Finished = True
         Configuration.TeamSyncTimerGetChanges.Start()
     End Sub
-    Private Sub MouseWardHover()
+    Private Sub MouseWard_Hover()
         MiniMap.Activate()
     End Sub
-    Private Sub MouseWardLeave()
-        Module_Write2Chat.SetForgroundWindow()
+    Private Sub MouseWard_Leave()
+        Module_Write2Chat.ForgroundWindow_Set()
     End Sub
-    Public Function GetPicture() As PictureBox
+    Public Function Picture_Get() As PictureBox
         Return picture
     End Function
-    Public Function DestroyPicture() As PictureBox
+    Public Function Picture_Destroy() As PictureBox
         Return picture
     End Function
-    Public Shared Sub updateFinishedTeamSyncWards(scaleX As Double, scaleY As Double)
+    Public Shared Sub FinishedTeamSyncWards_Update(scaleX As Double, scaleY As Double)
         If Configuration.TeamSyncValid And (Configuration.TeamSyncOnlineRightsWards Or Configuration.TeamSyncOnlineRightsOwner) Then
             Dim webClient As New Net.WebClient
-            Dim nvc = Module_NVC.CreateNVCSetResetWard(Configuration.Main_GroupBox_TeamSync_TextBoxGeneratedKey.Text, scaleX, scaleY)
+            Dim nvc = Module_NVC.NVCSetResetWard_Create(Configuration.Main_GroupBox_TeamSync_TextBoxGeneratedKey.Text, scaleX, scaleY)
             Try
                 webClient.UploadValues(teamSyncGeneratedURLsWard(1), nvc)
             Catch ex As Exception
             End Try
         End If
     End Sub
-    Private Sub TimerBuff(ByVal source As Object, ByVal e As ElapsedEventArgs)
-        diff = timing.DateDiffSec(startingTime, Now())
+    Private Sub TimerBuff_Tick(ByVal source As Object, ByVal e As System.Timers.ElapsedEventArgs)
+        diff = timing.DateDiffSec_Get(startingTime, Now())
         If diff >= overallDuration Then
             Finished = True
         End If
@@ -109,7 +106,7 @@ Public Class Ward
         End If
         remainingTime = overallDuration - diff
     End Sub
-    Public Function GetRemainingTime() As Integer
+    Public Function RemainingTime_Get() As Integer
         Return remainingTime
     End Function
 End Class

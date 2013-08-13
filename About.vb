@@ -5,35 +5,34 @@
     Private urlFaceBook As String = "http://www.facebook.com/LoLJungleTD"
     Private urlMailTo As String = "mailto:" & "admin@ljtd.net"
     Private urlDonate As String = "http://www.ljtd.net/misc"
-
     Public WriteOnly Property ImgBackground() As Image
         Set(value As Image)
             imgBg = value
         End Set
     End Property
     Private Sub Panel_MouseDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Panel_About.MouseDown
-        Module_MoveWindow.InitializeMoveEvent(e, Handle)
+        Module_MoveWindow.MoveEvent_Initialize(e, Handle)
     End Sub
-    Private Sub Button_Link_Youtube_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Links_Youtube.Click
+    Private Sub ButtonLinkYoutube_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Links_Youtube.Click
         Process.Start(urlYouTube)
     End Sub
-    Private Sub Button_Link_Twitter_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Links_Twitter.Click
+    Private Sub ButtonLinkTwitter_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Links_Twitter.Click
         Process.Start(urlTwitter)
     End Sub
-    Private Sub Button_Link_Facebook_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Links_Facebook.Click
+    Private Sub ButtonLinkFacebook_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Links_Facebook.Click
         Process.Start(urlFaceBook)
     End Sub
     Private Sub About_Load(sender As Object, e As System.EventArgs) Handles Me.Load
         Label_Version.Text = "LJTD v." & My.Application.Info.Version.ToString & " running on " & My.Computer.Info.OSPlatform
         Panel_About.BackgroundImage = imgBg
     End Sub
-    Private Sub Button_Close_Click(sender As System.Object, e As System.EventArgs) Handles Button_Close.Click
+    Private Sub ButtonClose_Click(sender As System.Object, e As System.EventArgs) Handles Button_Close.Click
         Me.Close()
     End Sub
     Private Sub LinkLabel_LinkClicked(sender As System.Object, e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel_Email.LinkClicked
         Process.Start(urlMailTo)
     End Sub
-    Private Sub Button_Donate_Click(sender As System.Object, e As System.EventArgs) Handles Button_Donate.Click
+    Private Sub ButtonDonate_Click(sender As System.Object, e As System.EventArgs) Handles Button_Donate.Click
         Process.Start(urlDonate)
     End Sub
 End Class

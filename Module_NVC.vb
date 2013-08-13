@@ -10,18 +10,18 @@
     Private postScaleY As String = "scaleY"
     Private postIp As String = "ip"
     Private postStatus As String = "status"
-    Public Function CreateNVCID(id As String) As System.Collections.Specialized.NameValueCollection
+    Public Function NVCID_Create(id As String) As System.Collections.Specialized.NameValueCollection
         Dim nvc As New System.Collections.Specialized.NameValueCollection
         nvc.Add(postId, id)
         Return nvc
     End Function
-    Public Function CreateNVCIP(ip As String, status As String) As System.Collections.Specialized.NameValueCollection
+    Public Function NVCIP_Create(ip As String, status As String) As System.Collections.Specialized.NameValueCollection
         Dim nvc As New System.Collections.Specialized.NameValueCollection
         nvc.Add(postIp, ip)
         nvc.Add(postStatus, status)
         Return nvc
     End Function
-    Public Function CreateNVCSaveKey(id As String, overwrite As Integer, tSGBR As String, tSGWR As String) As System.Collections.Specialized.NameValueCollection
+    Public Function NVCSaveKey_Create(id As String, overwrite As Integer, tSGBR As String, tSGWR As String) As System.Collections.Specialized.NameValueCollection
         Dim nvc As New System.Collections.Specialized.NameValueCollection
         nvc.Add(postId, id)
         nvc.Add(postPcKey, Module_Generate.MacAddress)
@@ -31,18 +31,18 @@
         nvc.Add(postWardRights, tSGWR)
         Return nvc
     End Function
-    Public Function CreateNVCSetBuff(id As String, buffname As String, buffnameStatus As Integer) As System.Collections.Specialized.NameValueCollection
+    Public Function NVCSetBuff_Create(id As String, buffname As String, buffnameStatus As Integer) As System.Collections.Specialized.NameValueCollection
         Dim nvc As New System.Collections.Specialized.NameValueCollection
         nvc.Add(postId, id)
         nvc.Add(buffname, CStr(buffnameStatus))
         Return nvc
     End Function
-    Public Function CreateNVCGetWard(teamID As String) As System.Collections.Specialized.NameValueCollection
+    Public Function NVCGetWard_Create(teamID As String) As System.Collections.Specialized.NameValueCollection
         Dim nvc As New System.Collections.Specialized.NameValueCollection
         nvc.Add(postTeamId, teamID)
         Return nvc
     End Function
-    Public Function CreateNVCSetResetWard(teamID As String, scaleX As Double, scaleY As Double) As System.Collections.Specialized.NameValueCollection
+    Public Function NVCSetResetWard_Create(teamID As String, scaleX As Double, scaleY As Double) As System.Collections.Specialized.NameValueCollection
         Dim nvc As New System.Collections.Specialized.NameValueCollection
         nvc.Add(postTeamId, teamID)
         nvc.Add(postScaleX, CStr(scaleX))

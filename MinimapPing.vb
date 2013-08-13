@@ -1,6 +1,4 @@
-﻿Imports System.IO
-
-Public Class MinimapOverlays
+﻿Public Class MinimapOverlays
     Private picBoxPing As PictureBox
     Private picBoxText As Label
     Private resource As Resources = Resources.GetObject
@@ -9,13 +7,13 @@ Public Class MinimapOverlays
     Private blink As Integer
     Private running As Boolean
     Private scalex, scaley As Single
-    Public teamBlueRed As Boolean = True
-    Public buffID As Integer
+    Public TeamBlueRed As Boolean = True
+    Public BuffID As Integer
     Public Sub New(scalex As Single, scaley As Single, duration As TimeSpan, buffID As Integer)
-        LoadImage()
+        Image_Load()
         Me.scalex = scalex
         Me.scaley = scaley
-        Me.buffID = buffID
+        Me.BuffID = buffID
         picBoxPing = New PictureBox With {
             .Location = New Point(CInt((MiniMap.Size.Width - 20) * scalex) - 10, CInt((MiniMap.Size.Height - 25) * scaley) + 15),
             .Size = New Size(20, 20),
@@ -24,7 +22,7 @@ Public Class MinimapOverlays
             .Visible = False
         }
         picBoxText = New Label With {
-            .Location = New Point(GetLocationXYForDuration(buffID, True), GetLocationXYForDuration(buffID, False)),
+            .Location = New Point(LocationXYForDuration_Get(buffID, True), LocationXYForDuration_Get(buffID, False)),
             .Font = New System.Drawing.Font(resource.PropFont(0, 1), resource.PropMinimapInt(9), FontStyle.Bold, GraphicsUnit.Pixel),
             .FlatStyle = FlatStyle.Flat,
             .BackColor = Color.Transparent,
@@ -41,9 +39,9 @@ Public Class MinimapOverlays
     ''' Returns the pixel value for the duration text
     ''' </summary>
     ''' <remarks></remarks>
-    Private Function GetLocationXYForDuration(buffID As Integer, x As Boolean) As Integer
+    Private Function LocationXYForDuration_Get(buffID As Integer, x As Boolean) As Integer
         Dim locationValue As Integer
-        If teamBlueRed = False Then
+        If TeamBlueRed = False Then
             Select Case buffID
                 Case 2 : buffID = 4
                 Case 3 : buffID = 5
@@ -65,7 +63,7 @@ Public Class MinimapOverlays
     ''' Loading a red or orange picture, depending on the remember times
     ''' </summary>
     ''' <remarks></remarks>
-    Private Sub LoadImage()
+    Private Sub Image_Load()
         Try
             If imageBlink Is Nothing Then imageBlink = Image.FromFile(resource.PropPicMiscMinimapBlink(0))
             If imageBlinkHint Is Nothing Then imageBlinkHint = Image.FromFile(resource.PropPicMiscMinimapBlink(1))
@@ -76,7 +74,7 @@ Public Class MinimapOverlays
     ''' Changing team without reloading the pings -> changing on-the-fly
     ''' </summary>
     ''' <remarks></remarks>
-    Public Sub ChangeTeam(scalex As Single, scaley As Single)
+    Public Sub Team_Change(scalex As Single, scaley As Single)
         Me.scalex = scalex
         Me.scaley = scaley
     End Sub
@@ -84,7 +82,7 @@ Public Class MinimapOverlays
     ''' Method for refreshing location of pings and texts when Advanced Minimap is being resized
     ''' </summary>
     ''' <remarks></remarks>
-    Public Sub RefreshLocation()
+    Public Sub Location_Refresh()
         picBoxPing.Location = New Point(CInt((MiniMap.Size.Width - 20) * scalex) - 10, CInt((MiniMap.Size.Height - 25) * scaley) + 15)
         If resource.PropMinimapBool(22) = False Then
             picBoxText.Location = New Point(CInt((MiniMap.Size.Width - 20) * scalex) - 10, CInt((MiniMap.Size.Height - 25) * scaley) + 0)
@@ -94,9 +92,9 @@ Public Class MinimapOverlays
     ''' Refreshes durations when saving other settings
     ''' </summary>
     ''' <remarks></remarks>
-    Public Sub RefreshDurationLocation()
+    Public Sub DurationLocation_Refresh()
         If resource.PropMinimapBool(22) Then
-            picBoxText.Location = New Point(GetLocationXYForDuration(buffID, True), GetLocationXYForDuration(buffID, False))
+            picBoxText.Location = New Point(LocationXYForDuration_Get(BuffID, True), LocationXYForDuration_Get(BuffID, False))
         Else
             picBoxText.Location = New Point(CInt((MiniMap.Size.Width - 20) * scalex) - 10, CInt((MiniMap.Size.Height - 25) * scaley) + 0)
         End If
@@ -105,7 +103,7 @@ Public Class MinimapOverlays
     ''' Initializes the current duration for a buff when activated
     ''' </summary>
     ''' <remarks></remarks>
-    Public Sub Start()
+    Public Sub Objective_Start()
         running = True
         picBoxText.Visible = True
         picBoxPing.BringToFront()
@@ -114,7 +112,7 @@ Public Class MinimapOverlays
     ''' Let the buff stop
     ''' </summary>
     ''' <remarks></remarks>
-    Public Sub Ends()
+    Public Sub Objective_End()
         running = False
         picBoxPing.Visible = False
         picBoxText.Visible = False
@@ -124,9 +122,9 @@ Public Class MinimapOverlays
     ''' If it watches the hint picture box with be shown for a specific duration.
     ''' </summary>
     ''' <remarks></remarks>
-    Public Sub Tick(buffID As Integer)
+    Public Sub Objective_Tick(buffID As Integer)
         If running = True Then
-            Dim actualTime = LJTD.buff(buffID).GetActualShownTime
+            Dim actualTime = LJTD.Objective(buffID).GetActualShownTime
             picBoxText.Text = actualTime
             If resource.PropRemember(0, 1) = actualTime OrElse resource.PropRemember(1, 1) = actualTime Then
                 blink = resource.PropMinimapInt(5)
@@ -135,7 +133,7 @@ Public Class MinimapOverlays
                     picBoxPing.Visible = True
                 End If
                 If resource.PropConfigBool(9) = True Then
-                    PingSound()
+                    ObjectiveSound_Play()
                 End If
             ElseIf resource.PropRemember(2, 1) = actualTime Then
                 blink = resource.PropMinimapInt(5)
@@ -144,7 +142,7 @@ Public Class MinimapOverlays
                     picBoxPing.Visible = True
                 End If
                 If resource.PropConfigBool(9) = True Then
-                    PingSound()
+                    ObjectiveSound_Play()
                 End If
             End If
             If blink >= 0 Then
@@ -164,10 +162,10 @@ Public Class MinimapOverlays
     ''' Playing a sound when reached a remember time
     ''' </summary>
     ''' <remarks></remarks>
-    Private Sub PingSound()
+    Private Sub ObjectiveSound_Play()
         If resource.PropConfigBool(9) Then
             Try
-                My.Computer.Audio.Play(Path.GetFullPath(resource.PropSound(0)), AudioPlayMode.Background)
+                My.Computer.Audio.Play(System.IO.Path.GetFullPath(resource.PropSound(0)), AudioPlayMode.Background)
             Catch ex As Exception
             End Try
         End If

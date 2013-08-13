@@ -5,8 +5,7 @@ Module Module_Write2Chat
     Private tHandle As Long = Module_Taskbar.FindWindow(vbNullString, "League of Legends (TM) Client")
     Private keyCtrl As String = "^ "
     Private keyEnter As String = "~"
-
-    Public Sub Write(text As String)
+    Public Sub Write2Chat(text As String)
         If tHandle <> 0 Then
             Try
                 SetForegroundWindow(tHandle)
@@ -23,7 +22,7 @@ Module Module_Write2Chat
             'MsgBox("Game not running maybe?!" & "Windows Handle " & THandle)
         End If
     End Sub
-    Public Sub SetForgroundWindow()
+    Public Sub ForgroundWindow_Set()
         SetForegroundWindow(tHandle)
     End Sub
 End Module
