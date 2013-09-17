@@ -3,20 +3,20 @@ Public Class Updater
     Private newestVersion As String
     Private urlDownloadLink As String() = {"http://www.ljtd.net/downloads/LJTD%20x86.rar", "http://www.ljtd.net/downloads/LJTD%20x64.rar"}
     Private urlHistoryWebsite As String = "http://www.ljtd.net/misc/history/"
-    Private urlFAQSaveConfigWebsite As String = "http://www.ljtd.net/misc/faq/#save-old-config"
+    Private urlFAQSaveConfigWebsite As String = "http://www.ljtd.net/misc/faq/#save-import-old-settings"
     Private urlFAQOpenArchiveFileWebsite As String = "http://www.ljtd.net/misc/faq/#open-archive-file"
     Private urlFaceBookWebsite As String = "http://www.facebook.com/LoLJungleTD"
     Private txtLJTDVersion As String = "LJTD Version"
     Private txtDownloadLJTD1 As String = " Where to save the update?"
     Private txtDownloadLJTD2 As String = "Download failed. Try again later."
-    Private txtDownloadLJTD3 As String = "Download completed! You can close this window now."
+    Private txtDownloadLJTD3 As String = "Download completed! You can LJTD now and import the new version."
     Public Sub Updater_Load(version As String, system As Integer, bitSystem As String)
         newestVersion = version
         Label_Version.Text = txtLJTDVersion & " " & newestVersion & " " & bitSystem
         downloadLJTD(system, bitSystem)
     End Sub
     Private Sub Panel_MouseDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Panel_Updater.MouseDown
-        Module_MoveWindow.MoveEvent_Initialize(e, Handle)
+        Module_WindowManagement.MoveEvent_Initialize(e, Handle)
     End Sub
     Private Sub Button_Close_Click(sender As System.Object, e As System.EventArgs) Handles Button_Close.Click
         Me.Close()

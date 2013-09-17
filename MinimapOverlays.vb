@@ -1,6 +1,6 @@
 ﻿Public Class MinimapOverlays
     Private picBoxPing As PictureBox
-    Private picBoxText As Label
+    Private picBoxDuration As Label
     Private resource As Resources = Resources.GetObject
     Private Shared imageBlink, imageBlinkHint As Image
     Private blinkDuration As TimeSpan = TimeSpan.FromSeconds(3)
@@ -9,7 +9,7 @@
     Private scalex, scaley As Single
     Public TeamBlueRed As Boolean = True
     Public BuffID As Integer
-    Public Sub New(scalex As Single, scaley As Single, duration As TimeSpan, buffID As Integer)
+    Public Sub New(ByVal scalex As Single, ByVal scaley As Single, ByVal duration As TimeSpan, ByVal buffID As Integer)
         Image_Load()
         Me.scalex = scalex
         Me.scaley = scaley
@@ -21,7 +21,7 @@
             .Image = imageBlink,
             .Visible = False
         }
-        picBoxText = New Label With {
+        picBoxDuration = New Label With {
             .Location = New Point(LocationXYForDuration_Get(buffID, True), LocationXYForDuration_Get(buffID, False)),
             .Font = New System.Drawing.Font(resource.PropFont(0, 1), resource.PropMinimapInt(9), FontStyle.Bold, GraphicsUnit.Pixel),
             .FlatStyle = FlatStyle.Flat,
@@ -32,14 +32,14 @@
             .Visible = False
         }
         MiniMap.Controls.Add(picBoxPing)
-        MiniMap.Controls.Add(picBoxText)
+        MiniMap.Controls.Add(picBoxDuration)
         picBoxPing.Visible = False
     End Sub
     ''' <summary>
     ''' Returns the pixel value for the duration text
     ''' </summary>
     ''' <remarks></remarks>
-    Private Function LocationXYForDuration_Get(buffID As Integer, x As Boolean) As Integer
+    Private Function LocationXYForDuration_Get(ByVal buffID As Integer, ByVal x As Boolean) As Integer
         Dim locationValue As Integer
         If TeamBlueRed = False Then
             Select Case buffID
@@ -74,18 +74,18 @@
     ''' Changing team without reloading the pings -> changing on-the-fly
     ''' </summary>
     ''' <remarks></remarks>
-    Public Sub Team_Change(scalex As Single, scaley As Single)
+    Public Sub Team_Change(ByVal scalex As Single, ByVal scaley As Single)
         Me.scalex = scalex
         Me.scaley = scaley
     End Sub
     ''' <summary>
-    ''' Method for refreshing location of pings and texts when Advanced Minimap is being resized
+    ''' Method for relocating location of pings and texts duration when Advanced Minimap is being resized
     ''' </summary>
     ''' <remarks></remarks>
     Public Sub Location_Refresh()
         picBoxPing.Location = New Point(CInt((MiniMap.Size.Width - 20) * scalex) - 10, CInt((MiniMap.Size.Height - 25) * scaley) + 15)
         If resource.PropMinimapBool(22) = False Then
-            picBoxText.Location = New Point(CInt((MiniMap.Size.Width - 20) * scalex) - 10, CInt((MiniMap.Size.Height - 25) * scaley) + 0)
+            picBoxDuration.Location = New Point(CInt((MiniMap.Size.Width - 20) * scalex) - 10, CInt((MiniMap.Size.Height - 25) * scaley) + 0)
         End If
     End Sub
     ''' <summary>
@@ -94,9 +94,9 @@
     ''' <remarks></remarks>
     Public Sub DurationLocation_Refresh()
         If resource.PropMinimapBool(22) Then
-            picBoxText.Location = New Point(LocationXYForDuration_Get(BuffID, True), LocationXYForDuration_Get(BuffID, False))
+            picBoxDuration.Location = New Point(LocationXYForDuration_Get(BuffID, True), LocationXYForDuration_Get(BuffID, False))
         Else
-            picBoxText.Location = New Point(CInt((MiniMap.Size.Width - 20) * scalex) - 10, CInt((MiniMap.Size.Height - 25) * scaley) + 0)
+            picBoxDuration.Location = New Point(CInt((MiniMap.Size.Width - 20) * scalex) - 10, CInt((MiniMap.Size.Height - 25) * scaley) + 0)
         End If
     End Sub
     ''' <summary>
@@ -105,7 +105,7 @@
     ''' <remarks></remarks>
     Public Sub Objective_Start()
         running = True
-        picBoxText.Visible = True
+        picBoxDuration.Visible = True
         picBoxPing.BringToFront()
     End Sub
     ''' <summary>
@@ -115,18 +115,23 @@
     Public Sub Objective_End()
         running = False
         picBoxPing.Visible = False
-        picBoxText.Visible = False
+        picBoxDuration.Visible = False
     End Sub
     ''' <summary>
     ''' Counts down the current duration and looking for a match within the remember times.
     ''' If it watches the hint picture box with be shown for a specific duration.
     ''' </summary>
     ''' <remarks></remarks>
-    Public Sub Objective_Tick(buffID As Integer)
+    Public Sub Objective_Tick(ByVal buffID As Integer)
         If running = True Then
-            Dim actualTime = LJTD.Objective(buffID).GetActualShownTime
-            picBoxText.Text = actualTime
-            If resource.PropRemember(0, 1) = actualTime OrElse resource.PropRemember(1, 1) = actualTime Then
+            Dim actualShownTimeMin = LJTD.Objective(buffID).GetActualShownTimeMin
+            Dim actualShownTimeSec = LJTD.Objective(buffID).GetActualShownTimeSec
+            If resource.PropMinimap(23, 1) = "Min:Sec" Then
+                picBoxDuration.Text = actualShownTimeMin
+            Else
+                picBoxDuration.Text = actualShownTimeSec
+            End If
+            If resource.PropRemember(0, 1) = actualShownTimeMin OrElse resource.PropRemember(1, 1) = actualShownTimeMin Then
                 blink = resource.PropMinimapInt(5)
                 If resource.PropMinimapBool(7) = True Then
                     picBoxPing.Image = imageBlink
@@ -135,7 +140,7 @@
                 If resource.PropConfigBool(9) = True Then
                     ObjectiveSound_Play()
                 End If
-            ElseIf resource.PropRemember(2, 1) = actualTime Then
+            ElseIf resource.PropRemember(2, 1) = actualShownTimeMin Then
                 blink = resource.PropMinimapInt(5)
                 If resource.PropMinimapBool(7) = True Then
                     picBoxPing.Image = imageBlinkHint
@@ -145,6 +150,12 @@
                     ObjectiveSound_Play()
                 End If
             End If
+            If resource.PropRemember(0, 1) = actualShownTimeMin OrElse resource.PropRemember(1, 1) = actualShownTimeMin OrElse resource.PropRemember(2, 1) = actualShownTimeMin Then
+                IngameText.ObjectiveText_Show(buffID, actualShownTimeSec)
+            End If
+            If CInt(actualShownTimeSec) = 0 Then
+                IngameText.ObjectiveText_Show(buffID, actualShownTimeSec)
+            End If
             If blink >= 0 Then
                 blink -= 1
                 If blink = -1 Then
@@ -152,10 +163,10 @@
                 End If
             End If
         Else
-            picBoxText.Visible = False
+            picBoxDuration.Visible = False
         End If
         If resource.PropMinimapBool(8) = False Then
-            picBoxText.Visible = False
+            picBoxDuration.Visible = False
         End If
     End Sub
     ''' <summary>

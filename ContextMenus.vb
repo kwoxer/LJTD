@@ -12,6 +12,13 @@
             imgBg = value
         End Set
     End Property
+    Protected Overrides ReadOnly Property CreateParams() As CreateParams
+        Get
+            Dim cp As CreateParams = MyBase.CreateParams
+            If Not Me.DesignMode Then cp.ExStyle = cp.ExStyle Or &H80
+            Return cp
+        End Get
+    End Property
     Private Sub ConfigFileRename_Load(sender As Object, e As System.EventArgs) Handles Me.Load
         Me.Opacity = 0
         Label_Version.Text = My.Application.Info.Version.ToString
@@ -38,10 +45,22 @@
     ''' <param name="y"></param>
     ''' <remarks></remarks>
     Public Sub Location_Calculate(x As Integer, y As Integer)
-        If y <= 100 Then
-            Me.Location = New Point(x - Me.Size.Width + CInt(Me.Width / 2), y - Me.Size.Height + 25 + Me.Height)
+        Dim width = Me.Width
+        Dim height = Me.Height
+        If y <= 64 Then
+            ' Taskbar on the Top
+            Me.Location = New Point(x - width + CInt(width / 2), y - height + 25 + height)
         Else
-            Me.Location = New Point(x - Me.Size.Width + CInt(Me.Width / 2), y - Me.Size.Height - 25)
+            ' Taskbar on the Bottom
+            Me.Location = New Point(x - width + CInt(width / 2), y - height - 25)
+        End If
+        If x <= 64 And y >= 64 And y <= Module_Generate.ScreenWidth - 64 Then
+            ' Taskbar on the Left
+            Me.Location = New Point(x + CInt(width / 4), y - height + 20)
+        End If
+        If x >= Module_Generate.ScreenWidth - 64 And y >= 64 And y <= Module_Generate.ScreenHeight - 64 Then
+            ' Taskbar on the Right
+            Me.Location = New Point(x - width - CInt(width / 4), y - height + 20)
         End If
     End Sub
 #End Region

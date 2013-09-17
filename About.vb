@@ -11,7 +11,7 @@
         End Set
     End Property
     Private Sub Panel_MouseDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Panel_About.MouseDown
-        Module_MoveWindow.MoveEvent_Initialize(e, Handle)
+        Module_WindowManagement.MoveEvent_Initialize(e, Handle)
     End Sub
     Private Sub ButtonLinkYoutube_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Links_Youtube.Click
         Process.Start(urlYouTube)

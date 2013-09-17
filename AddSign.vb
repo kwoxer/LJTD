@@ -2,6 +2,7 @@
     Private opacityValue As Integer
     Private Sub AddIcon_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
         Me.Opacity = 0
+        Me.Visible = True
     End Sub
     Protected Overrides ReadOnly Property CreateParams() As CreateParams
         Get
@@ -11,7 +12,7 @@
         End Get
     End Property
     Private Sub PanelMouseDown_event(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseDown
-        Module_MoveWindow.MoveEvent_Initialize(e, Handle)
+        Module_WindowManagement.MoveEvent_Initialize(e, Handle)
     End Sub
     Public Sub Sign_Show()
         Me.Location = New Point(LJTD.Location.X + LJTD.Size.Width, LJTD.Location.Y)

@@ -48,7 +48,7 @@ Public Class Configuration
     Private txtTeamSyncKeyAlreadyUsed As String = "Key is already used! You always join this team now. Be sure it's the right one."
     Private txtTeamSyncRestriction As String = "You man only register 5 keys right now."
     Private txtTeamSyncRegisterKeyFailed As String = "Registering your key failed."
-    Public configFileChanged As Boolean = False
+    Private configFileChanged As Boolean = False
 
     Public Sub Resource_Refresh()
         resource = Resources.GetObject
@@ -96,7 +96,7 @@ Public Class Configuration
     End Sub
     Private Sub PanelMouseDown_Events(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Panel_Main.MouseDown, Panel_Slideout.MouseDown, _
         Panel_W2C.MouseDown, Panel_Hotkey.MouseDown, Panel_Design.MouseDown, Panel_MiniMap.MouseDown, Panel_Name.MouseDown
-        Module_MoveWindow.MoveEvent_Initialize(e, Handle)
+        Module_WindowManagement.MoveEvent_Initialize(e, Handle)
     End Sub
     Private Sub ButtonCloseClick_Event(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Close.Click
         Me.Close()
@@ -550,28 +550,38 @@ Public Class Configuration
 #Region "Panel Slide"
     Private Sub PanelSlide_Initialize()
         If resource.PropConfigInt(5) = 0 Then
-            Slideout_GroupBox_Modi_RadioButton_Normal.Checked = True
+            Slide_GroupBox_Modi_RadioButton_Normal.Checked = True
         ElseIf resource.PropConfigInt(5) = 1 Then
-            Slideout_GroupBox_Modi_RadioButton_Buttons.Checked = True
+            Slide_GroupBox_Modi_RadioButton_Buttons.Checked = True
         ElseIf resource.PropConfigInt(5) = 2 Then
-            Slideout_GroupBox_Modi_RadioButton_Labels.Checked = True
+            Slide_GroupBox_Modi_RadioButton_Labels.Checked = True
         End If
-        Slideout_GroupBox_Opactiy_TrackBar.Value = resource.PropConfigInt(12)
-        Slideout_GroupBox_Opactiy_LabelPercent.Text = Slideout_GroupBox_Opactiy_TrackBar.Value & "%"
+        Slide_GroupBox_TextOverlay_ShowRemember_CheckBox.Checked = resource.PropTextOverlayBool(0)
+        Slide_GroupBox_TextOverlay_TextBefore_TextBox.Text = CStr(resource.PropTextOverlay(1, 1))
+        Slide_GroupBox_TextOverlay_TextAfter_TextBox.Text = CStr(resource.PropTextOverlay(4, 1))
+        Slide_GroupBox_TextOverlay_ShowFinish_CheckBox.Checked = resource.PropTextOverlayBool(2)
+        Slide_GroupBox_TextOverlay_TextFinish_TextBox.Text = CStr(resource.PropTextOverlay(3, 1))
+        Slide_GroupBox_Opactiy_TrackBar.Value = resource.PropConfigInt(12)
+        Slide_GroupBox_Opactiy_LabelPercent.Text = Slide_GroupBox_Opactiy_TrackBar.Value & "%"
     End Sub
     Private Sub PanelSlide_SelectChange()
-        If Slideout_GroupBox_Modi_RadioButton_Normal.Checked Then
+        If Slide_GroupBox_Modi_RadioButton_Normal.Checked Then
             resource.PropConfig(5, 1) = CStr(0)
-        ElseIf Slideout_GroupBox_Modi_RadioButton_Buttons.Checked Then
+        ElseIf Slide_GroupBox_Modi_RadioButton_Buttons.Checked Then
             resource.PropConfig(5, 1) = CStr(1)
-        ElseIf Slideout_GroupBox_Modi_RadioButton_Labels.Checked Then
+        ElseIf Slide_GroupBox_Modi_RadioButton_Labels.Checked Then
             resource.PropConfig(5, 1) = CStr(2)
         End If
-        resource.PropConfigInt(12) = Slideout_GroupBox_Opactiy_TrackBar.Value
+        resource.PropTextOverlayBool(0) = Slide_GroupBox_TextOverlay_ShowRemember_CheckBox.Checked
+        resource.PropTextOverlay(1, 1) = Slide_GroupBox_TextOverlay_TextBefore_TextBox.Text
+        resource.PropTextOverlay(4, 1) = Slide_GroupBox_TextOverlay_TextAfter_TextBox.Text
+        resource.PropTextOverlayBool(2) = Slide_GroupBox_TextOverlay_ShowFinish_CheckBox.Checked
+        resource.PropTextOverlay(3, 1) = Slide_GroupBox_TextOverlay_TextFinish_TextBox.Text
+        resource.PropConfigInt(12) = Slide_GroupBox_Opactiy_TrackBar.Value
     End Sub
-    Private Sub SlideoutGroupBoxOpactiyTrackBar_Scroll(sender As System.Object, e As System.EventArgs) Handles Slideout_GroupBox_Opactiy_TrackBar.Scroll
-        Slideout_GroupBox_Opactiy_LabelPercent.Text = Slideout_GroupBox_Opactiy_TrackBar.Value & "%"
-        LJTD.Opacity = Slideout_GroupBox_Opactiy_TrackBar.Value / 100
+    Private Sub SlideoutGroupBoxOpactiyTrackBar_Scroll(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Slide_GroupBox_Opactiy_TrackBar.Scroll
+        Slide_GroupBox_Opactiy_LabelPercent.Text = Slide_GroupBox_Opactiy_TrackBar.Value & "%"
+        LJTD.Opacity = Slide_GroupBox_Opactiy_TrackBar.Value / 100
     End Sub
 #End Region
 #Region "Panel Write2Chat"
@@ -781,9 +791,10 @@ Public Class Configuration
         MiniMap_GroupBox_Remember_TextBox_1.Text = resource.PropRemember(0, 1)
         MiniMap_GroupBox_Remember_TextBox_2.Text = resource.PropRemember(1, 1)
         MiniMap_GroupBox_Remember_TextBox_3.Text = resource.PropRemember(2, 1)
-        MiniMap_GroupBox_Pings_ShowCheckbox.Checked = resource.PropMinimapBool(7)
-        MiniMap_GroupBox_Pings_DurationNumericUpDown.Text = CStr(resource.PropMinimapInt(5))
+        MiniMap_GroupBox_PlaySoundPings_Ping_Checkbox.Checked = resource.PropMinimapBool(7)
+        MiniMap_GroupBox_PlaySoundPings_Duration_NumericUpDown.Text = CStr(resource.PropMinimapInt(5))
         MiniMap_GroupBox_ShowDurationsShow_CheckBox.Checked = resource.PropMinimapBool(8)
+        MiniMap_GroupBox_ShowDurationsShowMode_ComboBox.Text = CStr(resource.PropMinimap(23, 1))
         MiniMap_GroupBox_ShowDurationsSize_NumericUpDown.Text = CStr(resource.PropMinimapInt(9))
         MiniMap_GroupBox_ShowDurationsUseOwn_CheckBox.Checked = resource.PropMinimapBool(22)
         MiniMap_GroupBox_ShowDurationsLocation_Baron_NumericUpDown_x.Text = CStr(resource.PropMinimapInt(10))
@@ -799,7 +810,7 @@ Public Class Configuration
         MiniMap_GroupBox_ShowDurationsLocation_TR_NumericUpDown_x.Text = CStr(resource.PropMinimapInt(20))
         MiniMap_GroupBox_ShowDurationsLocation_TR_NumericUpDown_y.Text = CStr(resource.PropMinimapInt(21))
         MiniMap_GroupBox_AutoStart_CheckBox.Checked = resource.PropMinimapBool(3)
-        MiniMap_GroupBox_PlaySound_CheckBox.Checked = resource.PropConfigBool(9)
+        MiniMap_GroupBox_PlaySoundPings_Sound_CheckBox.Checked = resource.PropConfigBool(9)
         MiniMap_GroupBox_Fullmode_CheckBox.Checked = resource.PropMinimapBool(4)
         MiniMap_GroupBox_WardMap_CheckBox.Checked = resource.PropWardmapBool(0, 1)
         MiniMap_GroupBox_WardMap_TextBox.Text = CType(resource.PropWardmap(1, 1), Keys).ToString
@@ -817,9 +828,10 @@ Public Class Configuration
         resource.PropRemember(0, 1) = MiniMap_GroupBox_Remember_TextBox_1.Text
         resource.PropRemember(1, 1) = MiniMap_GroupBox_Remember_TextBox_2.Text
         resource.PropRemember(2, 1) = MiniMap_GroupBox_Remember_TextBox_3.Text
-        resource.PropMinimapBool(7) = MiniMap_GroupBox_Pings_ShowCheckbox.Checked
-        resource.PropMinimapInt(5) = CInt(MiniMap_GroupBox_Pings_DurationNumericUpDown.Text)
+        resource.PropMinimapBool(7) = MiniMap_GroupBox_PlaySoundPings_Ping_Checkbox.Checked
+        resource.PropMinimapInt(5) = CInt(MiniMap_GroupBox_PlaySoundPings_Duration_NumericUpDown.Text)
         resource.PropMinimapBool(8) = MiniMap_GroupBox_ShowDurationsShow_CheckBox.Checked
+        resource.PropMinimap(23, 1) = MiniMap_GroupBox_ShowDurationsShowMode_ComboBox.Text
         resource.PropMinimapInt(9) = CInt(MiniMap_GroupBox_ShowDurationsSize_NumericUpDown.Text)
         resource.PropMinimapBool(22) = MiniMap_GroupBox_ShowDurationsUseOwn_CheckBox.Checked
         resource.PropMinimapInt(10) = CInt(MiniMap_GroupBox_ShowDurationsLocation_Baron_NumericUpDown_x.Text)
@@ -835,7 +847,7 @@ Public Class Configuration
         resource.PropMinimapInt(20) = CInt(MiniMap_GroupBox_ShowDurationsLocation_TR_NumericUpDown_x.Text)
         resource.PropMinimapInt(21) = CInt(MiniMap_GroupBox_ShowDurationsLocation_TR_NumericUpDown_y.Text)
         resource.PropMinimapBool(3) = MiniMap_GroupBox_AutoStart_CheckBox.Checked
-        resource.PropConfigBool(9) = MiniMap_GroupBox_PlaySound_CheckBox.Checked
+        resource.PropConfigBool(9) = MiniMap_GroupBox_PlaySoundPings_Sound_CheckBox.Checked
         resource.PropMinimapBool(4) = MiniMap_GroupBox_Fullmode_CheckBox.Checked
         resource.PropWardmapBool(0, 1) = MiniMap_GroupBox_WardMap_CheckBox.Checked
         resource.PropWardmap(1, 1) = CStr(MiniMap_GroupBox_WardMap_TextBox.Tag)
@@ -847,11 +859,11 @@ Public Class Configuration
             MiniMap_GroupBox_WardMap_TextBox.Enabled = False
         End If
     End Sub
-    Private Sub MiniMapGroupBoxPings_SetEnableStatus() Handles MiniMap_GroupBox_Pings_ShowCheckbox.CheckedChanged
-        If MiniMap_GroupBox_Pings_ShowCheckbox.Checked Then
-            MiniMap_GroupBox_Pings_DurationNumericUpDown.Enabled = True
+    Private Sub MiniMapGroupBoxPings_SetEnableStatus() Handles MiniMap_GroupBox_PlaySoundPings_Ping_Checkbox.CheckedChanged
+        If MiniMap_GroupBox_PlaySoundPings_Ping_Checkbox.Checked Then
+            MiniMap_GroupBox_PlaySoundPings_Duration_NumericUpDown.Enabled = True
         Else
-            MiniMap_GroupBox_Pings_DurationNumericUpDown.Enabled = False
+            MiniMap_GroupBox_PlaySoundPings_Duration_NumericUpDown.Enabled = False
         End If
     End Sub
     Private Sub MiniMapGroupBoxShowDurations_SetEnableStatus() Handles MiniMap_GroupBox_ShowDurationsShow_CheckBox.CheckedChanged
@@ -1114,7 +1126,7 @@ Public Class Configuration
     End Sub
 #End Region
 #Region "Hotkey and Name Textbox Events"
-    Private Sub HotkeyNameTextBoxKeys_KeyDown(sender As TextBox, e As KeyEventArgs) Handles Hotkey_GroupBox_Hotkeys_TextBox_Baron.KeyDown, _
+    Private Sub HotkeyNameTextBoxKeys_KeyDown(ByVal sender As TextBox, ByVal e As KeyEventArgs) Handles Hotkey_GroupBox_Hotkeys_TextBox_Baron.KeyDown, _
             Hotkey_GroupBox_Hotkeys_TextBox_Dragon.KeyDown, Hotkey_GroupBox_Hotkeys_TextBox_OB.KeyDown, Hotkey_GroupBox_Hotkeys_TextBox_OR.KeyDown, _
             Hotkey_GroupBox_Hotkeys_TextBox_TB.KeyDown, Hotkey_GroupBox_Hotkeys_TextBox_TR.KeyDown, Hotkey_GroupBox_Hotkeys_TextBox_Flash.KeyDown, _
             Name_GroupBox_Macro_TextBox_Hotkey_1.KeyDown, Name_GroupBox_Macro_TextBox_Hotkey_2.KeyDown, Name_GroupBox_Macro_TextBox_Hotkey_3.KeyDown, _
@@ -1132,7 +1144,7 @@ Public Class Configuration
         End Select
         sender.Text = sender.Text.ToUpper()
     End Sub
-    Private Sub HotkeyNameTextBoxKeys_KeyPress(sender As Object, e As System.Windows.Forms.KeyPressEventArgs) Handles Hotkey_GroupBox_Hotkeys_TextBox_Baron.KeyPress, _
+    Private Sub HotkeyNameTextBoxKeys_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles Hotkey_GroupBox_Hotkeys_TextBox_Baron.KeyPress, _
         Hotkey_GroupBox_Hotkeys_TextBox_Dragon.KeyPress, Hotkey_GroupBox_Hotkeys_TextBox_OB.KeyPress, Hotkey_GroupBox_Hotkeys_TextBox_OR.KeyPress, _
         Hotkey_GroupBox_Hotkeys_TextBox_TB.KeyPress, Hotkey_GroupBox_Hotkeys_TextBox_TR.KeyPress, Hotkey_GroupBox_Hotkeys_TextBox_Flash.KeyPress, _
         Name_GroupBox_Macro_TextBox_Hotkey_1.KeyPress, Name_GroupBox_Macro_TextBox_Hotkey_2.KeyPress, Name_GroupBox_Macro_TextBox_Hotkey_3.KeyPress, _
@@ -1148,5 +1160,4 @@ Public Class Configuration
     End Sub
 #End Region
 
-   
 End Class

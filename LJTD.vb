@@ -5,7 +5,7 @@ Public Class LJTD
     Public TimerChatMacroBool(5) As Boolean
     Public Shared TeamSyncOfflineObjectiveRunning(6) As Boolean
     Public InitalTimerRunning As Boolean = False
-    Private showForm As Boolean = True, gameFinished As Boolean = True, autoStartSearch As Boolean = True
+    Private showForm As Boolean = True, gameFinished As Boolean = True, autoStartFeature As Boolean = True
     Private runningTime As Integer, slideFading As Integer, slideFadingAmount As Integer, slideFadingAmounts As Integer() = {8.4, 10.5, 0}
     Public Objective(6) As Objective
     Private label(6) As Label, labelEndtime(5) As Label, button(6) As Button
@@ -13,7 +13,7 @@ Public Class LJTD
     Private WithEvents fileStreamWatcher As New FileSystemWatcher
     Private startingDateTime As Date
     Private autoStartingStringFound, autoEndingStringFound As Boolean
-    Private autoStartingTimer, autoEndingTimer, teamSyncUpdateObjectiveRunning As New System.Timers.Timer()
+    Private autoStartingTimer, autoEndingTimer, teamSyncUpdateObjectiveRunningTimer, animatedIconTimer As New System.Timers.Timer()
     Private resource As Resources = Resources.GetObject
     Private ljtdColor As Module_LJTDColor = Module_LJTDColor.GetObject
     Private taskbar As New Module_Taskbar
@@ -26,15 +26,19 @@ Public Class LJTD
     Private txtNotifyIcon1 As String = "Update"
     Private txtNotifyIcon2 As String = "New version "
     Private txtNotifyIcon3 As String = " available!"
-    Private txtResourceFolderName As String = "\res"
-    Public txtTrayIconElements() As String = {"&About", "&FAQs", "Config &file", "Show/&Hide", "&Settings", "&Exit"}
-    Private txtLogFolder As String = "\League of Legends\Logs\Game - R3d Logs"
+    Private Const txtResourceFolderName As String = "\res"
+    Private txtTrayIconElements() As String = {"&About", "&FAQs", "Config &file", "Show/&Hide", "&Settings", "&Exit"}
+    Private Const txtLogFolder As String = "\League of Legends\Logs\Game - R3d Logs"
     Private overlay As Button
     Private stopButton As Image
     Private buffRunningPreventLags(6) As Boolean
     Private Const showBalloonTipDuration As Integer = 5000
     Private Const initialTimerPresetValue As String = "0:"
     Private Const urlFAQWebsite As String = "http://www.ljtd.net/misc/faq/"
+    Private animatedIcon(12) As Icon
+    Private currentIcon As Integer = 0
+    Public slidedOut As Boolean = False
+    Public slidedText As String
 
     Public Sub Resource_Refresh()
         resource = Resources.GetObject
@@ -45,9 +49,14 @@ Public Class LJTD
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
     ''' <remarks></remarks>
-    Private Sub LJTD_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
+    Private Sub LJTD_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        InitializeAnimatedIcon()
+        NotifyIcon.Text = "Loading LJTD presets..." & vbNewLine & "This may take some time."
+        AddSign.Visible = False
+        IngameText.Visible = False
         Module_SelectConfigFile.LJTDini_Read(resource)
         LJTD_Initilization()
+        MiniMap.Timer_Start()
     End Sub
     ''' <summary>
     ''' Load Control Overlay and Settings
@@ -56,6 +65,8 @@ Public Class LJTD
     Public Sub LJTD_Initilization()
         Me.Visible = False
         Module_Generate.generateMacAddress()
+        Module_Generate.generateScreenHeight()
+        Module_Generate.generateScreenWidth()
         resource.ReadConfigFile()
         Try
             stopButton = Image.FromFile(resource.PropPicMiscLJTDButton(5))
@@ -73,6 +84,7 @@ Public Class LJTD
         Objectives_Initialize()
         Configuration.Configuration_SelectInitializion()
         AddSign.Show()
+        IngameText.Show()
         pushHotkey.KeyHook_Enable() = True
         OpenInTray_CheckResource()
         UpdateAvailable_Show()
@@ -82,11 +94,15 @@ Public Class LJTD
         ExternalImages_Initialize()
         IPAddress_Create()
         LJTD_Reload(False, True)
-        teamSyncUpdateObjectiveRunning = New System.Timers.Timer
-        teamSyncUpdateObjectiveRunning.Interval = teamSyncUpdateObjectiveRunningIntervall
-        teamSyncUpdateObjectiveRunning.Enabled = True
-        AddHandler teamSyncUpdateObjectiveRunning.Elapsed, AddressOf TeamSyncUpdateObjectiveRunningEvent_Tick
+        teamSyncUpdateObjectiveRunningTimer = New System.Timers.Timer
+        teamSyncUpdateObjectiveRunningTimer.Interval = teamSyncUpdateObjectiveRunningIntervall
+        teamSyncUpdateObjectiveRunningTimer.Enabled = True
+        AddHandler teamSyncUpdateObjectiveRunningTimer.Elapsed, AddressOf TeamSyncUpdateObjectiveRunningEvent_Tick
         ContextMenus.Show()
+        animatedIconTimer.Stop()
+        animatedIconTimer.Dispose()
+        NotifyIcon.Icon = My.Resources.LJTD_gray
+        NotifyIcon.Text = "LoL Jungle Timer Deluxe"
     End Sub
 
     Private Sub TeamSyncUpdateObjectiveRunningEvent_Tick(ByVal source As Object, ByVal e As ElapsedEventArgs)
@@ -118,7 +134,7 @@ Public Class LJTD
     ''' </summary>
     ''' <param name="buttonImageLoad"></param>
     ''' <remarks></remarks>
-    Public Sub LJTD_Reload(buttonImageLoad As Boolean, configFileNameLoad As Boolean)
+    Public Sub LJTD_Reload(ByVal buttonImageLoad As Boolean, ByVal configFileNameLoad As Boolean)
         LJTDColors_Initialize()
         ForeColors_Initialize()
         Fonts_Initialize()
@@ -146,7 +162,7 @@ Public Class LJTD
             ConfigFileManagement_Initialize(False)
         End If
     End Sub
-    Private Sub MouseClick_Events(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles Panel.MouseClick, Label_OurBlue.MouseClick, Label_OurBlue.DoubleClick, _
+    Private Sub MouseClick_Events(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Panel.MouseClick, Label_OurBlue.MouseClick, Label_OurBlue.DoubleClick, _
         Label_OurBlueEndtime.MouseClick, Label_OurBlueEndtime.DoubleClick, Label_OurRed.MouseClick, Label_OurRed.DoubleClick, Label_OurRedEndtime.MouseClick, _
         Label_OurRedEndtime.DoubleClick, Label_Dragon.MouseClick, Label_Dragon.DoubleClick, Label_DragonEndtime.MouseClick, Label_DragonEndtime.DoubleClick, _
         Label_Baron.MouseClick, Label_Baron.DoubleClick, Label_BaronEndtime.MouseClick, Label_BaronEndtime.DoubleClick, Label_TheirBlue.MouseClick, Label_TheirBlue.DoubleClick, _
@@ -160,24 +176,24 @@ Public Class LJTD
          Label_OurBlueEndtime.MouseDown, Label_OurRed.MouseDown, Label_OurRedEndtime.MouseDown, Label_Dragon.MouseDown, Label_DragonEndtime.MouseDown, Label_GameClock.MouseDown, _
          Label_Baron.MouseDown, Label_BaronEndtime.MouseDown, Label_TheirBlue.MouseDown, Label_TheirBlueEndtime.MouseDown, Label_TheirRed.MouseDown, Label_TheirRedEndtime.MouseDown, Label_Flash.MouseDown
         If InitalTimerRunning = False Then
-            Module_MoveWindow.MoveEvent_Initialize(e, Handle)
+            Module_WindowManagement.MoveEvent_Initialize(e, Handle)
         End If
     End Sub
     Private Sub MouseEnter_Events(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button_Baron.MouseEnter, Button_Dragon.MouseEnter, _
         Button_OurBlue.MouseEnter, Button_OurRed.MouseEnter, Button_TheirBlue.MouseEnter, Button_TheirRed.MouseEnter, Button_Close.MouseEnter, _
-        Button_Minimap.MouseEnter, Button_SlideInBot.MouseEnter, Button_SlideInTop.MouseEnter, Button_SlideOutBot.MouseEnter, Panel.MouseEnter, _
-        Button_SlideOutTop.MouseEnter, Label_OurBlue.MouseEnter, Label_OurBlueEndtime.MouseEnter, Label_OurRed.MouseEnter, Label_OurRedEndtime.MouseEnter, _
+        Button_Minimap.MouseEnter, Button_SlideInLabels.MouseEnter, Button_SlideInButtons.MouseEnter, Button_SlideOutLabels.MouseEnter, Panel.MouseEnter, _
+        Button_SlideOutButtons.MouseEnter, Label_OurBlue.MouseEnter, Label_OurBlueEndtime.MouseEnter, Label_OurRed.MouseEnter, Label_OurRedEndtime.MouseEnter, _
         Label_Dragon.MouseEnter, Label_DragonEndtime.MouseEnter, Label_GameClock.MouseEnter, Label_Baron.MouseEnter, Label_BaronEndtime.MouseEnter, _
         Label_TheirBlue.MouseEnter, Label_TheirBlueEndtime.MouseEnter, Label_TheirRed.MouseEnter, Label_TheirRedEndtime.MouseEnter, Label_Flash.MouseEnter
         Me.Opacity = opacities(0)
     End Sub
     Private Sub MouseLeave_Events(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button_Baron.MouseLeave, Button_Dragon.MouseLeave, _
         Button_OurBlue.MouseLeave, Button_OurRed.MouseLeave, Button_TheirBlue.MouseLeave, Button_TheirRed.MouseLeave, Button_Close.MouseLeave, _
-        Button_Minimap.MouseLeave, Button_SlideInBot.MouseLeave, Button_SlideInTop.MouseLeave, Button_SlideOutBot.MouseLeave, Panel.MouseLeave, _
+        Button_Minimap.MouseLeave, Button_SlideInLabels.MouseLeave, Button_SlideInButtons.MouseLeave, Button_SlideOutLabels.MouseLeave, Panel.MouseLeave, _
         Label_OurBlue.MouseLeave, Label_OurBlueEndtime.MouseLeave, Label_OurRed.MouseLeave, Label_OurRedEndtime.MouseLeave, _
         Label_Dragon.MouseLeave, Label_DragonEndtime.MouseLeave, Label_GameClock.MouseLeave, Label_Baron.MouseLeave, Label_BaronEndtime.MouseLeave, _
         Label_TheirBlue.MouseLeave, Label_TheirBlueEndtime.MouseLeave, Label_TheirRed.MouseLeave, Label_TheirRedEndtime.MouseLeave, Label_Flash.MouseLeave, _
-        Button_SlideOutTop.MouseLeave
+        Button_SlideOutButtons.MouseLeave
         Me.Opacity = resource.PropConfigInt(12) / 100
     End Sub
     ''' <summary>
@@ -230,7 +246,7 @@ Public Class LJTD
                 MiniMap.Show()
                 MiniMap.ShowForm = True
             End If
-            Slideout_CheckResource()
+            Slide_CheckResource()
         End If
     End Sub
     ''' <summary>
@@ -275,7 +291,7 @@ Public Class LJTD
     ''' Searching and listing available config files in Settings
     ''' </summary>
     ''' <remarks></remarks>
-    Public Sub ConfigFileManagementCreateList_Initialize(contextMenu As Boolean)
+    Public Sub ConfigFileManagementCreateList_Initialize(ByVal contextMenu As Boolean)
         Dim di As New IO.DirectoryInfo(Directory.GetCurrentDirectory() & txtResourceFolderName)
         Dim diar1 As IO.FileInfo() = di.GetFiles()
         Dim dra As IO.FileInfo
@@ -284,7 +300,7 @@ Public Class LJTD
             ContextMenus.ComboBox.Items.Clear()
         End If
         For Each dra In diar1
-            Dim firstString() As String = dra.ToString.Split(".")
+            Dim firstString() As String = dra.ToString.Split("."c)
             Configuration.Main_GroupBox_ConfigFile_ComboBox.Items.Add(firstString(0))
             If contextMenu Then
                 ContextMenus.ComboBox.Items.Add(firstString(0))
@@ -295,7 +311,7 @@ Public Class LJTD
     ''' Initializing config file name at startup in Settings
     ''' </summary>
     ''' <remarks></remarks>
-    Public Sub ConfigFileManagement_Initialize(contextMenu As Boolean)
+    Public Sub ConfigFileManagement_Initialize(ByVal contextMenu As Boolean)
         Configuration.Main_GroupBox_ConfigFile_ComboBox.Text = resource.fileConfig
         If contextMenu Then
             ContextMenus.ComboBox.Text = resource.fileConfig
@@ -309,10 +325,10 @@ Public Class LJTD
         If resource.PropConfig(13, 1) <> "UNSET" And resource.PropConfig(14, 1) <> "UNSET" Then
             Me.Location = New Point(resource.PropConfigInt(13), resource.PropConfigInt(14))
         Else
-            Me.Location = New Point((SystemInformation.PrimaryMonitorSize.Width \ 2) - Me.Size.Width \ 2, 0)
+            Me.Location = New Point((Module_Generate.ScreenWidth \ 2) - Me.Size.Width \ 2, 0)
         End If
     End Sub
- 
+
     ''' <summary>
     ''' Initializing labels and the endtimes
     ''' </summary>
@@ -354,10 +370,10 @@ Public Class LJTD
         Button_Minimize.FlatAppearance.BorderSize = 0
         Button_Minimap.FlatAppearance.BorderSize = 0
         Button_Close.FlatAppearance.BorderSize = 0
-        Button_SlideInBot.FlatAppearance.BorderSize = 0
-        Button_SlideInTop.FlatAppearance.BorderSize = 0
-        Button_SlideOutBot.FlatAppearance.BorderSize = 0
-        Button_SlideOutTop.FlatAppearance.BorderSize = 0
+        Button_SlideInLabels.FlatAppearance.BorderSize = 0
+        Button_SlideInButtons.FlatAppearance.BorderSize = 0
+        Button_SlideOutLabels.FlatAppearance.BorderSize = 0
+        Button_SlideOutButtons.FlatAppearance.BorderSize = 0
         Button_Start.FlatAppearance.BorderSize = 0
         Button_DisableAutoStart.FlatAppearance.BorderSize = 0
     End Sub
@@ -452,10 +468,10 @@ Public Class LJTD
     Private Sub ExternalImages_Initialize()
         On Error Resume Next
         About.ImgBackground = Image.FromFile(resource.PropPicMiscBackground(7))
-        Button_SlideInBot.Image = Image.FromFile(resource.PropPicMiscLJTDButton(3))
-        Button_SlideInTop.Image = Image.FromFile(resource.PropPicMiscLJTDButton(3))
-        Button_SlideOutBot.Image = Image.FromFile(resource.PropPicMiscLJTDButton(4))
-        Button_SlideOutTop.Image = Image.FromFile(resource.PropPicMiscLJTDButton(4))
+        Button_SlideInLabels.Image = Image.FromFile(resource.PropPicMiscLJTDButton(3))
+        Button_SlideInButtons.Image = Image.FromFile(resource.PropPicMiscLJTDButton(3))
+        Button_SlideOutLabels.Image = Image.FromFile(resource.PropPicMiscLJTDButton(4))
+        Button_SlideOutButtons.Image = Image.FromFile(resource.PropPicMiscLJTDButton(4))
         MiniMap.Button_Resize.Image = Image.FromFile(resource.PropPicMiscMinimapTeam(2))
         MiniMap.Button_Team.Image = Image.FromFile(resource.PropPicMiscMinimapTeam(0))
         Configuration.Panel(0).BackgroundImage = Image.FromFile(resource.PropPicMiscBackground(0))
@@ -503,7 +519,7 @@ Public Class LJTD
     ''' <param name="i"></param>
     ''' <param name="color"></param>
     ''' <remarks></remarks>
-    Public Sub SetForeColor_Initialize(i As Integer, color As Color)
+    Public Sub SetForeColor_Initialize(ByVal i As Integer, ByVal color As Color)
         label(i).ForeColor = color
         button(i).ForeColor = color
         If i <> 6 Then labelEndtime(i).ForeColor = color
@@ -580,7 +596,7 @@ Public Class LJTD
     ''' <remarks></remarks>
     Private Sub ObjectiveLabels_CheckResource()
         For i = 0 To label.Length - 1
-            label(i).Text = Objective(i).GetActualShownTime
+            label(i).Text = Objective(i).GetActualShownTimeMin
         Next
     End Sub
     ''' <summary>
@@ -647,14 +663,31 @@ Public Class LJTD
         End If
     End Sub
     ''' <summary>
-    ''' Activating the automatically Slide outs
+    ''' Activating the automatically Slide changing events
     ''' </summary>
     ''' <remarks></remarks>
     Private Sub Slideout_CheckResource()
-        If resource.PropConfigInt(5) = 1 Then
-            Button_SlideOutTop.PerformClick()
-        ElseIf resource.PropConfigInt(5) = 2 Then
-            Button_SlideOutBot.PerformClick()
+        If resource.PropConfigInt(5) = 1 And slidedOut = False Then
+            Button_SlideOutButtons.PerformClick()
+        ElseIf resource.PropConfigInt(5) = 2 And slidedOut = False Then
+            Button_SlideOutLabels.PerformClick()
+        Else
+            If slidedText = "Buttons" Then
+                Button_SlideInButtons.PerformClick()
+            Else
+                Button_SlideInLabels.PerformClick()
+            End If
+        End If
+    End Sub
+    ''' <summary>
+    ''' Activating the automatically Slide outs
+    ''' </summary>
+    ''' <remarks></remarks>
+    Private Sub Slide_CheckResource()
+        If resource.PropConfigInt(5) = 1 And slidedOut = False Then
+            Button_SlideOutButtons.PerformClick()
+        ElseIf resource.PropConfigInt(5) = 2 And slidedOut = False Then
+            Button_SlideOutLabels.PerformClick()
         End If
     End Sub
     ''' <summary>
@@ -664,6 +697,8 @@ Public Class LJTD
     Private Sub TopMost_CheckResource()
         If resource.PropConfigBool(8) Then
             Timer_TopMost.Start()
+        Else
+            Timer_TopMost.Stop()
         End If
     End Sub
     ''' <summary>
@@ -683,18 +718,22 @@ Public Class LJTD
     End Sub
 #End Region
 #Region "Slide"
-    Private Sub ButtonSlideOutTop_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_SlideOutTop.Click
+    Private Sub ButtonSlideOutButtons_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_SlideOutButtons.Click
         FadeOut(slideFadingAmounts(0))
+        slidedOut = True
+        slidedText = "Buttons"
     End Sub
-    Private Sub ButtonSlideOutBot_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_SlideOutBot.Click
+    Private Sub ButtonSlideOutLabels_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_SlideOutLabels.Click
         FadeOut(slideFadingAmounts(1))
+        slidedOut = True
+        slidedText = "Labels"
     End Sub
     Private Sub FadeOut(ByVal i As Integer)
         slideFading = slideFadingAmounts(2)
         slideFadingAmount = i
         Timer_SlideOut.Start()
-        Button_SlideOutTop.Visible = False
-        Button_SlideOutBot.Visible = False
+        Button_SlideOutButtons.Visible = False
+        Button_SlideOutLabels.Visible = False
     End Sub
     Private Sub TimerSlideOut_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_SlideOut.Tick
         slideFading = slideFading + 1
@@ -702,34 +741,36 @@ Public Class LJTD
             Me.Location = New Point(Me.Location.X, Me.Location.Y - slideFading)
         Else
             Timer_SlideOut.Stop()
-            Button_SlideInTop.Visible = True
+            Button_SlideInButtons.Visible = True
             If slideFadingAmount <> 8 Then
-                Button_SlideInBot.Visible = True
+                Button_SlideInLabels.Visible = True
             End If
         End If
     End Sub
-    Private Sub ButtonSlideInTop_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_SlideInTop.Click
+    Private Sub ButtonSlideInButtons_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_SlideInButtons.Click
         FadeIn(slideFadingAmounts(0))
+        slidedOut = False
     End Sub
-    Private Sub ButtonSlideInBot_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_SlideInBot.Click
+    Private Sub ButtonSlideInLabels_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_SlideInLabels.Click
         FadeIn(slideFadingAmounts(1))
+        slidedOut = False
     End Sub
     Private Sub FadeIn(ByVal i As Integer)
         slideFading = slideFadingAmounts(2)
         slideFadingAmount = i
         Timer_SlideIn.Start()
-        Button_SlideInTop.Visible = False
-        Button_SlideInBot.Visible = False
+        Button_SlideInButtons.Visible = False
+        Button_SlideInLabels.Visible = False
     End Sub
     Private Sub TimerSlideIn_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_SlideIn.Tick
         slideFading = slideFading + 1
-        Button_SlideInTop.Visible = False
+        Button_SlideInButtons.Visible = False
         If slideFading < slideFadingAmount Then
             Me.Location = New Point(Me.Location.X, Me.Location.Y + slideFading)
         Else
             Timer_SlideIn.Stop()
-            Button_SlideOutTop.Visible = True
-            Button_SlideOutBot.Visible = True
+            Button_SlideOutButtons.Visible = True
+            Button_SlideOutLabels.Visible = True
         End If
     End Sub
 #End Region
@@ -745,7 +786,7 @@ Public Class LJTD
         For i = 0 To Objective.Length - 1
             If Objective(i).GetRunning Then
                 buffRunningPreventLags(i) = True
-                label(i).Text = Objective(i).GetActualShownTime.ToString
+                label(i).Text = Objective(i).GetActualShownTimeMin.ToString
                 If Objective(i).GetDiff >= 5 Then button(i).Enabled = True
             Else
                 If buffRunningPreventLags(i) Then
@@ -774,7 +815,7 @@ Public Class LJTD
         If InitalTimerRunning Then
             Dim button As Button = DirectCast(sender, Button)
             If Configuration.TeamSyncValid = False Or Configuration.TeamSyncOnlineRightsOwner Or Configuration.TeamSyncOnlineRightsBuff Then
-                teamSyncUpdateObjectiveRunning.Start()
+                teamSyncUpdateObjectiveRunningTimer.Start()
                 Objective_Start(CInt(button.Tag))
                 For i = 0 To Objective.Length - 1
                     TeamSyncOfflineObjectiveRunning(i) = Objective(i).GetRunning
@@ -856,12 +897,12 @@ Public Class LJTD
         Module_IPChecker.DatabaseEntry_Add(0)
         Configuration.TeamSyncBuffs_Reset()
     End Sub
-    Private Sub ButtonDisableAutoStart_Click(sender As System.Object, e As System.EventArgs) Handles Button_DisableAutoStart.Click
-        If autoStartSearch Then
-            autoStartSearch = False
+    Private Sub ButtonDisableAutoStart_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_DisableAutoStart.Click
+        If autoStartFeature Then
+            autoStartFeature = False
             Button_DisableAutoStart.BackColor = Color.DarkOrange
         Else
-            autoStartSearch = True
+            autoStartFeature = True
             Button_DisableAutoStart.BackColor = Color.DarkGreen
         End If
     End Sub
@@ -887,7 +928,8 @@ Public Class LJTD
         End If
     End Sub
     Private Sub TimerAutoStart_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_AutoStart.Tick
-        If autoStartingStringFound And autoStartSearch Then
+        If autoStartingStringFound And autoStartFeature Then
+            fileStreamWatcher.EnableRaisingEvents = False
             showForm = False
             VisibilityStatus_Switch(False)
             autoStartingStringFound = False
@@ -900,10 +942,11 @@ Public Class LJTD
                 MiniMap.ShowForm = True
             End If
             InitalTimerRunning = True
-            Slideout_CheckResource()
+            Slide_CheckResource()
             Button_Start.Image = My.Resources.LJTD_Button_STOP
         End If
-        If autoEndingStringFound And autoStartSearch Then
+        If autoEndingStringFound And autoStartFeature Then
+            fileStreamWatcher.EnableRaisingEvents = True
             showForm = True
             VisibilityStatus_Switch(True)
             autoEndingStringFound = False
@@ -967,6 +1010,36 @@ Public Class LJTD
         Timer_TopMost.Stop()
         MiniMap.Timer_TopMost.Stop()
     End Sub
+    Private Sub AnimatedIconTimerEvent(ByVal source As Object, ByVal e As ElapsedEventArgs)
+        NotifyIcon.Icon = animatedIcon(currentIcon)
+        currentIcon = currentIcon + 1
+        If currentIcon >= animatedIcon.Length - 1 Then
+            currentIcon = 0
+        End If
+    End Sub
+    Private Sub InitializeAnimatedIcon()
+        animatedIconTimer = New System.Timers.Timer
+        animatedIconTimer.Interval = 100
+        animatedIconTimer.Enabled = True
+        AddHandler animatedIconTimer.Elapsed, AddressOf AnimatedIconTimerEvent
+        animatedIcon(0) = My.Resources.Loading_animation__frame_0001
+        animatedIcon(1) = My.Resources.Loading_animation__frame_0002
+        animatedIcon(2) = My.Resources.Loading_animation__frame_0003
+        animatedIcon(3) = My.Resources.Loading_animation__frame_0004
+        animatedIcon(4) = My.Resources.Loading_animation__frame_0005
+        animatedIcon(5) = My.Resources.Loading_animation__frame_0006
+        animatedIcon(6) = My.Resources.Loading_animation__frame_0007
+        animatedIcon(7) = My.Resources.Loading_animation__frame_0008
+        animatedIcon(8) = My.Resources.Loading_animation__frame_0009
+        animatedIcon(9) = My.Resources.Loading_animation__frame_0010
+        animatedIcon(10) = My.Resources.Loading_animation__frame_0011
+        animatedIcon(11) = My.Resources.Loading_animation__frame_0012
+    End Sub
+    Private Function GetAnimatedIcon(ByVal IconColor As Brush) As Icon
+        animatedIcon(0) = My.Resources.Loading_animation__frame_0001
+        Dim oIcon As Icon = My.Resources.Loading_animation__frame_0001
+        Return oIcon
+    End Function
 #End Region
 #Region "ChatMacroTextDisabler"
     Private Sub ChatMacroText_Disabler1(ByVal source As Object, ByVal e As ElapsedEventArgs)
@@ -996,4 +1069,5 @@ Public Class LJTD
         End If
     End Sub
 #End Region
+
 End Class

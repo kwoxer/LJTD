@@ -3,7 +3,8 @@
     Private startingTime As Date
     Private durationSec As Integer
     Private durationMin As Integer
-    Private actualShownTime As String
+    Private actualShownTimeMin As String
+    Private actualShownTimeSec As String
     Private overallTime As String
     Private running As Boolean
     Private hotkey As Integer
@@ -31,9 +32,14 @@
             Return durationMin
         End Get
     End Property
-    Public ReadOnly Property GetActualShownTime() As String
+    Public ReadOnly Property GetActualShownTimeMin() As String
         Get
-            Return actualShownTime
+            Return actualShownTimeMin
+        End Get
+    End Property
+    Public ReadOnly Property GetActualShownTimeSec() As String
+        Get
+            Return actualShownTimeSec
         End Get
     End Property
     Public ReadOnly Property GetOverallTime() As String
@@ -50,7 +56,7 @@
         Get
             Return hotkey
         End Get
-        Set(value As Integer)
+        Set(ByVal value As Integer)
             hotkey = value
         End Set
     End Property
@@ -59,22 +65,23 @@
             Return diff
         End Get
     End Property
-    Public Sub New(ByVal objectiveName As String, ByVal duration As Integer, ByVal hotkey As Integer)
-        AddHandler timer.Elapsed, AddressOf timerObjective
+    Public Sub New(ByVal _name As String, ByVal _durationSec As Integer, ByVal _hotkey As Integer)
+        AddHandler timer.Elapsed, AddressOf TimerObjective
         timer.Interval = 1000
-        name = objectiveName
+        name = _name
         startingTime = Now()
-        durationMin = CInt(Math.Floor(duration / 60))
-        durationSec = duration
-        Dim test As TimeSpan = TimeSpan.FromSeconds(durationSec)
-        actualShownTime = Module_Timing.TimeSpan2MinSec_Parse(test)
-        overallTime = GetActualShownTime
+        durationMin = CInt(Math.Floor(_durationSec / 60))
+        durationSec = _durationSec
+        Dim timespan As TimeSpan = timespan.FromSeconds(durationSec)
+        actualShownTimeMin = Module_Timing.TimeSpan2MinSec_Parse(timespan)
+        actualShownTimeSec = Module_Timing.TimeSpan2Sec_Parse(timespan)
+        overallTime = GetActualShownTimeMin
         running = False
-        hotkey = hotkey
+        hotkey = _hotkey
     End Sub
     Public Sub Starts()
         startingTime = Now()
-        actualShownTime = overallTime
+        actualShownTimeMin = overallTime
         running = True
         timer.Enabled = True
     End Sub
@@ -83,14 +90,15 @@
         timer.Enabled = False
         diff = 0
     End Sub
-    Public Function GenerateText(text As String) As String
+    Public Function GenerateText(ByVal text As String) As String
         Return name & text
     End Function
-    Private Sub timerObjective(source As Object, e As System.Timers.ElapsedEventArgs)
+    Private Sub TimerObjective(ByVal source As Object, ByVal e As System.Timers.ElapsedEventArgs)
         diff = timing.DateDiffSec_Get(startingTime, Now())
-        If GetDurationSec = diff Then
+        If GetDurationSec <= diff Then
             running = False
         End If
-        actualShownTime = timing.Min_Parse(diff, durationSec) & ":" & timing.Second_Parse(durationSec - diff)
+        actualShownTimeSec = timing.Duration_Seconds(diff, durationSec)
+        actualShownTimeMin = timing.Min_Parse(diff, durationSec) & ":" & timing.Second_Parse(durationSec - diff)
     End Sub
 End Class

@@ -193,13 +193,13 @@ Public Class Resources
                                    {"OPACTIY", "70"},
                                    {"LJTD_START_X", "UNSET"},
                                    {"LJTD_START_Y", "UNSET"},
-                                   {"ADDSIGN", "False"},
+                                   {"ADDSIGN", "True"},
                                    {"DISABLE_AUTOSTART_BUTTON", "False"},
                                    {"GAME_MODE", "0"},
                                    {"SHOW_IN_TASKBAR", "True"},
                                    {"SHOW_PANEL", "True"},
                                    {"TEAM_SYNC_KEY", ""},
-                                   {"TEAM_SYNC_ENABLED", "false"}}
+                                   {"TEAM_SYNC_ENABLED", "False"}}
     Public Property PropConfig(ByVal i As Integer, ByVal j As Integer) As String
         Get
             Return config(i, j)
@@ -364,7 +364,8 @@ Public Class Resources
                                     {"MINIMAP_SHOW_DURATION_TB_Y", "50"},
                                     {"MINIMAP_SHOW_DURATION_TR_X", "60"},
                                     {"MINIMAP_SHOW_DURATION_TR_Y", "60"},
-                                    {"MINIMAP_SHOW_DURATION_USEOWN", "False"}}
+                                    {"MINIMAP_SHOW_DURATION_USEOWN", "False"},
+                                    {"MINIMAP_SHOW_DURATION_TEXTMODE", "Sec"}}
     Public Property PropMinimap(i As Integer, j As Integer) As String
         Get
             Return (minimap(i, j))
@@ -394,12 +395,12 @@ Public Class Resources
     End Property
     ' ### Names
     Private name As String(,) = {{"NAME_BARON", "Baron at "},
-                                  {"NAME_DRAGON", "Dragon at "},
-                                  {"NAME_OUR_BLUE", "OB at "},
-                                  {"NAME_OUR_RED", "OR at "},
-                                  {"NAME_THEIR_BLUE", "TB at "},
-                                  {"NAME_THEIR_RED", "TR at "},
-                                  {"NAME_FLASH", "Flash at "}}
+                                 {"NAME_DRAGON", "Dragon at "},
+                                 {"NAME_OUR_BLUE", "OB at "},
+                                 {"NAME_OUR_RED", "OR at "},
+                                 {"NAME_THEIR_BLUE", "TB at "},
+                                 {"NAME_THEIR_RED", "TR at "},
+                                 {"NAME_FLASH", "Flash at "}}
     Public Property PropName(i As Integer, j As Integer) As String
         Get
             Return name(i, j)
@@ -410,8 +411,8 @@ Public Class Resources
     End Property
     ' ### Remember for timers
     Private remember As String(,) = {{"REMEMBER_FIRST", "1:00"},
-                                      {"REMEMBER_SECOND", "0:30"},
-                                      {"REMEMBER_THIRD", "0:10"}}
+                                     {"REMEMBER_SECOND", "0:30"},
+                                     {"REMEMBER_THIRD", "0:10"}}
     Public Property PropRemember(i As Integer, j As Integer) As String
         Get
             Return remember(i, j)
@@ -420,14 +421,36 @@ Public Class Resources
             remember(i, j) = value
         End Set
     End Property
+    ' ### Delay of W2C
+    Private textOverlay As String(,) = {{"TEXT_OVERLAY_REMEMBER_MODE", "False"},
+                                        {"TEXT_OVERLAY_REMEMBER_TEXT", " respawning in "},
+                                        {"TEXT_OVERLAY_FINISHED_MODE", "False"},
+                                        {"TEXT_OVERLAY_FINISHED_TEXT", " respawned!"},
+                                        {"TEXT_OVERLAY_TEXT", " sec"}}
+    Public Property PropTextOverlay(ByVal i As Integer, ByVal j As Integer) As String
+        Get
+            Return (textOverlay(i, j))
+        End Get
+        Set(ByVal value As String)
+            textOverlay(i, j) = value
+        End Set
+    End Property
+    Public Property PropTextOverlayBool(ByVal i As Integer) As Boolean
+        Get
+            Return CBool(textOverlay(i, 1))
+        End Get
+        Set(ByVal value As Boolean)
+            textOverlay(i, 1) = CStr(value)
+        End Set
+    End Property
     ' ### Times
     Private time As String(,) = {{"TIME_BARON", "420"},
-                                  {"TIME_DRAGON", "360"},
-                                  {"TIME_OB", "300"},
-                                  {"TIME_OR", "300"},
-                                  {"TIME_TB", "300"},
-                                  {"TIME_TR", "300"},
-                                  {"TIME_FLASH", "300"}}
+                                 {"TIME_DRAGON", "360"},
+                                 {"TIME_OB", "300"},
+                                 {"TIME_OR", "300"},
+                                 {"TIME_TB", "300"},
+                                 {"TIME_TR", "300"},
+                                 {"TIME_FLASH", "300"}}
     Public Property PropTime(i As Integer, j As Integer) As String
         Get
             Return (time(i, j))
@@ -446,7 +469,7 @@ Public Class Resources
     End Property
     ' ### WardMap
     Private wardmap As String(,) = {{"WARDMAP_ENABLED", "True"},
-                                  {"WARDMAP_HOTKEY", "114"}}
+                                    {"WARDMAP_HOTKEY", "114"}}
     Public Property PropWardmap(i As Integer, j As Integer) As String
         Get
             Return (wardmap(i, j))
@@ -561,6 +584,13 @@ Public Class Resources
                 If tempString(counter).StartsWith(remember(i, 0)) Then
                     If strParts <> "" Then
                         remember(i, 1) = strParts
+                    End If
+                End If
+            Next
+            For i = 0 To UBound(textOverlay)
+                If tempString(counter).StartsWith(textOverlay(i, 0)) Then
+                    If strParts <> "" Then
+                        textOverlay(i, 1) = strParts
                     End If
                 End If
             Next

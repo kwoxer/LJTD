@@ -21,11 +21,13 @@ Public Class MiniMap
         resource = Resources.GetObject
     End Sub
     Private Sub MiniMap_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        displayWidth = SystemInformation.PrimaryMonitorSize.Width
-        displayHeight = SystemInformation.PrimaryMonitorSize.Height
+        displayWidth = Module_Generate.ScreenWidth
+        displayHeight = Module_Generate.ScreenHeight
         actualWidth = displayWidth - CInt(Width / 11.5) - CInt(Me.Size.Width / 2)
         actualHeight = displayHeight - CInt(Width / 10.5) - CInt(Me.Size.Height / 2)
         MiniMap_Refresh()
+    End Sub
+    Public Sub Timer_Start()
         AddHandler timerMinimapPing.Tick, AddressOf MinimapPing_Tick
     End Sub
     Protected Overrides ReadOnly Property CreateParams() As CreateParams
@@ -133,10 +135,10 @@ Public Class MiniMap
     End Sub
     Private Sub PanelsMouseDown_Event(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Panel_Top.MouseDown, Panel_Right.MouseDown, _
         Label_Location_X.MouseDown, Label_Location_Y.MouseDown, Label_Size_X.MouseDown, Label_Size_Y.MouseDown
-        Module_MoveWindow.MoveEvent_Initialize(e, Handle)
+        Module_WindowManagement.MoveEvent_Initialize(e, Handle)
         SizeLocationLabelValues_Update()
     End Sub
-    Private Sub Panel_Changed(sender As Object, e As System.EventArgs) Handles Panel_Top.SizeChanged, Panel_Right.SizeChanged, Panel_Top.MouseMove, Panel_Right.MouseMove
+    Private Sub Panel_Changed(ByVal sender As Object, ByVal e As System.EventArgs) Handles Panel_Top.SizeChanged, Panel_Right.SizeChanged, Panel_Top.MouseMove, Panel_Right.MouseMove
         SizeLocationLabelValues_Update()
         Configuration.MiniMap_GroupBox_Style_NumericUpDown_Size_X.Text = CStr(Panel_Top.Width)
         Configuration.MiniMap_GroupBox_Style_NumericUpDown_Size_Y.Text = CStr(Panel_Right.Height)
@@ -147,9 +149,8 @@ Public Class MiniMap
                 ping.Location_Refresh()
             End If
         Next
-        'SetForeground4LoLClient()
     End Sub
-    Private Sub TimerTopMost_Tick(sender As System.Object, e As System.EventArgs) Handles Timer_TopMost.Tick
+    Private Sub TimerTopMost_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_TopMost.Tick
         Me.TopMost = True
     End Sub
     Private Sub SizeLocationLabelValues_Update()
@@ -160,25 +161,25 @@ Public Class MiniMap
     End Sub
 #End Region
 #Region "TimerBuff"
-    Private Sub TimerObjectiveBaron_Tick(source As Object, e As ElapsedEventArgs)
+    Private Sub TimerObjectiveBaron_Tick(ByVal source As Object, ByVal e As ElapsedEventArgs)
         TimerObjective(0)
     End Sub
-    Private Sub TimerObjectiveDragon_Tick(source As Object, e As ElapsedEventArgs)
+    Private Sub TimerObjectiveDragon_Tick(ByVal source As Object, ByVal e As ElapsedEventArgs)
         TimerObjective(1)
     End Sub
-    Private Sub TimerObjectiveOB_Tick(source As Object, e As ElapsedEventArgs)
+    Private Sub TimerObjectiveOB_Tick(ByVal source As Object, ByVal e As ElapsedEventArgs)
         TimerObjective(2)
     End Sub
-    Private Sub TimerObjectiveOR_Tick(source As Object, e As ElapsedEventArgs)
+    Private Sub TimerObjectiveOR_Tick(ByVal source As Object, ByVal e As ElapsedEventArgs)
         TimerObjective(3)
     End Sub
-    Private Sub TimerObjectiveTB_Tick(source As Object, e As ElapsedEventArgs)
+    Private Sub TimerObjectiveTB_Tick(ByVal source As Object, ByVal e As ElapsedEventArgs)
         TimerObjective(4)
     End Sub
-    Private Sub TimerObjectiveTR_Tick(source As Object, e As ElapsedEventArgs)
+    Private Sub TimerObjectiveTR_Tick(ByVal source As Object, ByVal e As ElapsedEventArgs)
         TimerObjective(5)
     End Sub
-    Private Sub TimerObjective(i As Integer)
+    Private Sub TimerObjective(ByVal i As Integer)
         timerCounter(i) += 1
         If timerCounter(i) >= resource.PropMinimapInt(5) Then
             timer(i).Stop()
@@ -199,9 +200,9 @@ Public Class MiniMap
             hidePanel = True
             ShowForm = False
         End If
-        LoLClient_SetForeground()
+        Module_WindowManagement.SetForeground()
     End Sub
-    Private Sub ButtonTeam_Click(sender As System.Object, e As System.EventArgs) Handles Button_Team.MouseDown
+    Private Sub ButtonTeam_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Team.MouseDown
         If TeamBlueRed Then
             TeamLocation_Change(False)
             TeamBlueRed = False
@@ -211,16 +212,16 @@ Public Class MiniMap
             TeamBlueRed = True
             Button_Team.Image = My.Resources.MINIMAP_Button_BLUE_RED
         End If
-        LoLClient_SetForeground()
+        Module_WindowManagement.SetForeground()
     End Sub
-    Private Sub ButtonTeam_MouseEnter(sender As Object, e As System.EventArgs) Handles Button_Team.MouseEnter
+    Private Sub ButtonTeam_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button_Team.MouseEnter
         If TeamBlueRed Then
             Button_Team.Image = My.Resources.MINIMAP_Button_BLUE_RED
         Else
             Button_Team.Image = My.Resources.MINIMAP_Button_RED_BLUE
         End If
     End Sub
-    Private Sub ButtonTeam_MouseLeave(sender As Object, e As System.EventArgs) Handles Button_Team.MouseLeave
+    Private Sub ButtonTeam_MouseLeave(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button_Team.MouseLeave
         If TeamBlueRed Then
             Button_Team.Image = My.Resources.MINIMAP_Button_BLUE_RED
         Else
@@ -228,8 +229,8 @@ Public Class MiniMap
         End If
     End Sub
     Private Sub ButtonResize_MouseDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Button_Resize.MouseDown
-        Module_MoveWindow.ReleaseCapture()
-        Module_MoveWindow.SendMessage(CInt(Me.Handle), WM_NCLBUTTONDOWN, HTBOTTOMLEFT, CInt(IntPtr.Zero))
+        Module_WindowManagement.ReleaseCapture()
+        Module_WindowManagement.SendMessage(CInt(Me.Handle), WM_NCLBUTTONDOWN, HTBOTTOMLEFT, CInt(IntPtr.Zero))
         SizeLocationLabelValues_Update()
     End Sub
 #End Region
@@ -278,9 +279,5 @@ Public Class MiniMap
     End Sub
 #End Region
 
-    Private Sub LoLClient_SetForeground()
-        If LJTD.InitalTimerRunning Then
-            Module_Write2Chat.ForgroundWindow_Set()
-        End If
-    End Sub
+    
 End Class

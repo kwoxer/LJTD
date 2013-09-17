@@ -5,7 +5,7 @@
     End Sub
     Private Sub Panel_MouseDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Panel_TeamSync.MouseDown, TeamSync_Header.MouseDown, _
         TeamSync_Text.MouseDown, TeamSync_Groupbox_Buffs.MouseDown, TeamSync_Groupbox_Wards.MouseDown
-        Module_MoveWindow.MoveEvent_Initialize(e, Handle)
+        Module_WindowManagement.MoveEvent_Initialize(e, Handle)
     End Sub
     Private Sub ButtonTeamSyncGenerate_Click(sender As System.Object, e As System.EventArgs) Handles TeamSync_Button_Generate.Click
         Configuration.MainGroupBoxTeamSync_Generate()
