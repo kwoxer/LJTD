@@ -1,4 +1,4 @@
-LoL Jungle Timer Deluxe v.4.2
+LoL Jungle Timer Deluxe v.5.1
 =============================
 as known as LJTD
 ----------------
