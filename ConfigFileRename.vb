@@ -1,6 +1,6 @@
 ﻿Public Class ConfigFileRename
     Private imgBg As Image = My.Resources.About_BG
-    Private resource As Resources = Resources.GetObject
+    Private resource As Resources = Resources.Resources
     Private txt As String = "Please enter the new name for the config file: "
     Public WriteOnly Property ImgBackground() As Image
         Set(value As Image)

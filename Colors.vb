@@ -1,6 +1,6 @@
 ﻿Public Class Module_LJTDColor
     Public Shared ReadOnly GetObject As New Module_LJTDColor
-    Private resource As Resources = Resources.GetObject
+    Private resource As Resources = Resources.Resources
     Private colorNormal As New Color
     Private colorClicked As New Color
     Private colorMousehover As New Color

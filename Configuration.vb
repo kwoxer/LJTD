@@ -1,6 +1,8 @@
 ﻿Imports System.Net
 Imports System.Timers
 Imports System.IO
+Imports System.Text
+
 Public Class Configuration
     Public ShowForm As Boolean
     Public Panel(6) As DoubleBufferPanel
@@ -15,14 +17,15 @@ Public Class Configuration
     Public TeamSyncOnlineRightsOwner As Boolean = False
     Public Write2Config As New Write2Config
     Private button(6) As Boolean
-    Public resource As Resources = Resources.GetObject
+    Public resource As Resources = Resources.Resources
+    Public resourceBackup As Resources = Resources.ResourcesBackup
     Private ljtdColor As Module_LJTDColor = Module_LJTDColor.GetObject
     Private saveClicked As Boolean, resetClicked As Boolean, newUpdateAvailable As Boolean
     Private Const urlDownloadVersion As String = "http://www.kwoxer.de/programme/lol-jungle-timer-deluxe/update"
     Private Const urlDownloadPackage As String = "http://www.ljtd.net/download/"
     Private urlButtons() As String = {"http://www.youtube.com/user/LoLJungleTimerDeluxe", "https://twitter.com/LJTD", "http://www.facebook.com/LoLJungleTD"}
     Private newestVersion As String
-    Private imgBg(6) As Image
+    Private panelBackground(6) As Image
     Private ljtdVersionAdditional As String = ""
     Private specialKey As Keys
     Private teamSyncGenerated As Boolean
@@ -49,16 +52,18 @@ Public Class Configuration
     Private txtTeamSyncRestriction As String = "You man only register 5 keys right now."
     Private txtTeamSyncRegisterKeyFailed As String = "Registering your key failed."
     Private configFileChanged As Boolean = False
+    Private settingsMode As String
+    Private settingsModes As String() = {"Basic", "Expert"}
 
     Public Sub Resource_Refresh()
-        resource = Resources.GetObject
+        resource = Resources.Resources
     End Sub
-    Public WriteOnly Property ImgBackground(i As Integer) As Image
-        Set(value As Image)
-            imgBg(i) = value
+    Public WriteOnly Property ImgBackground(ByVal i As Integer) As Image
+        Set(ByVal value As Image)
+            panelBackground(i) = value
         End Set
     End Property
-    Public Function ButtonStatus_Get(i As Integer) As Boolean
+    Public Function ButtonStatus_Get(ByVal i As Integer) As Boolean
         Return button(i)
     End Function
     Private Sub Configuration_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -71,14 +76,14 @@ Public Class Configuration
         ShowForm = True
     End Sub
     Public Sub Backgrounds_Initialize()
-        imgBg(0) = My.Resources.Config_BG_Main
-        imgBg(1) = My.Resources.Config_BG_Slideout
-        imgBg(2) = My.Resources.Config_BG_W2C
-        imgBg(3) = My.Resources.Config_BG_Hotkey
-        imgBg(4) = My.Resources.Config_BG_Design
-        imgBg(5) = My.Resources.Config_BG_MiniMap
-        imgBg(6) = My.Resources.Config_BG_Name
-        TabButton_Main.BackgroundImage = My.Resources.Config_Tab_MAIN
+        panelBackground(0) = My.Resources.CONFIG_BG_Main
+        panelBackground(1) = My.Resources.CONFIG_BG_Slideout
+        panelBackground(2) = My.Resources.CONFIG_BG_W2C
+        panelBackground(3) = My.Resources.CONFIG_BG_Hotkey
+        panelBackground(4) = My.Resources.CONFIG_BG_Design
+        panelBackground(5) = My.Resources.CONFIG_BG_MiniMap
+        panelBackground(6) = My.Resources.CONFIG_BG_Name
+        TabButton_Main.BackgroundImage = My.Resources.CONFIG_Tab_MAIN
         Panel(0) = Panel_Main
         Panel(1) = Panel_Slideout
         Panel(2) = Panel_W2C
@@ -86,13 +91,13 @@ Public Class Configuration
         Panel(4) = Panel_Design
         Panel(5) = Panel_MiniMap
         Panel(6) = Panel_Name
-        Panel(0).BackgroundImage = imgBg(0)
-        Panel(1).BackgroundImage = imgBg(1)
-        Panel(2).BackgroundImage = imgBg(2)
-        Panel(3).BackgroundImage = imgBg(3)
-        Panel(4).BackgroundImage = imgBg(4)
-        Panel(5).BackgroundImage = imgBg(5)
-        Panel(6).BackgroundImage = imgBg(6)
+        Panel(0).BackgroundImage = panelBackground(0)
+        Panel(1).BackgroundImage = panelBackground(1)
+        Panel(2).BackgroundImage = panelBackground(2)
+        Panel(3).BackgroundImage = panelBackground(3)
+        Panel(4).BackgroundImage = panelBackground(4)
+        Panel(5).BackgroundImage = panelBackground(5)
+        Panel(6).BackgroundImage = panelBackground(6)
     End Sub
     Private Sub PanelMouseDown_Events(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Panel_Main.MouseDown, Panel_Slideout.MouseDown, _
         Panel_W2C.MouseDown, Panel_Hotkey.MouseDown, Panel_Design.MouseDown, Panel_MiniMap.MouseDown, Panel_Name.MouseDown
@@ -129,10 +134,7 @@ Public Class Configuration
         End If
     End Sub
 #Region "Button Save"
-    Private Sub ButtonSaveClick_Event(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Save.Click
-        ButtonSave_Performclick()
-    End Sub
-    Public Sub ButtonSave_Performclick()
+    Public Sub ButtonSave_Performclick() Handles Button_Save.Click
         saveClicked = True
         Configuration_SelectChange()
         Module_SelectConfigFile.LJTDini_Write(resource)
@@ -162,11 +164,11 @@ Public Class Configuration
     Private Sub ButtonResetClick_Event(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Reset.Click
         configFileChanged = True
         resetClicked = True
-        Resources.Reset()
-        resource = Resources.GetObject
-        resource.fileConfig = Me.Main_GroupBox_ConfigFile_ComboBox.Text
-        LJTD.Resource_Refresh()
-        MiniMap.Resource_Refresh()
+        ' Resources.Reset()
+        'resource = Resources.GetObject
+        'resource.fileConfig = Me.Main_GroupBox_ConfigFile_ComboBox.Text
+        ' LJTD.Resource_Refresh()
+        ' MiniMap.Resource_Refresh()
         Configuration_SelectInitializion()
         LJTD.SetForeColor_Initialize(0, Design_GroupBox_Color_PictureBox_Baron.BackColor)
         LJTD.SetForeColor_Initialize(1, Design_GroupBox_Color_PictureBox_Dragon.BackColor)
@@ -192,29 +194,36 @@ Public Class Configuration
 #End Region
     Public Sub Configuration_SelectInitializion()
         If button(0) Then
-            PanelMain_Initialize()
+            PanelMain_Initialize(resourceBackup)
         ElseIf button(1) Then
-            PanelSlide_Initialize()
+            PanelSlide_Initialize(resourceBackup)
         ElseIf button(2) Then
-            PanelW2C_Initialize()
+            PanelW2C_Initialize(resourceBackup)
         ElseIf button(3) Then
-            PanelHotkey_Initialize()
+            PanelHotkey_Initialize(resourceBackup)
         ElseIf button(4) Then
-            PanelDesign_Initialize()
+            PanelDesign_Initialize(resourceBackup)
         ElseIf button(5) Then
-            PanelMiniMap_Initialize()
+            PanelMiniMap_Initialize(resourceBackup)
         ElseIf button(6) Then
-            PanelName_Initialize()
+            PanelName_Initialize(resourceBackup)
         End If
     End Sub
     Public Sub Configuration_FullInitializion()
-        PanelMain_Initialize()
-        PanelSlide_Initialize()
-        PanelW2C_Initialize()
-        PanelHotkey_Initialize()
-        PanelDesign_Initialize()
-        PanelMiniMap_Initialize()
-        PanelName_Initialize()
+        PanelMain_Initialize(resource)
+        PanelSlide_Initialize(resource)
+        PanelW2C_Initialize(resource)
+        PanelHotkey_Initialize(resource)
+        PanelDesign_Initialize(resource)
+        PanelMiniMap_Initialize(resource)
+        PanelName_Initialize(resource)
+        If resource.PropConfig(24, 1) = settingsModes(0) Then
+            settingsMode = settingsModes(0)
+            Button_Basic.PerformClick()
+        Else
+            settingsMode = settingsModes(1)
+            Button_Expert.PerformClick()
+        End If
     End Sub
     Private Sub Configuration_SelectChange()
         If button(0) Then
@@ -232,6 +241,7 @@ Public Class Configuration
         ElseIf button(6) Then
             PanelName_SelectChange()
         End If
+        resource.PropConfig(24, 1) = settingsMode
     End Sub
     Public Sub Configuration_FullChange()
         PanelMain_SelectChange()
@@ -243,7 +253,7 @@ Public Class Configuration
         PanelName_SelectChange()
     End Sub
 #Region "Panel Main"
-    Private Sub PanelMain_Initialize()
+    Private Sub PanelMain_Initialize(ByVal resource As Resources)
         Main_GroupBox_CheckVersion_Label_Update.Text = txtCurrentVersion & My.Application.Info.Version.ToString & ljtdVersionAdditional
         Main_GroupBox_TimeBaron_NumericUpDown.Text = resource.PropTime(0, 1)
         Main_GroupBox_TimeDragon_NumericUpDown.Text = resource.PropTime(1, 1)
@@ -255,9 +265,15 @@ Public Class Configuration
         Main_GroupBox_ShowFlash_CheckBox.Checked = resource.PropConfigBool(3)
         Main_GroupBox_OpenInTray_CheckBox.Checked = resource.PropConfigBool(4)
         Main_GroupBox_TimingDelay_NumericUpDown.Text = resource.PropConfig(11, 1)
-        Main_GroupBox_SearchLog_TextBox.Text = resource.PropConfig(0, 1)
+        If resource.PropConfigBool(22) Then
+            Main_GroupBox_AutoStart_LocationMode_CheckBox.Checked = True
+            Main_GroupBox_AutoStart_Location_TextBox.Text = resource.PropConfig(23, 1)
+        Else
+            Main_GroupBox_AutoStart_LocationMode_CheckBox.Checked = False
+            Main_GroupBox_AutoStart_Location_TextBox.Text = resource.PropConfig(0, 1)
+        End If
         Main_GroupBox_AddSign_CheckBox.Checked = resource.PropConfigBool(15)
-        Main_GroupBox_DisableAutoStart_CheckBox.Checked = resource.PropConfigBool(16)
+        Main_GroupBox_AutoStart_Button_CheckBox.Checked = resource.PropConfigBool(16)
         Main_GroupBox_GameMode_ComboBox.SelectedIndex = resource.PropConfigInt(17)
         Main_GroupBox_TeamSync_TextBoxGeneratedKey.Text = resource.PropConfig(20, 1)
         teamSyncGeneratedKey = Main_GroupBox_TeamSync_TextBoxGeneratedKey.Text
@@ -278,14 +294,27 @@ Public Class Configuration
         resource.PropConfig(3, 1) = CStr(Main_GroupBox_ShowFlash_CheckBox.Checked)
         resource.PropConfig(4, 1) = CStr(Main_GroupBox_OpenInTray_CheckBox.Checked)
         resource.PropConfigInt(11) = CInt(Main_GroupBox_TimingDelay_NumericUpDown.Text)
-        resource.PropConfig(0, 1) = CStr(Main_GroupBox_SearchLog_TextBox.Text)
+        If Main_GroupBox_AutoStart_LocationMode_CheckBox.Checked Then
+            resource.PropConfig(23, 1) = Main_GroupBox_AutoStart_Location_TextBox.Text
+            resource.PropConfig(22, 1) = "True"
+        Else
+            resource.PropConfig(0, 1) = Main_GroupBox_AutoStart_Location_TextBox.Text
+            resource.PropConfig(22, 1) = "False"
+        End If
         resource.PropConfig(15, 1) = CStr(Main_GroupBox_AddSign_CheckBox.Checked)
-        resource.PropConfig(16, 1) = CStr(Main_GroupBox_DisableAutoStart_CheckBox.Checked)
+        resource.PropConfig(16, 1) = CStr(Main_GroupBox_AutoStart_Button_CheckBox.Checked)
         resource.PropConfigInt(17) = Main_GroupBox_GameMode_ComboBox.SelectedIndex
         resource.PropConfig(20, 1) = CStr(Main_GroupBox_TeamSync_TextBoxGeneratedKey.Text)
         resource.PropConfig(21, 1) = CStr(Main_GroupBox_TeamSync_CheckBox.Checked)
     End Sub
-    Private Sub MainGroupBoxCheckVersionLinkLabel_LinkClicked(sender As System.Object, e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles Main_GroupBox_CheckVersion_LinkLabel.LinkClicked
+    Private Sub MainGroupBoxAutoStartLocation_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Main_GroupBox_AutoStart_LocationMode_CheckBox.CheckedChanged
+        If Main_GroupBox_AutoStart_LocationMode_CheckBox.Checked Then
+            Main_GroupBox_AutoStart_Location_TextBox.Text = resource.PropConfig(23, 1)
+        Else
+            Main_GroupBox_AutoStart_Location_TextBox.Text = resource.PropConfig(0, 1)
+        End If
+    End Sub
+    Private Sub MainGroupBoxCheckVersionLinkLabel_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles Main_GroupBox_CheckVersion_LinkLabel.LinkClicked
         Process.Start(urlDownloadPackage)
     End Sub
     Private Sub MainGroupBoxCheckVersionButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Main_GroupBox_CheckVersion_Button_Update.Click
@@ -293,8 +322,7 @@ Public Class Configuration
             newestVersion = UpdateVersion_Get()
             If My.Application.Info.Version.ToString <> newestVersion Then
                 Main_GroupBox_CheckVersion_Label_Download.Text = txtLatestVersion1 & newestVersion
-                Main_GroupBox_CheckVersion_Button_Download_32.Enabled = True
-                Main_GroupBox_CheckVersion_Button_Download_64.Enabled = True
+                Main_GroupBox_CheckVersion_Button_Download.Enabled = True
                 newUpdateAvailable = True
             Else
                 Main_GroupBox_CheckVersion_Label_Update.Text = txtLatestVersion2
@@ -304,22 +332,22 @@ Public Class Configuration
         End Try
     End Sub
     Public Function UpdateVersion_Get() As String
-        Dim source_Code As String = GetDownloadString(urlDownloadVersion)
+        Dim source_Code As String = Module_IO.GetDownloadString(urlDownloadVersion)
         Dim find_Version As Integer = InStr(source_Code, "id=""cc-matrix-1256918250")
         find_Version = InStr(find_Version, source_Code, "<p>") + 8
         Return Mid(source_Code, find_Version, 7)
     End Function
-    Private Sub MainGroupBoxGameModeComboBox_TextChanged(sender As Object, e As System.EventArgs) Handles Main_GroupBox_GameMode_ComboBox.SelectedIndexChanged
+    Private Sub MainGroupBoxGameModeComboBox_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles Main_GroupBox_GameMode_ComboBox.SelectedIndexChanged
         If Main_GroupBox_GameMode_ComboBox.SelectedIndex = 0 Then
             Main_GroupBox_TimeBaron_NumericUpDown.Text = CStr(420)
         Else
             Main_GroupBox_TimeBaron_NumericUpDown.Text = CStr(300)
         End If
     End Sub
-    Private Sub MainGroupBoxConfigFileComboBox_TextChanged(sender As Object, e As System.EventArgs) Handles Main_GroupBox_ConfigFile_ComboBox.SelectedIndexChanged
+    Private Sub MainGroupBoxConfigFileComboBox_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles Main_GroupBox_ConfigFile_ComboBox.SelectedIndexChanged
         MainGroupBoxConfigFileComboBox_PerformTextChanged(ShowForm, configFileChanged)
     End Sub
-    Public Sub MainGroupBoxConfigFileComboBox_PerformTextChanged(show As Boolean, config As Boolean)
+    Public Sub MainGroupBoxConfigFileComboBox_PerformTextChanged(ByVal show As Boolean, ByVal config As Boolean)
         If show And config Then
             configFileChanged = False
             resource.fileConfig = Me.Main_GroupBox_ConfigFile_ComboBox.Text
@@ -329,40 +357,37 @@ Public Class Configuration
             ButtonSave_Performclick()
         End If
     End Sub
-    Private Sub MainGroupBoxConfigFileComboBox_Click(sender As Object, e As System.EventArgs) Handles Main_GroupBox_ConfigFile_ComboBox.Click
+    Private Sub MainGroupBoxConfigFileComboBox_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles Main_GroupBox_ConfigFile_ComboBox.Click
         configFileChanged = True
     End Sub
-    Private Sub MainGroupBoxConfigFilePictureBoxAdd_Click(sender As System.Object, e As System.EventArgs) Handles Main_GroupBox_ConfigFile_PictureBoxAdd.Click
+    Private Sub MainGroupBoxConfigFilePictureBoxAdd_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Main_GroupBox_ConfigFile_PictureBoxAdd.Click
         ConfigFileAdd.ShowDialog()
     End Sub
-    Private Sub MainGroupBoxConfigFilePictureBoxRename_Click(sender As System.Object, e As System.EventArgs) Handles Main_GroupBox_ConfigFile_PictureBoxRename.Click
+    Private Sub MainGroupBoxConfigFilePictureBoxRename_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Main_GroupBox_ConfigFile_PictureBoxRename.Click
         If Main_GroupBox_ConfigFile_ComboBox.Text <> "" Then
             ConfigFileRename.ShowDialog()
         End If
     End Sub
-    Private Sub MainGroupBoxConfigFilePictureBoxDelete_Click(sender As System.Object, e As System.EventArgs) Handles Main_GroupBox_ConfigFile_PictureBoxDelete.Click
+    Private Sub MainGroupBoxConfigFilePictureBoxDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Main_GroupBox_ConfigFile_PictureBoxDelete.Click
         If Main_GroupBox_ConfigFile_ComboBox.Text <> "" Then
             ConfigFileDelete.ShowDialog()
         End If
     End Sub
-    Private Sub MainGroupBoxCheckVersionButtonDownload_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Main_GroupBox_CheckVersion_Button_Download_32.Click
+
+    Private Sub MainGroupBoxCheckVersionButtonDownload_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Main_GroupBox_CheckVersion_Button_Download.Click
         Updater.Show()
-        Updater.Updater_Load(newestVersion, 0, "32 bit")
+        Updater.Updater_Load(newestVersion, 1)
     End Sub
-    Private Sub MainGroupBoxCheckVersionButtonDownload64_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Main_GroupBox_CheckVersion_Button_Download_64.Click
-        Updater.Show()
-        Updater.Updater_Load(newestVersion, 1, "64 bit")
-    End Sub
-    Private Sub MainGroupBoxSearchLogButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Main_GroupBox_SearchLog_Button.Click
+    Private Sub MainGroupBoxSearchLogButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Main_GroupBox_AutoStart_Location_Button.Click
         Dim FolderBrowser As New FolderBrowserDialog
         FolderBrowser.Description = txtSearchLogFolder
         FolderBrowser.RootFolder = System.Environment.SpecialFolder.Desktop
         FolderBrowser.SelectedPath = My.Computer.FileSystem.SpecialDirectories.Desktop
         If FolderBrowser.ShowDialog = Windows.Forms.DialogResult.OK Then
-            Main_GroupBox_SearchLog_TextBox.Text = FolderBrowser.SelectedPath
+            Main_GroupBox_AutoStart_Location_TextBox.Text = FolderBrowser.SelectedPath
         End If
     End Sub
-    Private Sub MainGroupBoxTeamSyncCheckBox_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles Main_GroupBox_TeamSync_CheckBox.CheckedChanged
+    Private Sub MainGroupBoxTeamSyncCheckBox_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Main_GroupBox_TeamSync_CheckBox.CheckedChanged
         MainGroupBoxTeamSyncCheckBox_SetDisabled()
     End Sub
     Private Sub MainGroupBoxTeamSyncCheckBox_SetDisabled()
@@ -375,10 +400,10 @@ Public Class Configuration
             TeamSyncValid = False
         End If
     End Sub
-    Private Sub MainGroupBoxTeamSyncLinkLabel_Click(sender As Object, e As System.EventArgs) Handles Main_GroupBox_TeamSync_LinkLabel.Click
+    Private Sub MainGroupBoxTeamSyncLinkLabel_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles Main_GroupBox_TeamSync_LinkLabel.Click
         Process.Start(tsURLMain)
     End Sub
-    Private Sub MainGroupBoxTeamSyncButtonGenerate_Click(sender As System.Object, e As System.EventArgs) Handles Main_GroupBox_TeamSync_ButtonGenerate.Click
+    Private Sub MainGroupBoxTeamSyncButtonGenerate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Main_GroupBox_TeamSync_ButtonGenerate.Click
         TeamSync.ShowDialog()
     End Sub
     Public Sub MainGroupBoxTeamSync_Generate()
@@ -392,7 +417,7 @@ Public Class Configuration
         End Try
         teamSyncGenerated = False
     End Sub
-    Private Sub MainGroupBoxTeamSyncTextBoxGeneratedKey_TextChanged(sender As Object, e As System.EventArgs) Handles Main_GroupBox_TeamSync_TextBoxGeneratedKey.TextChanged
+    Private Sub MainGroupBoxTeamSyncTextBoxGeneratedKey_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles Main_GroupBox_TeamSync_TextBoxGeneratedKey.TextChanged
         If Main_GroupBox_TeamSync_TextBoxGeneratedKey.Text.Length = 10 And teamSyncGenerated = False Then
             TeamSyncKey_Register(Main_GroupBox_TeamSync_TextBoxGeneratedKey.Text)
         End If
@@ -406,7 +431,7 @@ Public Class Configuration
             TeamSyncValid = False
         End If
     End Sub
-    Private Sub TeamSyncKey_Register(id As String)
+    Private Sub TeamSyncKey_Register(ByVal id As String)
         Dim webClient As New Net.WebClient
         Dim nvc = Module_NVC.NVCID_Create(id)
         Try
@@ -460,7 +485,7 @@ Public Class Configuration
             TeamSyncValid = False
         End Try
     End Sub
-    Public Sub MainGroupBoxTeamSyncOnlineRights_Update(rights As String)
+    Public Sub MainGroupBoxTeamSyncOnlineRights_Update(ByVal rights As String)
         If Mid(rights, 1, 12) = Module_Generate.MacAddress Then
             TeamSyncOnlineRightsOwner = True
         Else
@@ -477,38 +502,54 @@ Public Class Configuration
             TeamSyncOnlineRightsWards = False
         End If
     End Sub
-    Private Sub MainGroupBoxTeamSyncButtonShare_Click(sender As System.Object, e As System.EventArgs) Handles Main_GroupBox_TeamSync_ButtonShare.Click
+    Private Sub MainGroupBoxTeamSyncButtonShare_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Main_GroupBox_TeamSync_ButtonShare.Click
         Process.Start(tsURLMain & "/share/" & teamSyncGeneratedKey)
     End Sub
     Private Sub TeamSyncTimerGetChanges_Event(ByVal source As Object, ByVal e As EventArgs)
         If TeamSyncValid Then
-            Dim webClient As New Net.WebClient
+            Dim webClient1 As New Net.WebClient
+            AddHandler webClient1.UploadValuesCompleted, AddressOf ObjectivesDownload_Completed
+
             Try
-                Dim teamSyncKeyGetBuff As Byte() = webClient.UploadValues(teamSyncGeneratedURLsBuff(1), Module_NVC.NVCID_Create(Main_GroupBox_TeamSync_TextBoxGeneratedKey.Text))
-                Dim teamSyncKeyGetBuffString = System.Text.Encoding.ASCII.GetString(teamSyncKeyGetBuff)
-                For i = 0 To teamSyncOnlineBuffRunning.Length - 1
-                    teamSyncOnlineBuffRunning(i) = CBool(Mid(teamSyncKeyGetBuffString, i + 1, 1))
-                Next
+                webClient1.UploadValuesAsync(New Uri(teamSyncGeneratedURLsBuff(1)), Module_NVC.NVCID_Create(Main_GroupBox_TeamSync_TextBoxGeneratedKey.Text))
             Catch ex As Exception
             End Try
-            For i = 0 To 5
-                If LJTD.TeamSyncOfflineObjectiveRunning(i) = teamSyncOnlineBuffRunning(i) Then
-                    TeamSyncOnlineBuffChanges(i) = False
-                Else
-                    TeamSyncOnlineBuffChanges(i) = True
-                End If
-            Next
-            Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.CreateSpecificCulture("en-US")
-            Dim teamSyncKeyGetWard = webClient.UploadValues(teamSyncGeneratedURLsWard, Module_NVC.NVCGetWard_Create(Main_GroupBox_TeamSync_TextBoxGeneratedKey.Text))
-            Dim teamSyncKeyGetWardDouble = System.Text.Encoding.ASCII.GetString(teamSyncKeyGetWard).Split(CChar(vbCrLf)).Skip(1).Select(Function(x) New Coordinate(x.Split(" "c).Select(AddressOf Double.Parse).ToArray)).ToList
-            Dim oldWardList = MiniMap.WardList_Get().Select(Function(x) New Coordinate(New Double() {x.ScaleX, x.ScaleY})).ToList
-            Dim addNewWards = teamSyncKeyGetWardDouble.Except(oldWardList).ToList
-            MiniMap.TeamSyncWards_Create(addNewWards)
-            Dim deleteOldWards = oldWardList.Except(teamSyncKeyGetWardDouble).ToList
-            MiniMap.TeamSyncWards_Delete(deleteOldWards)
+           
+
+            Dim webClient2 As New Net.WebClient
+            AddHandler webClient2.UploadValuesCompleted, AddressOf WardsDownload_Completed
+            Dim nvc = Module_NVC.NVCGetWard_Create(Main_GroupBox_TeamSync_TextBoxGeneratedKey.Text)
+            webClient2.UploadValuesAsync(New Uri(teamSyncGeneratedURLsWard), nvc)
+            'Dim teamSyncKeyGetWard =
         End If
     End Sub
-    Public Sub TeamSync_SetChanges(buffID As Integer, reset As Boolean)
+    Private Sub ObjectivesDownload_Completed(ByVal sender As Object, ByVal e As UploadValuesCompletedEventArgs)
+        Try
+            Dim teamSyncKeyGetBuffString = System.Text.Encoding.ASCII.GetString(e.Result)
+            For i = 0 To teamSyncOnlineBuffRunning.Length - 1
+                teamSyncOnlineBuffRunning(i) = CBool(Mid(teamSyncKeyGetBuffString, i + 1, 1))
+            Next
+        Catch ex As Exception
+        End Try
+        For i = 0 To 5
+            If LJTD.TeamSyncOfflineObjectiveRunning(i) = teamSyncOnlineBuffRunning(i) Then
+                TeamSyncOnlineBuffChanges(i) = False
+            Else
+                TeamSyncOnlineBuffChanges(i) = True
+            End If
+        Next
+        Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.CreateSpecificCulture("en-US")
+    End Sub
+    Private Sub WardsDownload_Completed(ByVal sender As Object, ByVal e As UploadValuesCompletedEventArgs)
+        'Dim Result = Encoding.ASCII.GetString(e.Result)
+        Dim teamSyncKeyGetWardDouble = System.Text.Encoding.ASCII.GetString(e.Result).Split(CChar(vbCrLf)).Skip(1).Select(Function(x) New Coordinate(x.Split(" "c).Select(AddressOf Double.Parse).ToArray)).ToList
+        Dim oldWardList = MiniMap.WardList_Get().Select(Function(x) New Coordinate(New Double() {x.ScaleX, x.ScaleY})).ToList
+        Dim addNewWards = teamSyncKeyGetWardDouble.Except(oldWardList).ToList
+        MiniMap.TeamSyncWards_Create(addNewWards)
+        Dim deleteOldWards = oldWardList.Except(teamSyncKeyGetWardDouble).ToList
+        MiniMap.TeamSyncWards_Delete(deleteOldWards)
+    End Sub
+    Public Sub TeamSync_SetChanges(ByVal buffID As Integer, ByVal reset As Boolean)
         If TeamSyncValid And (TeamSyncOnlineRightsBuff Or TeamSyncOnlineRightsOwner) Then
             Dim webClient As New Net.WebClient
             Dim status As Integer
@@ -531,7 +572,7 @@ Public Class Configuration
             End Select
             Dim nvc = Module_NVC.NVCSetBuff_Create(Main_GroupBox_TeamSync_TextBoxGeneratedKey.Text, buffName, status)
             Try
-                webClient.UploadValues(teamSyncGeneratedURLsBuff(0), nvc)
+                webClient.UploadValuesAsync(New Uri(teamSyncGeneratedURLsBuff(0)), nvc)
             Catch ex As Exception
             End Try
         End If
@@ -541,14 +582,14 @@ Public Class Configuration
             Dim webClient As New Net.WebClient
             Dim nvc = Module_NVC.NVCID_Create(Main_GroupBox_TeamSync_TextBoxGeneratedKey.Text)
             Try
-                webClient.UploadValues(teamSyncGeneratedURLs(3), nvc)
+                webClient.UploadValuesAsync(New Uri(teamSyncGeneratedURLs(3)), nvc)
             Catch ex As Exception
             End Try
         End If
     End Sub
 #End Region
 #Region "Panel Slide"
-    Private Sub PanelSlide_Initialize()
+    Private Sub PanelSlide_Initialize(ByVal resource As Resources)
         If resource.PropConfigInt(5) = 0 Then
             Slide_GroupBox_Modi_RadioButton_Normal.Checked = True
         ElseIf resource.PropConfigInt(5) = 1 Then
@@ -556,11 +597,11 @@ Public Class Configuration
         ElseIf resource.PropConfigInt(5) = 2 Then
             Slide_GroupBox_Modi_RadioButton_Labels.Checked = True
         End If
-        Slide_GroupBox_TextOverlay_ShowRemember_CheckBox.Checked = resource.PropTextOverlayBool(0)
-        Slide_GroupBox_TextOverlay_TextBefore_TextBox.Text = CStr(resource.PropTextOverlay(1, 1))
-        Slide_GroupBox_TextOverlay_TextAfter_TextBox.Text = CStr(resource.PropTextOverlay(4, 1))
-        Slide_GroupBox_TextOverlay_ShowFinish_CheckBox.Checked = resource.PropTextOverlayBool(2)
-        Slide_GroupBox_TextOverlay_TextFinish_TextBox.Text = CStr(resource.PropTextOverlay(3, 1))
+        MiniMap_GroupBox_TextOverlay_ShowRemember_CheckBox.Checked = resource.PropTextOverlayBool(0)
+        MiniMap_GroupBox_TextOverlay_TextBefore_TextBox.Text = CStr(resource.PropTextOverlay(1, 1))
+        MiniMap_GroupBox_TextOverlay_TextAfter_TextBox.Text = CStr(resource.PropTextOverlay(4, 1))
+        MiniMap_GroupBox_TextOverlay_ShowFinish_CheckBox.Checked = resource.PropTextOverlayBool(2)
+        MiniMap_GroupBox_TextOverlay_TextFinish_TextBox.Text = CStr(resource.PropTextOverlay(3, 1))
         Slide_GroupBox_Opactiy_TrackBar.Value = resource.PropConfigInt(12)
         Slide_GroupBox_Opactiy_LabelPercent.Text = Slide_GroupBox_Opactiy_TrackBar.Value & "%"
     End Sub
@@ -572,11 +613,11 @@ Public Class Configuration
         ElseIf Slide_GroupBox_Modi_RadioButton_Labels.Checked Then
             resource.PropConfig(5, 1) = CStr(2)
         End If
-        resource.PropTextOverlayBool(0) = Slide_GroupBox_TextOverlay_ShowRemember_CheckBox.Checked
-        resource.PropTextOverlay(1, 1) = Slide_GroupBox_TextOverlay_TextBefore_TextBox.Text
-        resource.PropTextOverlay(4, 1) = Slide_GroupBox_TextOverlay_TextAfter_TextBox.Text
-        resource.PropTextOverlayBool(2) = Slide_GroupBox_TextOverlay_ShowFinish_CheckBox.Checked
-        resource.PropTextOverlay(3, 1) = Slide_GroupBox_TextOverlay_TextFinish_TextBox.Text
+        resource.PropTextOverlayBool(0) = MiniMap_GroupBox_TextOverlay_ShowRemember_CheckBox.Checked
+        resource.PropTextOverlay(1, 1) = MiniMap_GroupBox_TextOverlay_TextBefore_TextBox.Text
+        resource.PropTextOverlay(4, 1) = MiniMap_GroupBox_TextOverlay_TextAfter_TextBox.Text
+        resource.PropTextOverlayBool(2) = MiniMap_GroupBox_TextOverlay_ShowFinish_CheckBox.Checked
+        resource.PropTextOverlay(3, 1) = MiniMap_GroupBox_TextOverlay_TextFinish_TextBox.Text
         resource.PropConfigInt(12) = Slide_GroupBox_Opactiy_TrackBar.Value
     End Sub
     Private Sub SlideoutGroupBoxOpactiyTrackBar_Scroll(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Slide_GroupBox_Opactiy_TrackBar.Scroll
@@ -585,7 +626,7 @@ Public Class Configuration
     End Sub
 #End Region
 #Region "Panel Write2Chat"
-    Private Sub PanelW2C_Initialize()
+    Private Sub PanelW2C_Initialize(ByVal resource As Resources)
         W2C_GroupBox_Features_CheckBox_DrBa.Checked = resource.PropWrite2ChatBool(0)
         W2C_GroupBox_Features_CheckBox_BR.Checked = resource.PropWrite2ChatBool(1)
         W2C_GroupBox_Features_CheckBox_Flash.Checked = resource.PropWrite2ChatBool(2)
@@ -595,6 +636,10 @@ Public Class Configuration
         W2C_GroupBox_Delay_NumericUpDown_Enter.Value = resource.PropDelayInt(1, 1)
         W2C_GroupBox_Delay_NumericUpDown_AfterText.Value = resource.PropDelayInt(2, 1)
         ContextMenus.Write2ChatButtons_Initialize()
+        W2C_GroupBox_ReachingTime_First_CheckBox.Checked = resource.PropRememberBool(3)
+        W2C_GroupBox_ReachingTime_Second_CheckBox.Checked = resource.PropRememberBool(4)
+        W2C_GroupBox_ReachingTime_Third_CheckBox.Checked = resource.PropRememberBool(5)
+        W2C_GroupBox_ReachingTime_Textbox.Text = resource.PropRemember(6, 1)
     End Sub
     Private Sub PanelW2C_SelectChange()
         resource.PropWrite2Chat(0, 1) = CStr(W2C_GroupBox_Features_CheckBox_DrBa.Checked)
@@ -613,10 +658,14 @@ Public Class Configuration
         If W2C_GroupBox_Delay_NumericUpDown_AfterText.Text <> "" Then
             resource.PropDelay(2, 1) = W2C_GroupBox_Delay_NumericUpDown_AfterText.Text
         End If
+        resource.PropRemember(3, 1) = CStr(W2C_GroupBox_ReachingTime_First_CheckBox.Checked)
+        resource.PropRemember(4, 1) = CStr(W2C_GroupBox_ReachingTime_Second_CheckBox.Checked)
+        resource.PropRemember(5, 1) = CStr(W2C_GroupBox_ReachingTime_Third_CheckBox.Checked)
+        resource.PropRemember(6, 1) = W2C_GroupBox_ReachingTime_Textbox.Text
     End Sub
 #End Region
 #Region "Panel Hotkey"
-    Private Sub PanelHotkey_Initialize()
+    Private Sub PanelHotkey_Initialize(ByVal resource As Resources)
         Hotkey_GroupBox_InitialHotkey_ComboBox.Text = resource.PropConfig(2, 1)
         Hotkey_GroupBox_Hotkeys_TextBox_Baron.Text = CType(resource.PropHotkey(0, 1), Keys).ToString()
         Hotkey_GroupBox_Hotkeys_TextBox_Dragon.Text = CType(resource.PropHotkey(1, 1), Keys).ToString()
@@ -645,7 +694,7 @@ Public Class Configuration
     End Sub
 #End Region
 #Region "Panel Design"
-    Private Sub PanelDesign_Initialize()
+    Private Sub PanelDesign_Initialize(ByVal resource As Resources)
         Design_GroupBox_Color_PictureBox_Baron.BackColor = Color.FromArgb(255, resource.PropColorInt(0, 1), resource.PropColorInt(0, 2), resource.PropColorInt(0, 3))
         Design_GroupBox_Color_PictureBox_Dragon.BackColor = Color.FromArgb(255, resource.PropColorInt(1, 1), resource.PropColorInt(1, 2), resource.PropColorInt(1, 3))
         Design_GroupBox_Color_PictureBox_OB.BackColor = Color.FromArgb(255, resource.PropColorInt(2, 1), resource.PropColorInt(2, 2), resource.PropColorInt(2, 3))
@@ -749,32 +798,32 @@ Public Class Configuration
             LJTD.SetForeColor_Initialize(6, Design_GroupBox_Color_PictureBox_Flash.BackColor)
         End If
     End Sub
-    Private Sub DesignGroupBoxLJTDColorsPictureBoxNormal_Click(sender As System.Object, e As System.EventArgs) Handles Design_GroupBox_LJTDColors_PictureBox_Normal.Click
+    Private Sub DesignGroupBoxLJTDColorsPictureBoxNormal_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Design_GroupBox_LJTDColors_PictureBox_Normal.Click
         If ColorDialog.ShowDialog() = DialogResult.OK Then
             Design_GroupBox_LJTDColors_PictureBox_Normal.BackColor = ColorDialog.Color
             LJTD.LJTDColors_Initialize()
         End If
     End Sub
-    Private Sub DesignGroupBoxLJTDColorsPictureBoxActive_Click(sender As System.Object, e As System.EventArgs) Handles Design_GroupBox_LJTDColors_PictureBox_Active.Click
+    Private Sub DesignGroupBoxLJTDColorsPictureBoxActive_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Design_GroupBox_LJTDColors_PictureBox_Active.Click
         If ColorDialog.ShowDialog() = DialogResult.OK Then
             Design_GroupBox_LJTDColors_PictureBox_Active.BackColor = ColorDialog.Color
             LJTD.LJTDColors_Initialize()
         End If
     End Sub
-    Private Sub DesignGroupBoxLJTDColorsPictureBoxMousehover_Click(sender As System.Object, e As System.EventArgs) Handles Design_GroupBox_LJTDColors_PictureBox_Mousehover.Click
+    Private Sub DesignGroupBoxLJTDColorsPictureBoxMousehover_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Design_GroupBox_LJTDColors_PictureBox_Mousehover.Click
         If ColorDialog.ShowDialog() = DialogResult.OK Then
             Design_GroupBox_LJTDColors_PictureBox_Mousehover.BackColor = ColorDialog.Color
             LJTD.LJTDColors_Initialize()
         End If
     End Sub
-    Private Sub DesignGroupBoxShowInTaskbarCheckBox_CheckedChanged(sender As Object, e As System.EventArgs) Handles Design_GroupBox_ShowInTaskbar_CheckBox.CheckedChanged
+    Private Sub DesignGroupBoxShowInTaskbarCheckBox_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles Design_GroupBox_ShowInTaskbar_CheckBox.CheckedChanged
         If Design_GroupBox_ShowInTaskbar_CheckBox.Checked = True Then
             LJTD.ShowInTaskbar = True
         Else
             LJTD.ShowInTaskbar = False
         End If
     End Sub
-    Private Sub DesignGroupBoxShowPanelCheckBox_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles Design_GroupBox_ShowPanel_CheckBox.CheckedChanged
+    Private Sub DesignGroupBoxShowPanelCheckBox_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Design_GroupBox_ShowPanel_CheckBox.CheckedChanged
         If Design_GroupBox_ShowPanel_CheckBox.Checked Then
             LJTD.Panel.BackgroundImage = My.Resources.HUD
         Else
@@ -783,7 +832,7 @@ Public Class Configuration
     End Sub
 #End Region
 #Region "Panel MiniMap"
-    Private Sub PanelMiniMap_Initialize()
+    Private Sub PanelMiniMap_Initialize(ByVal resource As Resources)
         MiniMap_GroupBox_Style_NumericUpDown_Size_X.Text = CStr(resource.PropMinimapInt(0))
         MiniMap_GroupBox_Style_NumericUpDown_Size_Y.Text = CStr(resource.PropMinimapInt(6))
         MiniMap_GroupBox_Style_NumericUpDown_Location_X.Text = CStr(resource.PropMinimapInt(1))
@@ -932,7 +981,8 @@ Public Class Configuration
     End Sub
 #End Region
 #Region "Panel Name"
-    Private Sub PanelName_Initialize()
+    Private Sub PanelName_Initialize(ByVal resource As Resources)
+        Name_GroupBox_TextBox_Textbox.Text = resource.PropName(7, 1)
         Name_GroupBox_TextBox_Baron.Text = resource.PropName(0, 1)
         Name_GroupBox_TextBox_Dragon.Text = resource.PropName(1, 1)
         Name_GroupBox_TextBox_OB.Text = resource.PropName(2, 1)
@@ -968,6 +1018,7 @@ Public Class Configuration
         NameGroupboxMacro_SetEnableStatus()
     End Sub
     Private Sub PanelName_SelectChange()
+        resource.PropName(7, 1) = Name_GroupBox_TextBox_Textbox.Text
         resource.PropName(0, 1) = Name_GroupBox_TextBox_Baron.Text
         resource.PropName(1, 1) = Name_GroupBox_TextBox_Dragon.Text
         resource.PropName(2, 1) = Name_GroupBox_TextBox_OB.Text
@@ -1160,4 +1211,38 @@ Public Class Configuration
     End Sub
 #End Region
 
+    Private Sub Button_Basic_Click(sender As System.Object, e As System.EventArgs) Handles Button_Basic.Click
+        settingsMode = settingsModes(0)
+        Groupboxes_SwitchEnableStatus(False)
+    End Sub
+    Private Sub Button_Expert_Click(sender As System.Object, e As System.EventArgs) Handles Button_Expert.Click
+        settingsMode = settingsModes(1)
+        Groupboxes_SwitchEnableStatus(True)
+    End Sub
+    Private Sub Groupboxes_SwitchEnableStatus(status As Boolean)
+        Main_GroupBox_AddSign.Enabled = status
+        Main_GroupBox_ConfigFile.Enabled = status
+        Main_GroupBox_OpenInTray.Enabled = status
+        Main_GroupBox_SearchLog.Enabled = status
+        Main_GroupBox_TeamSync.Enabled = status
+        Main_GroupBox_ShowFlash.Enabled = status
+        Slide_GroupBox_Modi.Enabled = status
+        MiniMap_GroupBox_TextOverlay.Enabled = status
+        W2C_GroupBox_Delay.Enabled = status
+        W2C_GroupBox_Features.Enabled = status
+        W2C_GroupBox_ReachingTime.Enabled = status
+        Design_GroupBox_LJTDColors.Enabled = status
+        Design_GroupBox_ShowInTaskbar.Enabled = status
+        Design_GroupBox_ShowPanel.Enabled = status
+        Design_GroupBox_TopMost.Enabled = status
+        Design_GroupBox_GameClock.Enabled = status
+        MiniMap_GroupBox_AutoStart.Enabled = status
+        MiniMap_GroupBox_PlaySound.Enabled = status
+        MiniMap_GroupBox_Fullmode.Enabled = status
+        MiniMap_GroupBox_Remember.Enabled = status
+        MiniMap_GroupBox_ShowDurations.Enabled = status
+        MiniMap_GroupBox_TextOverlay.Enabled = status
+        MiniMap_GroupBox_WardMap.Enabled = status
+        Name_GroupBox_Macro.Enabled = status
+    End Sub
 End Class

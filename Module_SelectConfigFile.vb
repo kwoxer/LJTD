@@ -21,7 +21,7 @@
         Return resource
     End Function
     Public Sub LJTDini_Write(resource As Resources)
-        Dim writeLJTDini
+        Dim writeLJTDini As Object = Nothing
         Try
             writeLJTDini = New System.IO.StreamWriter(configFile)
             If System.IO.File.Exists(configFile) = True Then

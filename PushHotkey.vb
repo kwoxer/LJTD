@@ -10,10 +10,11 @@ Class PushHotkey
     Private Const HC_ACTION As Integer = 0
     Private mHandle As IntPtr
     Public PrevWndProc As Integer
-    Private keyOpener As Boolean
+    Private keyStatus As Boolean
+    Public keyValue As String
     Private keyOpenerMacro(6) As Boolean
     Private showWardMap As Boolean
-    Private resource As Resources = Resources.GetObject
+    Private resource As Resources = Resources.Resources
     Private keyOpenerString As String() = {"NONE", "ALT", "CTRL", "SPACE"}
     <StructLayout(LayoutKind.Sequential)> Public Structure KBDLLHOOKSTRUCT
         Public vkCode As Keys
@@ -26,12 +27,12 @@ Class PushHotkey
             dwExtraInfo = extra
         End Sub
     End Structure
-    Public Property KeyHook_Enable() As Boolean
+    Public Property KeyHookEnable() As Boolean
         Get
             Return mHandle <> IntPtr.Zero
         End Get
         Set(ByVal value As Boolean)
-            If KeyHook_Enable = value Then Return
+            If KeyHookEnable = value Then Return
             If value Then
                 mHandle = SetWindowsHookExW(WH_KEYBOARD_LL, HookProc, GetModuleHandleW(IntPtr.Zero), 0)
             Else
@@ -40,15 +41,25 @@ Class PushHotkey
             End If
         End Set
     End Property
-    Private Sub KeyOpener_Set(lParam As KBDLLHOOKSTRUCT, status As Boolean)
+    Private Sub KeyStatus_Set(ByVal lParam As KBDLLHOOKSTRUCT, ByVal status As Boolean)
         Select Case (CDbl(lParam.vkCode))
             Case CDbl(resource.PropWardmap(1, 1)) : showWardMap = status
-            Case 164 : If resource.PropConfig(2, 1).ToUpper = keyOpenerString(1) Then keyOpener = status
+            Case 164 : If resource.PropConfig(2, 1).ToUpper = keyOpenerString(1) Then
+                    keyStatus = status
+                End If
+                keyValue = "Alt"
                 Macros_Check(keyOpenerString(1), lParam, status)
-            Case 162 : If resource.PropConfig(2, 1).ToUpper = keyOpenerString(2) Then keyOpener = status
+            Case 162 : If resource.PropConfig(2, 1).ToUpper = keyOpenerString(2) Then
+                    keyStatus = status
+                End If
+                keyValue = "Ctrl"
                 Macros_Check(keyOpenerString(2), lParam, status)
-            Case 32 : If resource.PropConfig(2, 1).ToUpper = keyOpenerString(3) Then keyOpener = status
+            Case 32 : If resource.PropConfig(2, 1).ToUpper = keyOpenerString(3) Then
+                    keyStatus = status
+                End If
+                keyValue = "Space"
                 Macros_Check(keyOpenerString(3), lParam, status)
+            Case Else
         End Select
     End Sub
     Private Function KeyboardHookProc(ByVal nCode As Integer, ByVal wParam As IntPtr, ByRef lParam As KBDLLHOOKSTRUCT) As IntPtr
@@ -56,14 +67,18 @@ Class PushHotkey
         'Console.WriteLine(CStr(wParam) & "wParam")
         'Console.WriteLine(CStr(lParam.vkCode) & "vkCode")
         If CDbl(wParam) = 260 OrElse CDbl(wParam) = 256 Then
-            Configuration.PushedKey = CStr(lParam.vkCode)
-            If resource.PropConfig(2, 1).ToUpper = keyOpenerString(0) Then keyOpener = True
+            If resource.PropConfig(2, 1).ToUpper = keyOpenerString(0) Then
+                keyStatus = True
+                keyValue = "None"
+            End If
+            KeyStatus_Set(lParam, True)
             Macros_Check(keyOpenerString(0), lParam, True)
-            KeyOpener_Set(lParam, True)
         ElseIf CDbl(wParam) = 257 Then
-            KeyOpener_Set(lParam, False)
+            ' keys actual not pressed
+            keyValue = "None"
+            KeyStatus_Set(lParam, False)
         End If
-        LJTD.Clicks_Perform(lParam.vkCode, keyOpener)
+        LJTD.Clicks_Perform(lParam.vkCode, keyStatus)
         MiniMap.ShowWardMap(showWardMap)
         If fEatKeyStroke Then
             Return New IntPtr(1)

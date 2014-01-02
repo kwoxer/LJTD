@@ -5,19 +5,23 @@ Public Class LJTD
     Public TimerChatMacroBool(5) As Boolean
     Public Shared TeamSyncOfflineObjectiveRunning(6) As Boolean
     Public InitalTimerRunning As Boolean = False
-    Private showForm As Boolean = True, gameFinished As Boolean = True, autoStartFeature As Boolean = True
-    Private runningTime As Integer, slideFading As Integer, slideFadingAmount As Integer, slideFadingAmounts As Integer() = {8.4, 10.5, 0}
+    Public slidedOut As Boolean = False
+    Public slidedText As String
     Public Objective(6) As Objective
-    Private label(6) As Label, labelEndtime(5) As Label, button(6) As Button
+    Public labelEndtime(5) As Label
+    Private runningTime As Integer
+    Private startingDateTime As Date
+    Private timing As New Timing
+    Private showForm As Boolean = True, gameFinished As Boolean = True, autoStartFeature As Boolean = True
+    Private slideFading As Integer, slideFadingAmount As Integer, slideFadingAmounts As Integer() = {8.4, 10.5, 0}
+    Private label(6) As Label, button(6) As Button
     Private pushHotkey As New PushHotkey
     Private WithEvents fileStreamWatcher As New FileSystemWatcher
-    Private startingDateTime As Date
     Private autoStartingStringFound, autoEndingStringFound As Boolean
     Private autoStartingTimer, autoEndingTimer, teamSyncUpdateObjectiveRunningTimer, animatedIconTimer As New System.Timers.Timer()
-    Private resource As Resources = Resources.GetObject
+    Private resource As Resources = Resources.Resources
     Private ljtdColor As Module_LJTDColor = Module_LJTDColor.GetObject
     Private taskbar As New Module_Taskbar
-    Private timing As New Module_Timing
     Private opacities As Double() = {1, resource.PropConfigInt(12) / 100}
     Private timerIntervall As Integer = 1000, teamSyncUpdateObjectiveRunningIntervall As Integer = 50, initialTimerDelay As Integer, timerCounter(6) As Integer
     Private conMenu As ContextMenu
@@ -29,6 +33,8 @@ Public Class LJTD
     Private Const txtResourceFolderName As String = "\res"
     Private txtTrayIconElements() As String = {"&About", "&FAQs", "Config &file", "Show/&Hide", "&Settings", "&Exit"}
     Private Const txtLogFolder As String = "\League of Legends\Logs\Game - R3d Logs"
+    Private Const txtLJTD As String = "LoL Jungle Timer Deluxe"
+    Private Const txtObjectiveOverview As String = "Objective Overview"
     Private overlay As Button
     Private stopButton As Image
     Private buffRunningPreventLags(6) As Boolean
@@ -37,12 +43,23 @@ Public Class LJTD
     Private Const urlFAQWebsite As String = "http://www.ljtd.net/misc/faq/"
     Private animatedIcon(12) As Icon
     Private currentIcon As Integer = 0
-    Public slidedOut As Boolean = False
-    Public slidedText As String
 
     Public Sub Resource_Refresh()
-        resource = Resources.GetObject
+        resource = Resources.Resources
     End Sub
+
+    Public Function RunningTime_Get() As Integer
+        Return runningTime
+    End Function
+    Public Sub disableHook()
+        pushHotkey.KeyHookEnable = (False)
+    End Sub
+    Public Sub enableHook()
+        pushHotkey.KeyHookEnable = (True)
+    End Sub
+    Public Function getOpenerValue() As String
+        Return pushHotkey.keyValue
+    End Function
     ''' <summary>
     ''' Load start events
     ''' </summary>
@@ -50,13 +67,16 @@ Public Class LJTD
     ''' <param name="e"></param>
     ''' <remarks></remarks>
     Private Sub LJTD_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        AddSign.Visible = False
+        AddSign.AddIcon_Preload()
+        TextOverlay.Visible = False
+        TextOverlay.IngameText_Preload()
         InitializeAnimatedIcon()
         NotifyIcon.Text = "Loading LJTD presets..." & vbNewLine & "This may take some time."
-        AddSign.Visible = False
-        IngameText.Visible = False
         Module_SelectConfigFile.LJTDini_Read(resource)
         LJTD_Initilization()
         MiniMap.Timer_Start()
+
     End Sub
     ''' <summary>
     ''' Load Control Overlay and Settings
@@ -84,8 +104,9 @@ Public Class LJTD
         Objectives_Initialize()
         Configuration.Configuration_SelectInitializion()
         AddSign.Show()
-        IngameText.Show()
-        pushHotkey.KeyHook_Enable() = True
+        TextOverlay.Show()
+        pushHotkey.keyValue = "NONE"
+        pushHotkey.KeyHookEnable() = True
         OpenInTray_CheckResource()
         UpdateAvailable_Show()
         GameModeWardMap_Initialize()
@@ -102,7 +123,7 @@ Public Class LJTD
         animatedIconTimer.Stop()
         animatedIconTimer.Dispose()
         NotifyIcon.Icon = My.Resources.LJTD_gray
-        NotifyIcon.Text = "LoL Jungle Timer Deluxe"
+        NotifyIcon.Text = txtLJTD
     End Sub
 
     Private Sub TeamSyncUpdateObjectiveRunningEvent_Tick(ByVal source As Object, ByVal e As ElapsedEventArgs)
@@ -204,6 +225,7 @@ Public Class LJTD
     ''' <remarks></remarks>
     Public Sub Clicks_Perform(ByVal key As Integer, ByVal keyOpenerPressed As Boolean)
         If keyOpenerPressed Then
+            'MsgBox(key)
             Select Case key
                 Case Objective(0).GetHotkey
                     Button_Baron.PerformClick()
@@ -258,6 +280,7 @@ Public Class LJTD
     Private Sub TimerUpdateCurrentTime_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_UpdateCurrentTime.Tick
         runningTime = timing.DateDiffSec_Get(startingDateTime, Now()) + timing.DelayValue
         Label_GameClock.Text = timing.Min_Parse(runningTime, 0) & ":" & timing.Second_Parse(runningTime)
+        ObjectiveOverview.RunningTime_Update(Label_GameClock.Text)
         For i = 0 To Objective.Length - 1
             If Objective(i).GetRunning = False And i <> 6 Then labelEndtime(i).Visible = False
         Next
@@ -292,20 +315,23 @@ Public Class LJTD
     ''' </summary>
     ''' <remarks></remarks>
     Public Sub ConfigFileManagementCreateList_Initialize(ByVal contextMenu As Boolean)
-        Dim di As New IO.DirectoryInfo(Directory.GetCurrentDirectory() & txtResourceFolderName)
-        Dim diar1 As IO.FileInfo() = di.GetFiles()
-        Dim dra As IO.FileInfo
-        Configuration.Main_GroupBox_ConfigFile_ComboBox.Items.Clear()
-        If contextMenu Then
-            ContextMenus.ComboBox.Items.Clear()
-        End If
-        For Each dra In diar1
-            Dim firstString() As String = dra.ToString.Split("."c)
-            Configuration.Main_GroupBox_ConfigFile_ComboBox.Items.Add(firstString(0))
+        Try
+            Dim di As New IO.DirectoryInfo(Directory.GetCurrentDirectory() & txtResourceFolderName)
+            Dim diar1 As IO.FileInfo() = di.GetFiles()
+            Dim dra As IO.FileInfo
+            Configuration.Main_GroupBox_ConfigFile_ComboBox.Items.Clear()
             If contextMenu Then
-                ContextMenus.ComboBox.Items.Add(firstString(0))
+                ContextMenus.ComboBox.Items.Clear()
             End If
-        Next
+            For Each dra In diar1
+                Dim firstString() As String = dra.ToString.Split("."c)
+                Configuration.Main_GroupBox_ConfigFile_ComboBox.Items.Add(firstString(0))
+                If contextMenu Then
+                    ContextMenus.ComboBox.Items.Add(firstString(0))
+                End If
+            Next
+        Catch ex As Exception
+        End Try
     End Sub
     ''' <summary>
     ''' Initializing config file name at startup in Settings
@@ -401,7 +427,11 @@ Public Class LJTD
     ''' <remarks></remarks>
     Private Sub FileStreamWatcher_Initialize()
         Try
-            fileStreamWatcher = New IO.FileSystemWatcher(resource.PropConfig(0, 1) & txtLogFolder)
+            If resource.PropConfigBool(22) Then
+                fileStreamWatcher = New IO.FileSystemWatcher(resource.PropConfig(23, 1))
+            Else
+                fileStreamWatcher = New IO.FileSystemWatcher(resource.PropConfig(0, 1) & txtLogFolder)
+            End If
             fileStreamWatcher.EnableRaisingEvents = True
         Catch ex As Exception
             fileStreamWatcher.EnableRaisingEvents = False
@@ -702,7 +732,7 @@ Public Class LJTD
         End If
     End Sub
     ''' <summary>
-    ''' Enables Write2Chat functionality
+    ''' Enables Write2Chat functionality for the macros
     ''' </summary>
     ''' <param name="text"></param>
     ''' <param name="i">objective number</param>
@@ -788,6 +818,7 @@ Public Class LJTD
                 buffRunningPreventLags(i) = True
                 label(i).Text = Objective(i).GetActualShownTimeMin.ToString
                 If Objective(i).GetDiff >= 5 Then button(i).Enabled = True
+                ObjectiveOverview.Objective_Update()
             Else
                 If buffRunningPreventLags(i) Then
                     buffRunningPreventLags(i) = False
@@ -799,6 +830,7 @@ Public Class LJTD
                     End If
                     If runningTime > 0 And i <> 6 Then Configuration.TeamSync_SetChanges(i, True)
                 End If
+                ObjectiveOverview.Objective_Update()
             End If
         Next
     End Sub
@@ -871,6 +903,7 @@ Public Class LJTD
             Timer_UpdateCurrentTime.Start()
             gameFinished = False
             InitalTimerRunning = True
+            Buttons_AntiStuck()
         Else
             Label_GameClock.Text = initialTimerPresetValue & initialTimerDelay
             Button_Start.Image = My.Resources.LJTD_Button_START
@@ -883,7 +916,13 @@ Public Class LJTD
             InitalTimerRunning = False
             Configuration.TeamSyncBuffs_Reset()
             runningTime = 0
+            ObjectiveOverview.RunningTime_Update(txtObjectiveOverview)
         End If
+    End Sub
+    Private Sub Buttons_AntiStuck()
+        For i = 0 To button.Length - 1
+            button(i).Enabled = True
+        Next
     End Sub
     Private Sub ButtonMinimize_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Minimize.Click
         VisibilityStatus_Switch(False)
@@ -892,10 +931,10 @@ Public Class LJTD
         Me.Close()
     End Sub
     Private Sub LJTDForm_Closing(ByVal sender As System.Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
-        'taskbar.Show()
         NotifyIcon.Dispose()
         Module_IPChecker.DatabaseEntry_Add(0)
         Configuration.TeamSyncBuffs_Reset()
+        pushHotkey.KeyHookEnable = False
     End Sub
     Private Sub ButtonDisableAutoStart_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_DisableAutoStart.Click
         If autoStartFeature Then
@@ -1069,5 +1108,6 @@ Public Class LJTD
         End If
     End Sub
 #End Region
+
 
 End Class

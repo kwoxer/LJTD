@@ -1,4 +1,4 @@
-LoL Jungle Timer Deluxe v.5.1
+LoL Jungle Timer Deluxe v.6
 =============================
 as known as LJTD
 ----------------
@@ -11,7 +11,7 @@ Jungle Timer
 ------------
 Such timers help to optimize your buff timings. LJTD is giving the possibility to time infinite wards, too!
 
-The brand new feature [**TeamSync**](http://www.ljtd.net/team/) is helping your whole team.
+The brand new feature [**Objective Overview**](http://www.ljtd.net/ljtd-6-objective-overview/) is great if you don't want to play in window mode.
 
 Beyond that the LJTD has many other [**features**](http://www.ljtd.net/features/). We hope you will have as much fun as we with this tool and would appreciate to see you on our forum: http://www.ljtd.net/forum/
 

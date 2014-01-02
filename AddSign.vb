@@ -1,8 +1,10 @@
 ﻿Public Class AddSign
     Private opacityValue As Integer
     Private Sub AddIcon_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
-        Me.Opacity = 0
         Me.Visible = True
+    End Sub
+    Public Sub AddIcon_Preload()
+        Me.Opacity = 0
     End Sub
     Protected Overrides ReadOnly Property CreateParams() As CreateParams
         Get

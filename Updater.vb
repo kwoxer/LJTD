@@ -1,19 +1,19 @@
 ﻿Imports System.ComponentModel
 Public Class Updater
     Private newestVersion As String
-    Private urlDownloadLink As String() = {"http://www.ljtd.net/downloads/LJTD%20x86.rar", "http://www.ljtd.net/downloads/LJTD%20x64.rar"}
+    Private urlDownloadLink As String = "http://www.ljtd.net/dl/LJTD.rar"
     Private urlHistoryWebsite As String = "http://www.ljtd.net/misc/history/"
     Private urlFAQSaveConfigWebsite As String = "http://www.ljtd.net/misc/faq/#save-import-old-settings"
     Private urlFAQOpenArchiveFileWebsite As String = "http://www.ljtd.net/misc/faq/#open-archive-file"
     Private urlFaceBookWebsite As String = "http://www.facebook.com/LoLJungleTD"
     Private txtLJTDVersion As String = "LJTD Version"
-    Private txtDownloadLJTD1 As String = " Where to save the update?"
+    Private txtDownloadLJTD1 As String = " Where would you like to save the update?"
     Private txtDownloadLJTD2 As String = "Download failed. Try again later."
-    Private txtDownloadLJTD3 As String = "Download completed! You can LJTD now and import the new version."
-    Public Sub Updater_Load(version As String, system As Integer, bitSystem As String)
+    Private txtDownloadLJTD3 As String = "Download completed! You can close LJTD now and import the new version."
+    Public Sub Updater_Load(ByVal version As String, ByVal system As Integer)
         newestVersion = version
-        Label_Version.Text = txtLJTDVersion & " " & newestVersion & " " & bitSystem
-        downloadLJTD(system, bitSystem)
+        Label_Version.Text = txtLJTDVersion & " " & newestVersion
+        downloadLJTD(system)
     End Sub
     Private Sub Panel_MouseDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Panel_Updater.MouseDown
         Module_WindowManagement.MoveEvent_Initialize(e, Handle)
@@ -33,15 +33,15 @@ Public Class Updater
     Private Sub PictureBox_Facebook_Click(sender As System.Object, e As System.EventArgs) Handles PictureBox_Facebook.Click
         Process.Start(urlFaceBookWebsite)
     End Sub
-    Private Sub downloadLJTD(ByVal i As Integer, ByVal version As String)
+    Private Sub downloadLJTD(ByVal i As Integer)
         Try
             With SaveFileDialog
                 .InitialDirectory = CStr(Environment.SpecialFolder.DesktopDirectory)
                 .Title = txtDownloadLJTD1
-                .FileName = "LoL Jungle Timer Deluxe v" & newestVersion & "-" & version & ".rar"
+                .FileName = "LoL Jungle Timer Deluxe v" & newestVersion & ".rar"
                 .RestoreDirectory = True
                 If SaveFileDialog.ShowDialog() = DialogResult.OK Then
-                    DownloadFile(urlDownloadLink(i), SaveFileDialog.FileName)
+                    DownloadFile(urlDownloadLink, SaveFileDialog.FileName)
                 End If
             End With
             Refresh()

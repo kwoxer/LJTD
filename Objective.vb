@@ -10,8 +10,8 @@
     Private hotkey As Integer
     Private diff As Integer
     Private timer As New System.Timers.Timer()
-    Private resource As Resources = Resources.GetObject
-    Private timing As New Module_Timing
+    Private resource As Resources = Resources.Resources
+    Private timing As New Timing
     Public ReadOnly Property GetName() As String
         Get
             Return name
@@ -73,8 +73,8 @@
         durationMin = CInt(Math.Floor(_durationSec / 60))
         durationSec = _durationSec
         Dim timespan As TimeSpan = timespan.FromSeconds(durationSec)
-        actualShownTimeMin = Module_Timing.TimeSpan2MinSec_Parse(timespan)
-        actualShownTimeSec = Module_Timing.TimeSpan2Sec_Parse(timespan)
+        actualShownTimeMin = Timing.TimeSpan2MinSec_Parse(timespan)
+        actualShownTimeSec = CStr(durationSec)
         overallTime = GetActualShownTimeMin
         running = False
         hotkey = _hotkey
@@ -82,6 +82,7 @@
     Public Sub Starts()
         startingTime = Now()
         actualShownTimeMin = overallTime
+        actualShownTimeSec = CStr(durationSec)
         running = True
         timer.Enabled = True
     End Sub
@@ -91,7 +92,7 @@
         diff = 0
     End Sub
     Public Function GenerateText(ByVal text As String) As String
-        Return name & text
+        Return name & resource.PropName(7, 1) & text
     End Function
     Private Sub TimerObjective(ByVal source As Object, ByVal e As System.Timers.ElapsedEventArgs)
         diff = timing.DateDiffSec_Get(startingTime, Now())

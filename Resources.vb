@@ -1,8 +1,9 @@
 ﻿Imports System.IO
 Public Class Resources
-    Public Shared GetObject As New Resources
+    Public Shared Resources As New Resources
+    Public Shared ResourcesBackup As New Resources
     Public Shared Sub Reset()
-        GetObject = New Resources
+        Resources = New Resources
     End Sub
     Private Seperator_config_file As Char = "="c
     ' ##################################################### Sound files
@@ -18,6 +19,13 @@ Public Class Resources
     Public ReadOnly Property PropPicBuffSR(i As Integer) As String
         Get
             Return picBuffSR(i)
+        End Get
+    End Property
+    Private picBuffSROrig As String() = {"res\Buffs\SR\baron_oo.png", "res\Buffs\SR\dragon_oo.png", "res\Buffs\SR\ob_oo.png", "res\Buffs\SR\or_oo.png", _
+                                         "res\Buffs\SR\tb_oo.png", "res\Buffs\SR\tr_oo.png"}
+    Public ReadOnly Property PropPicBuffSROrig(i As Integer) As String
+        Get
+            Return picBuffSROrig(i)
         End Get
     End Property
     Private picBuffTT As String = "res\Buffs\TT\vilemaw.png"
@@ -199,7 +207,10 @@ Public Class Resources
                                    {"SHOW_IN_TASKBAR", "True"},
                                    {"SHOW_PANEL", "True"},
                                    {"TEAM_SYNC_KEY", ""},
-                                   {"TEAM_SYNC_ENABLED", "False"}}
+                                   {"TEAM_SYNC_ENABLED", "False"},
+                                   {"CONFIG_MODE", "False"},
+                                   {"CONFIG_SPECIALLOG", "C:\Riot Games\League of Legends\Logs\Game - R3d Logs"},
+                                   {"SETTINGS_MODE", "Basic"}}
     Public Property PropConfig(ByVal i As Integer, ByVal j As Integer) As String
         Get
             Return config(i, j)
@@ -394,13 +405,14 @@ Public Class Resources
         End Set
     End Property
     ' ### Names
-    Private name As String(,) = {{"NAME_BARON", "Baron at "},
-                                 {"NAME_DRAGON", "Dragon at "},
-                                 {"NAME_OUR_BLUE", "OB at "},
-                                 {"NAME_OUR_RED", "OR at "},
-                                 {"NAME_THEIR_BLUE", "TB at "},
-                                 {"NAME_THEIR_RED", "TR at "},
-                                 {"NAME_FLASH", "Flash at "}}
+    Private name As String(,) = {{"NAME_BARON", "Baron"},
+                                 {"NAME_DRAGON", "Dragon"},
+                                 {"NAME_OUR_BLUE", "Our Blue"},
+                                 {"NAME_OUR_RED", "Our Red"},
+                                 {"NAME_THEIR_BLUE", "Their Blue"},
+                                 {"NAME_THEIR_RED", "Their Red"},
+                                 {"NAME_FLASH", "Flash"},
+                                 {"NAME_TEXT", " at "}}
     Public Property PropName(i As Integer, j As Integer) As String
         Get
             Return name(i, j)
@@ -412,13 +424,25 @@ Public Class Resources
     ' ### Remember for timers
     Private remember As String(,) = {{"REMEMBER_FIRST", "1:00"},
                                      {"REMEMBER_SECOND", "0:30"},
-                                     {"REMEMBER_THIRD", "0:10"}}
+                                     {"REMEMBER_THIRD", "0:10"},
+                                     {"REMEMBER_W2C_FIRST", "false"},
+                                     {"REMEMBER_W2C_SECOND", "false"},
+                                     {"REMEMBER_W2C_THIRD", "false"},
+                                     {"REMEMBER_TEXT", " respawning in "}}
     Public Property PropRemember(i As Integer, j As Integer) As String
         Get
             Return remember(i, j)
         End Get
         Set(value As String)
             remember(i, j) = value
+        End Set
+    End Property
+    Public Property PropRememberBool(ByVal i As Integer) As Boolean
+        Get
+            Return CBool(remember(i, 1))
+        End Get
+        Set(ByVal value As Boolean)
+            remember(i, 1) = CStr(value)
         End Set
     End Property
     ' ### Delay of W2C

@@ -7,7 +7,7 @@
     Private startingTime As Date
     Private diff As Integer
     Private timer4Buff As New System.Timers.Timer()
-    Private timing As New Module_Timing
+    Private timing As New Timing
     Private picture As New PictureBox
     Private imgWard180 As Image = My.Resources.MINIMAP_Ward_180sec
     Private imgWard30 As Image = My.Resources.MINIMAP_Ward_30sec

@@ -190,4 +190,8 @@
         Process.Start(urlButtons(2))
     End Sub
 #End Region
+
+    Private Sub Button_ObjectiveOverview_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_ObjectiveOverview.Click
+        ObjectiveOverview.Show()
+    End Sub
 End Class

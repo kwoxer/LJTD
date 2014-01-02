@@ -1,12 +1,13 @@
 ﻿Public Class MinimapOverlays
     Private picBoxPing As PictureBox
     Private picBoxDuration As Label
-    Private resource As Resources = Resources.GetObject
+    Private resource As Resources = Resources.Resources
     Private Shared imageBlink, imageBlinkHint As Image
     Private blinkDuration As TimeSpan = TimeSpan.FromSeconds(3)
     Private blink As Integer
     Private running As Boolean
     Private scalex, scaley As Single
+    Private minSec As String = "Min:Sec"
     Public TeamBlueRed As Boolean = True
     Public BuffID As Integer
     Public Sub New(ByVal scalex As Single, ByVal scaley As Single, ByVal duration As TimeSpan, ByVal buffID As Integer)
@@ -126,7 +127,7 @@
         If running = True Then
             Dim actualShownTimeMin = LJTD.Objective(buffID).GetActualShownTimeMin
             Dim actualShownTimeSec = LJTD.Objective(buffID).GetActualShownTimeSec
-            If resource.PropMinimap(23, 1) = "Min:Sec" Then
+            If resource.PropMinimap(23, 1) = minSec Then
                 picBoxDuration.Text = actualShownTimeMin
             Else
                 picBoxDuration.Text = actualShownTimeSec
@@ -140,6 +141,21 @@
                 If resource.PropConfigBool(9) = True Then
                     ObjectiveSound_Play()
                 End If
+                If resource.PropRememberBool(3) Then
+                    Module_Write2Chat.Write2Chat(LJTD.Objective(buffID).GetName & resource.PropRemember(6, 1) & resource.PropRemember(0, 1))
+                End If
+            ElseIf resource.PropRemember(1, 1) = actualShownTimeMin Then
+                blink = resource.PropMinimapInt(5)
+                If resource.PropMinimapBool(7) = True Then
+                    picBoxPing.Image = imageBlink
+                    picBoxPing.Visible = True
+                End If
+                If resource.PropConfigBool(9) = True Then
+                    ObjectiveSound_Play()
+                End If
+                If resource.PropRememberBool(4) Then
+                    Module_Write2Chat.Write2Chat(LJTD.Objective(buffID).GetName & resource.PropRemember(6, 1) & resource.PropRemember(1, 1))
+                End If
             ElseIf resource.PropRemember(2, 1) = actualShownTimeMin Then
                 blink = resource.PropMinimapInt(5)
                 If resource.PropMinimapBool(7) = True Then
@@ -149,12 +165,15 @@
                 If resource.PropConfigBool(9) = True Then
                     ObjectiveSound_Play()
                 End If
+                If resource.PropRememberBool(5) Then
+                    Module_Write2Chat.Write2Chat(LJTD.Objective(buffID).GetName & resource.PropRemember(6, 1) & resource.PropRemember(2, 1))
+                End If
             End If
             If resource.PropRemember(0, 1) = actualShownTimeMin OrElse resource.PropRemember(1, 1) = actualShownTimeMin OrElse resource.PropRemember(2, 1) = actualShownTimeMin Then
-                IngameText.ObjectiveText_Show(buffID, actualShownTimeSec)
+                TextOverlay.ObjectiveText_Show(buffID, actualShownTimeSec)
             End If
             If CInt(actualShownTimeSec) = 0 Then
-                IngameText.ObjectiveText_Show(buffID, actualShownTimeSec)
+                TextOverlay.ObjectiveText_Show(buffID, actualShownTimeSec)
             End If
             If blink >= 0 Then
                 blink -= 1

@@ -7,7 +7,7 @@ Public Class MiniMap
     Private timer(6) As System.Timers.Timer
     Private timerMinimapPing As New Windows.Forms.Timer
     Private timerCounter(6) As Integer
-    Private resource As Resources = Resources.GetObject
+    Private resource As Resources = Resources.Resources
     Private hidePanel As Boolean = False
     Private displayWidth, displayHeight, actualWidth, actualHeight As Integer
     Private listWardMap As New List(Of Ward)
@@ -18,7 +18,7 @@ Public Class MiniMap
         Return Panel_WardMap.Size
     End Function
     Public Sub Resource_Refresh()
-        resource = Resources.GetObject
+        resource = Resources.Resources
     End Sub
     Private Sub MiniMap_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         displayWidth = Module_Generate.ScreenWidth
@@ -205,10 +205,12 @@ Public Class MiniMap
     Private Sub ButtonTeam_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Team.MouseDown
         If TeamBlueRed Then
             TeamLocation_Change(False)
+            ObjectiveOverview.Objective_Team_Switch(False)
             TeamBlueRed = False
             Button_Team.Image = My.Resources.MINIMAP_Button_RED_BLUE
         Else
             TeamLocation_Change(True)
+            ObjectiveOverview.Objective_Team_Switch(True)
             TeamBlueRed = True
             Button_Team.Image = My.Resources.MINIMAP_Button_BLUE_RED
         End If
@@ -279,5 +281,4 @@ Public Class MiniMap
     End Sub
 #End Region
 
-    
 End Class

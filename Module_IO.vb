@@ -1,5 +1,5 @@
 ﻿Module Module_IO
-    Private resource As Resources = Resources.GetObject
+    Private resource As Resources = Resources.Resources
     ''' <summary>
     ''' Downloading an onlince resource and reading it
     ''' </summary>

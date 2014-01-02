@@ -1,5 +1,5 @@
 ﻿Public Class About
-    Private imgBg As Image = My.Resources.About_BG
+    Private imgBg As Image = My.Resources.ABOUT_BG
     Private urlYouTube As String = "http://www.youtube.com/user/LoLJungleTimerDeluxe"
     Private urlTwitter As String = "https://twitter.com/LJTD"
     Private urlFaceBook As String = "http://www.facebook.com/LoLJungleTD"
@@ -35,4 +35,5 @@
     Private Sub ButtonDonate_Click(sender As System.Object, e As System.EventArgs) Handles Button_Donate.Click
         Process.Start(urlDonate)
     End Sub
+
 End Class
