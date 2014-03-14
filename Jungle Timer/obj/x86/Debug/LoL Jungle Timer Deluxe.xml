@@ -1,0 +1,777 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+LoLJungleTimerDeluxe
+</name>
+</assembly>
+<members>
+<member name="M:MiniMap.MiniMap_Initialize(System.Boolean)">
+	<summary>
+ Initializes the 6 objectives at specific points on the Advanced MiniMap
+ </summary>
+	<remarks></remarks>
+</member><member name="M:MiniMap.TeamLocation_Change(System.Boolean)">
+	<summary>
+ This method is important by using own locations for Show Durations
+ </summary>
+	<param name="bluered"></param>
+	<remarks></remarks>
+</member><member name="M:MiniMap.MiniMap_Refresh">
+	<summary>
+ Reloading Minimap configuration if changes happened or first start
+ setting up the location and size of the Advanced MiniMap
+ </summary>
+	<remarks></remarks>
+</member><member name="M:MiniMap.MinimapPing_Tick(System.Object,System.EventArgs)">
+	<summary>
+ Sending ticks for all buffs to count down the elapsed time
+ </summary>
+	<param name="source">Object</param>
+	<param name="e">ElapsedEventArgs</param>
+	<remarks></remarks>
+</member><member name="M:LJTD.LJTD_Load(System.Object,System.EventArgs)">
+	<summary>
+ Load start events
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:LJTD.LJTD_Initilization">
+	<summary>
+ Load Control Overlay and Settings
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.UpdateAvailable_Show">
+	<summary>
+ Watch out for updates of LJTD servers
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.UniqueAddress_Create">
+	<summary>
+ Returns a unique Address for TeamSync
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.LJTD_Reload(System.Boolean,System.Boolean)">
+	<summary>
+ Needed when settings were changed to reload preferences
+ </summary>
+	<param name="buttonImageLoad"></param>
+	<remarks></remarks>
+</member><member name="M:LJTD.Clicks_Perform(System.Int32,System.Boolean)">
+	<summary>
+ Objective Events happening when keys are pushed
+ </summary>
+	<param name="key"></param>
+	<param name="keyOpenerPressed"></param>
+	<remarks></remarks>
+</member><member name="M:LJTD.VisibilityStatus_Switch(System.Boolean)">
+	<summary>
+ Hides/Shows the Control Overlay and Advanced Minimap
+ </summary>
+	<param name="dontShowMiniMap"></param>
+	<remarks></remarks>
+</member><member name="M:LJTD.TimerUpdateCurrentTime_Tick(System.Object,System.EventArgs)">
+	<summary>
+ Updating Game Clock, Objectives and needed for TeamSync
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:LJTD.InitialTimer_Reset">
+	<summary>
+ Resets GameClock and stopping the Main timer
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.TimerTopMost_Tick(System.Object,System.EventArgs)">
+	<summary>
+ Enabled/disables Top Most functionality
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:LJTD.Font_Initialize">
+	<summary>
+ Looking for installed fonts. If not installed a wizard we be shown
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:LJTD.ConfigFileManagementCreateList_Initialize(System.Boolean)">
+	<summary>
+ Searching and listing available config files in Settings/Contextmenu
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.ConfigFileManagement_Initialize(System.Boolean)">
+	<summary>
+ Initializing config file name at startup in Settings/Contextmenu
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.Location_Initialize">
+	<summary>
+ Additional setting to let LJTD showed up at a specific location
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.Labels_Initialize">
+	<summary>
+ Initializing labels and the endtimes
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.Buttons_Initialize">
+	<summary>
+ Initializing all the different buttons
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.ChatMacro_Initialize">
+	<summary>
+ Initializing Chat Macro and adding handlers
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.FileStreamWatcher_Initialize">
+	<summary>
+ Initializing the FSW to watch out for starting games to use AutoStart
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.Fonts_Initialize">
+	<summary>
+ Initializing the fonts and size and of course colours
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.GameModeWardMap_Initialize">
+	<summary>
+ Dicides using the 3on3 or 5on5 map for the Wardmap 
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.Objectives_Initialize">
+	<summary>
+ Initializing Buffs and Flash and preparing their hotkeys
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.ButtonImage_Initialize">
+	<summary>
+ Initializing the pictures for the buttons
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.ExternalImages_Initialize">
+	<summary>
+ Initializing all other picture for backgrounds and so on
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.AutoStartTimer_Initialize">
+	<summary>
+ Starting the AutoStart timer to log starting games and letting them end automatically 
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.ForeColors_Initialize">
+	<summary>
+ Initializing colors for labels and buttons
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.SetForeColor_Initialize(System.Int32,System.Drawing.Color)">
+	<summary>
+ Initializing colour for labels and buttons from Settings Save
+ </summary>
+	<param name="i"></param>
+	<param name="color"></param>
+	<remarks></remarks>
+</member><member name="M:LJTD.LJTDColors_Initialize">
+	<summary>
+ Initializing the backcolors for all buttons
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.ShowInTaskbar_CheckResource">
+	<summary>
+ Sets the Control Panel tab visible/invisible for the taskbar
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.DisableAutoStartButton_CheckResource">
+	<summary>
+ Sets the Disable AutoStart Button visible/invisible
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.GameClock_CheckResource">
+	<summary>
+ Sets the Game Clock visible/invisible
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.EndtimeLabels_CheckResource">
+	<summary>
+ Sets the Endtimes visible/invisible
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.ObjectiveLabels_CheckResource">
+	<summary>
+ Sets the text for the Objectives
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.GameMode_CheckResource">
+	<summary>
+ Sets the buttons, labels and endtimes visible/invisible depending on the Game Mode
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.Opacity_CheckResource">
+	<summary>
+ Sets the opactiy for the Control Overlay
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.OpenInTray_CheckResource">
+	<summary>
+ Sets whether LJTD should start minimized or normal
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.LJTDBackgroundImage_CheckResource">
+	<summary>
+ Enables/disables the Panel Mode for the Control Panel
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.ShowFlash_CheckResource">
+	<summary>
+ Sets the Flash timer visible/invisible
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.Slide_CheckResource">
+	<summary>
+ Activating the automatically Slide outs
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.TopMost_CheckResource">
+	<summary>
+ Sets the Top Most enabled/disabled
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.Write2Chat_CheckResource(System.String,System.Int32)">
+	<summary>
+ Enables Write2Chat functionality for the macros
+ </summary>
+	<param name="text"></param>
+	<param name="i">objective number</param>
+	<remarks></remarks>
+</member><member name="M:LJTD.TimerCheckObjectives_Tick(System.Object,System.EventArgs)">
+	<summary>
+ Ticking down Objectives till they will end.
+ Will letting the Objective end when running status changed.
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:LJTD.Buttons_AntiStuck">
+	<summary>
+ Useful when using TeamSync to make sure all button are enabled
+ </summary>
+	<remarks></remarks>
+</member><member name="M:Timing.DateDiffSec_Get(System.DateTime,System.DateTime)">
+	<summary>
+ Calculating the difference between starttime and endtime
+ </summary>
+	<param name="startDate"></param>
+	<param name="endDate"></param>
+	<returns>Seconds objective is already running</returns>
+	<remarks></remarks>
+</member><member name="M:Timing.Min_Parse(System.Int32,System.Int32)">
+	<summary>
+ Calculating the minutes from any amount of seconds
+ </summary>
+	<param name="counter"></param>
+	<param name="sec"></param>
+	<returns>Minutes from 0 to infinite (here 7)</returns>
+	<remarks></remarks>
+</member><member name="M:Timing.Second_Parse(System.Int32)">
+	<summary>
+ Calculating the seconds from any amount of seconds
+ Below 10 seconds there is a rewrite needed
+ </summary>
+	<param name="counter"></param>
+	<returns>Seconds between 0 and 59</returns>
+	<remarks></remarks>
+</member><member name="M:Timing.Buff_End(System.Int32,System.Int32,System.DateTime)">
+	<summary>
+ Calculating the minutes and seconds for the objectives when they will end
+ </summary>
+	<param name="buffDurationMinutes"></param>
+	<param name="difference"></param>
+	<param name="starting_Date_time"></param>
+	<returns>overall Minutes:Seconds for objectives</returns>
+	<remarks></remarks>
+</member><member name="M:Timing.TimeSpan2MinSec_Parse(System.TimeSpan)">
+	<summary>
+ Calculating the recent minutes and seconds for the objectives
+ </summary>
+	<param name="timespan"></param>
+	<returns>recent Minutes:Seconds for objectives</returns>
+	<remarks></remarks>
+</member><member name="M:ContextMenus.Contextmenu_Reload">
+	<summary>
+ Shows and hides the Contextmenu
+ </summary>
+	<remarks></remarks>
+</member><member name="M:ContextMenus.Location_Calculate(System.Int32,System.Int32)">
+	<summary>
+ Calculates the position of the Contextmenu every time it was rightclicked
+ </summary>
+	<param name="x"></param>
+	<param name="y"></param>
+	<remarks></remarks>
+</member><member name="M:ContextMenus.Write2ChatButtons_Initialize">
+	<summary>
+ Switching the Write2Chat buttons status on load
+ </summary>
+	<remarks></remarks>
+</member><member name="M:ContextMenus.Write2ChatButtons_Switch(System.Boolean)">
+	<summary>
+ Switching the Write2Chat buttons status when one them was clicked
+ </summary>
+	<param name="status"></param>
+	<remarks></remarks>
+</member><member name="M:ContextMenus.Timer_Fadingin_Tick(System.Object,System.EventArgs)">
+	<summary>
+ Fading in the Contextmenu window
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:ContextMenus.Timer_Fadingout_Tick(System.Object,System.EventArgs)">
+	<summary>
+ Fading out the Contextmenu window
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:MinimapOverlays.LocationXYForDuration_Get(System.Int32,System.Boolean)">
+	<summary>
+ Returns the pixel value for the duration text
+ </summary>
+	<remarks></remarks>
+</member><member name="M:MinimapOverlays.Image_Load">
+	<summary>
+ Loading a red or orange picture, depending on the remember times
+ </summary>
+	<remarks></remarks>
+</member><member name="M:MinimapOverlays.Team_Change(System.Single,System.Single)">
+	<summary>
+ Changing team without reloading the pings -&gt; changing on-the-fly
+ </summary>
+	<remarks></remarks>
+</member><member name="M:MinimapOverlays.Location_Refresh">
+	<summary>
+ Method for relocating location of pings and texts duration when Advanced Minimap is being resized
+ </summary>
+	<remarks></remarks>
+</member><member name="M:MinimapOverlays.DurationLocation_Refresh">
+	<summary>
+ Refreshes durations when saving other settings
+ </summary>
+	<remarks></remarks>
+</member><member name="M:MinimapOverlays.Objective_Start">
+	<summary>
+ Initializes the current duration for a buff when activated
+ </summary>
+	<remarks></remarks>
+</member><member name="M:MinimapOverlays.Objective_End">
+	<summary>
+ Let the buff stop
+ </summary>
+	<remarks></remarks>
+</member><member name="M:MinimapOverlays.Objective_Tick(System.Int32)">
+	<summary>
+ Counts down the current duration and looking for a match within the remember times.
+ If it watches the hint picture box with be shown for a specific duration.
+ </summary>
+	<remarks></remarks>
+</member><member name="M:MinimapOverlays.ObjectiveSound_Play(System.Boolean,System.Int32)">
+	<summary>
+ Playing a sound when reached a remember time
+ </summary>
+	<remarks></remarks>
+</member><member name="M:MinimapOverlays.ObjectiveStatus_Check(System.Int32)">
+	<summary>
+ Checks if the specific event is a running Objective
+ </summary>
+	<param name="buffID"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:My.Resources.Resources.ResourceManager">
+	<summary>
+  Gibt die zwischengespeicherte ResourceManager-Instanz zurück, die von dieser Klasse verwendet wird.
+</summary>
+</member><member name="P:My.Resources.Resources.Culture">
+	<summary>
+  Überschreibt die CurrentUICulture-Eigenschaft des aktuellen Threads für alle
+  Ressourcenzuordnungen, die diese stark typisierte Ressourcenklasse verwenden.
+</summary>
+</member><member name="P:My.Resources.Resources.ABOUT_BG">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.addsign">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.CONFIG_Button_CLOSE">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.CONFIG_Button_LINKS_facebook">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.CONFIG_Button_LINKS_twitter">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.CONFIG_Button_LINKS_youtube">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.CONFIGFILES_BG">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.CONTEXTMENU_BG">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.CONTROL_OVERLAY">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.Donate">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.LJTD_Button_CLOSE">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.LJTD_Button_MINIMAP">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.LJTD_Button_MINIMIZE">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.LJTD_Button_SLIDE_IN">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.LJTD_Button_SLIDE_OUT">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.LJTD_Button_START">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.LJTD_Button_STOP">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.LJTD_gray">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Icon ähnlich wie (Symbol).
+</summary>
+</member><member name="P:My.Resources.Resources.LJTD_green">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Icon ähnlich wie (Symbol).
+</summary>
+</member><member name="P:My.Resources.Resources.LJTD_Panel">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.LJTD_Panel_Vertical">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.LJTD_Settings_Icon">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.Loading_animation__frame_0001">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Icon ähnlich wie (Symbol).
+</summary>
+</member><member name="P:My.Resources.Resources.Loading_animation__frame_0002">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Icon ähnlich wie (Symbol).
+</summary>
+</member><member name="P:My.Resources.Resources.Loading_animation__frame_0003">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Icon ähnlich wie (Symbol).
+</summary>
+</member><member name="P:My.Resources.Resources.Loading_animation__frame_0004">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Icon ähnlich wie (Symbol).
+</summary>
+</member><member name="P:My.Resources.Resources.Loading_animation__frame_0005">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Icon ähnlich wie (Symbol).
+</summary>
+</member><member name="P:My.Resources.Resources.Loading_animation__frame_0006">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Icon ähnlich wie (Symbol).
+</summary>
+</member><member name="P:My.Resources.Resources.Loading_animation__frame_0007">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Icon ähnlich wie (Symbol).
+</summary>
+</member><member name="P:My.Resources.Resources.Loading_animation__frame_0008">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Icon ähnlich wie (Symbol).
+</summary>
+</member><member name="P:My.Resources.Resources.Loading_animation__frame_0009">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Icon ähnlich wie (Symbol).
+</summary>
+</member><member name="P:My.Resources.Resources.Loading_animation__frame_0010">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Icon ähnlich wie (Symbol).
+</summary>
+</member><member name="P:My.Resources.Resources.Loading_animation__frame_0011">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Icon ähnlich wie (Symbol).
+</summary>
+</member><member name="P:My.Resources.Resources.Loading_animation__frame_0012">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Icon ähnlich wie (Symbol).
+</summary>
+</member><member name="P:My.Resources.Resources.MINIMAP_Button_BLUE_RED">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.MINIMAP_Button_RED_BLUE">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.MINIMAP_Button_Resize">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.MINIMAP_Panel">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.MINIMAP_Panel_Vertical">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.MINIMAP_Ward_10sec">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.MINIMAP_Ward_10sec_orig">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.MINIMAP_Ward_180sec">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.MINIMAP_Ward_180sec_orig">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.MINIMAP_Ward_30sec">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.MINIMAP_Ward_30sec_orig">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.MINIMAP_WardMap_SR">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.MINIMAP_WardMap_TT">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.OBJECTIVE_Baron">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.OBJECTIVE_Baron_Disabled">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.OBJECTIVE_Baron_Mousehover">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.OBJECTIVE_Dragon">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.OBJECTIVE_Dragon_Disabled">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.OBJECTIVE_Dragon_Mousehover">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.OBJECTIVE_OB">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.OBJECTIVE_OB_Disabled">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.OBJECTIVE_OB_Mousehover">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.OBJECTIVE_OR">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.OBJECTIVE_OR_Disabled">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.OBJECTIVE_OR_Mousehover">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.OBJECTIVE_TB">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.OBJECTIVE_TB_Disabled">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.OBJECTIVE_TB_Mousehover">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.OBJECTIVE_TR">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.OBJECTIVE_TR_Disabled">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.OBJECTIVE_TR_Mousehover">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.OBJECTIVE_Vilemaw">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.OBJECTIVE_Vilemaw_Disabled">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.OBJECTIVE_Vilemaw_Mousehover">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.SETTINGS_BG_CHAT">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.SETTINGS_BG_COLOR">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.SETTINGS_BG_Hotkey">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.SETTINGS_BG_MACROS">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.SETTINGS_BG_MAIN">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.SETTINGS_BG_MINIMAP">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.SETTINGS_BG_VISUAL">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.SETTINGS_Button_BASIC">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.SETTINGS_Button_RESET">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.SETTINGS_Button_SAVE">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.SETTINGS_ButtonEXPERT">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.SETTINGS_Tab_Chat">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.SETTINGS_Tab_Color">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.SETTINGS_Tab_Hotkey">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.SETTINGS_Tab_Macros">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.SETTINGS_Tab_Main">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.SETTINGS_Tab_Minimap">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.SETTINGS_Tab_Visual">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.TEAMSYNC_BG">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.UPDATER_BG">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="P:My.Resources.Resources.WIZARD_BG">
+	<summary>
+  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+</summary>
+</member><member name="T:My.Resources.Resources">
+	<summary>
+  Eine stark typisierte Ressourcenklasse zum Suchen von lokalisierten Zeichenfolgen usw.
+</summary>
+</member><member name="M:Module_IO.DownloadString_Get(System.String)">
+	<summary>
+ Downloading an onlince resource and reading it
+ </summary>
+	<param name="downloadURL"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:Module_IO.ContainingString_Check(System.String,System.Int32)">
+	<summary>
+ Checking a textfile for a specific string
+ </summary>
+	<param name="logFile"></param>
+	<param name="res"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member>
+</members>
+</doc>
