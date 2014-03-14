@@ -30,3 +30,27 @@ D:\GitHub\LJTD\Jungle Timer\bin\Debug\LoL Jungle Timer Deluxe.exe.config
 D:\GitHub\LJTD\Jungle Timer\obj\x86\Debug\LoL Jungle Timer Deluxe.exe
 D:\GitHub\LJTD\Jungle Timer\obj\x86\Debug\LoL Jungle Timer Deluxe.xml
 D:\GitHub\LJTD\Jungle Timer\obj\x86\Debug\LoL Jungle Timer Deluxe.pdb
+D:\GitHub\LJTD\Jungle Timer\bin\Debug\LoL Jungle Timer Deluxe.exe
+D:\GitHub\LJTD\Jungle Timer\bin\Debug\LoL Jungle Timer Deluxe.pdb
+D:\GitHub\LJTD\Jungle Timer\bin\Debug\LoL Jungle Timer Deluxe.xml
+D:\GitHub\LJTD\Jungle Timer\obj\x86\Debug\Wizard_Walkthrough.resources
+D:\GitHub\LJTD\Jungle Timer\obj\x86\Debug\Wizard_OnYourOwn.resources
+D:\GitHub\LJTD\Jungle Timer\obj\x86\Debug\Wizard_Unsuccess.resources
+D:\GitHub\LJTD\Jungle Timer\obj\x86\Debug\Wizard_Tutorial.resources
+D:\GitHub\LJTD\Jungle Timer\obj\x86\Debug\Wizard.resources
+D:\GitHub\LJTD\Jungle Timer\obj\x86\Debug\Wizard_Success.resources
+D:\GitHub\LJTD\Jungle Timer\obj\x86\Debug\ObjectiveOverview.resources
+D:\GitHub\LJTD\Jungle Timer\obj\x86\Debug\About.resources
+D:\GitHub\LJTD\Jungle Timer\obj\x86\Debug\AddSign.resources
+D:\GitHub\LJTD\Jungle Timer\obj\x86\Debug\Configuration.resources
+D:\GitHub\LJTD\Jungle Timer\obj\x86\Debug\ConfigFileAdd.resources
+D:\GitHub\LJTD\Jungle Timer\obj\x86\Debug\ConfigFileDelete.resources
+D:\GitHub\LJTD\Jungle Timer\obj\x86\Debug\ConfigFileRename.resources
+D:\GitHub\LJTD\Jungle Timer\obj\x86\Debug\ContextMenus.resources
+D:\GitHub\LJTD\Jungle Timer\obj\x86\Debug\TextOverlay.resources
+D:\GitHub\LJTD\Jungle Timer\obj\x86\Debug\LJTD.resources
+D:\GitHub\LJTD\Jungle Timer\obj\x86\Debug\MiniMap.resources
+D:\GitHub\LJTD\Jungle Timer\obj\x86\Debug\Resources.resources
+D:\GitHub\LJTD\Jungle Timer\obj\x86\Debug\TeamSync.resources
+D:\GitHub\LJTD\Jungle Timer\obj\x86\Debug\Updater.resources
+D:\GitHub\LJTD\Jungle Timer\obj\x86\Debug\Jungle Timer.vbproj.GenerateResource.Cache

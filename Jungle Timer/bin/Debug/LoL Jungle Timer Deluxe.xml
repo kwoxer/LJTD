@@ -30,233 +30,58 @@ LoLJungleTimerDeluxe
 	<param name="source">Object</param>
 	<param name="e">ElapsedEventArgs</param>
 	<remarks></remarks>
-</member><member name="M:LJTD.LJTD_Load(System.Object,System.EventArgs)">
+</member><member name="M:MinimapOverlays.LocationXYForDuration_Get(System.Int32,System.Boolean)">
 	<summary>
- Load start events
- </summary>
-	<param name="sender"></param>
-	<param name="e"></param>
-	<remarks></remarks>
-</member><member name="M:LJTD.LJTD_Initilization">
-	<summary>
- Load Control Overlay and Settings
+ Returns the pixel value for the duration text
  </summary>
 	<remarks></remarks>
-</member><member name="M:LJTD.UpdateAvailable_Show">
+</member><member name="M:MinimapOverlays.Image_Load">
 	<summary>
- Watch out for updates of LJTD servers
+ Loading a red or orange picture, depending on the remember times
  </summary>
 	<remarks></remarks>
-</member><member name="M:LJTD.UniqueAddress_Create">
+</member><member name="M:MinimapOverlays.Team_Change(System.Single,System.Single)">
 	<summary>
- Returns a unique Address for TeamSync
+ Changing team without reloading the pings -&gt; changing on-the-fly
  </summary>
 	<remarks></remarks>
-</member><member name="M:LJTD.LJTD_Reload(System.Boolean,System.Boolean)">
+</member><member name="M:MinimapOverlays.Location_Refresh">
 	<summary>
- Needed when settings were changed to reload preferences
- </summary>
-	<param name="buttonImageLoad"></param>
-	<remarks></remarks>
-</member><member name="M:LJTD.Clicks_Perform(System.Int32,System.Boolean)">
-	<summary>
- Objective Events happening when keys are pushed
- </summary>
-	<param name="key"></param>
-	<param name="keyOpenerPressed"></param>
-	<remarks></remarks>
-</member><member name="M:LJTD.VisibilityStatus_Switch(System.Boolean)">
-	<summary>
- Hides/Shows the Control Overlay and Advanced Minimap
- </summary>
-	<param name="dontShowMiniMap"></param>
-	<remarks></remarks>
-</member><member name="M:LJTD.TimerUpdateCurrentTime_Tick(System.Object,System.EventArgs)">
-	<summary>
- Updating Game Clock, Objectives and needed for TeamSync
- </summary>
-	<param name="sender"></param>
-	<param name="e"></param>
-	<remarks></remarks>
-</member><member name="M:LJTD.InitialTimer_Reset">
-	<summary>
- Resets GameClock and stopping the Main timer
+ Method for relocating location of pings and texts duration when Advanced Minimap is being resized
  </summary>
 	<remarks></remarks>
-</member><member name="M:LJTD.TimerTopMost_Tick(System.Object,System.EventArgs)">
+</member><member name="M:MinimapOverlays.DurationLocation_Refresh">
 	<summary>
- Enabled/disables Top Most functionality
+ Refreshes durations when saving other settings
  </summary>
-	<param name="sender"></param>
-	<param name="e"></param>
 	<remarks></remarks>
-</member><member name="M:LJTD.Font_Initialize">
+</member><member name="M:MinimapOverlays.Objective_Start">
 	<summary>
- Looking for installed fonts. If not installed a wizard we be shown
+ Initializes the current duration for a buff when activated
  </summary>
+	<remarks></remarks>
+</member><member name="M:MinimapOverlays.Objective_End">
+	<summary>
+ Let the buff stop
+ </summary>
+	<remarks></remarks>
+</member><member name="M:MinimapOverlays.Objective_Tick(System.Int32)">
+	<summary>
+ Counts down the current duration and looking for a match within the remember times.
+ If it watches the hint picture box with be shown for a specific duration.
+ </summary>
+	<remarks></remarks>
+</member><member name="M:MinimapOverlays.ObjectiveSound_Play(System.Boolean,System.Int32)">
+	<summary>
+ Playing a sound when reached a remember time
+ </summary>
+	<remarks></remarks>
+</member><member name="M:MinimapOverlays.ObjectiveStatus_Check(System.Int32)">
+	<summary>
+ Checks if the specific event is a running Objective
+ </summary>
+	<param name="buffID"></param>
 	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:LJTD.ConfigFileManagementCreateList_Initialize(System.Boolean)">
-	<summary>
- Searching and listing available config files in Settings/Contextmenu
- </summary>
-	<remarks></remarks>
-</member><member name="M:LJTD.ConfigFileManagement_Initialize(System.Boolean)">
-	<summary>
- Initializing config file name at startup in Settings/Contextmenu
- </summary>
-	<remarks></remarks>
-</member><member name="M:LJTD.Location_Initialize">
-	<summary>
- Additional setting to let LJTD showed up at a specific location
- </summary>
-	<remarks></remarks>
-</member><member name="M:LJTD.Labels_Initialize">
-	<summary>
- Initializing labels and the endtimes
- </summary>
-	<remarks></remarks>
-</member><member name="M:LJTD.Buttons_Initialize">
-	<summary>
- Initializing all the different buttons
- </summary>
-	<remarks></remarks>
-</member><member name="M:LJTD.ChatMacro_Initialize">
-	<summary>
- Initializing Chat Macro and adding handlers
- </summary>
-	<remarks></remarks>
-</member><member name="M:LJTD.FileStreamWatcher_Initialize">
-	<summary>
- Initializing the FSW to watch out for starting games to use AutoStart
- </summary>
-	<remarks></remarks>
-</member><member name="M:LJTD.Fonts_Initialize">
-	<summary>
- Initializing the fonts and size and of course colours
- </summary>
-	<remarks></remarks>
-</member><member name="M:LJTD.GameModeWardMap_Initialize">
-	<summary>
- Dicides using the 3on3 or 5on5 map for the Wardmap 
- </summary>
-	<remarks></remarks>
-</member><member name="M:LJTD.Objectives_Initialize">
-	<summary>
- Initializing Buffs and Flash and preparing their hotkeys
- </summary>
-	<remarks></remarks>
-</member><member name="M:LJTD.ButtonImage_Initialize">
-	<summary>
- Initializing the pictures for the buttons
- </summary>
-	<remarks></remarks>
-</member><member name="M:LJTD.ExternalImages_Initialize">
-	<summary>
- Initializing all other picture for backgrounds and so on
- </summary>
-	<remarks></remarks>
-</member><member name="M:LJTD.AutoStartTimer_Initialize">
-	<summary>
- Starting the AutoStart timer to log starting games and letting them end automatically 
- </summary>
-	<remarks></remarks>
-</member><member name="M:LJTD.ForeColors_Initialize">
-	<summary>
- Initializing colors for labels and buttons
- </summary>
-	<remarks></remarks>
-</member><member name="M:LJTD.SetForeColor_Initialize(System.Int32,System.Drawing.Color)">
-	<summary>
- Initializing colour for labels and buttons from Settings Save
- </summary>
-	<param name="i"></param>
-	<param name="color"></param>
-	<remarks></remarks>
-</member><member name="M:LJTD.LJTDColors_Initialize">
-	<summary>
- Initializing the backcolors for all buttons
- </summary>
-	<remarks></remarks>
-</member><member name="M:LJTD.ShowInTaskbar_CheckResource">
-	<summary>
- Sets the Control Panel tab visible/invisible for the taskbar
- </summary>
-	<remarks></remarks>
-</member><member name="M:LJTD.DisableAutoStartButton_CheckResource">
-	<summary>
- Sets the Disable AutoStart Button visible/invisible
- </summary>
-	<remarks></remarks>
-</member><member name="M:LJTD.GameClock_CheckResource">
-	<summary>
- Sets the Game Clock visible/invisible
- </summary>
-	<remarks></remarks>
-</member><member name="M:LJTD.EndtimeLabels_CheckResource">
-	<summary>
- Sets the Endtimes visible/invisible
- </summary>
-	<remarks></remarks>
-</member><member name="M:LJTD.ObjectiveLabels_CheckResource">
-	<summary>
- Sets the text for the Objectives
- </summary>
-	<remarks></remarks>
-</member><member name="M:LJTD.GameMode_CheckResource">
-	<summary>
- Sets the buttons, labels and endtimes visible/invisible depending on the Game Mode
- </summary>
-	<remarks></remarks>
-</member><member name="M:LJTD.Opacity_CheckResource">
-	<summary>
- Sets the opactiy for the Control Overlay
- </summary>
-	<remarks></remarks>
-</member><member name="M:LJTD.OpenInTray_CheckResource">
-	<summary>
- Sets whether LJTD should start minimized or normal
- </summary>
-	<remarks></remarks>
-</member><member name="M:LJTD.LJTDBackgroundImage_CheckResource">
-	<summary>
- Enables/disables the Panel Mode for the Control Panel
- </summary>
-	<remarks></remarks>
-</member><member name="M:LJTD.ShowFlash_CheckResource">
-	<summary>
- Sets the Flash timer visible/invisible
- </summary>
-	<remarks></remarks>
-</member><member name="M:LJTD.Slide_CheckResource">
-	<summary>
- Activating the automatically Slide outs
- </summary>
-	<remarks></remarks>
-</member><member name="M:LJTD.TopMost_CheckResource">
-	<summary>
- Sets the Top Most enabled/disabled
- </summary>
-	<remarks></remarks>
-</member><member name="M:LJTD.Write2Chat_CheckResource(System.String,System.Int32)">
-	<summary>
- Enables Write2Chat functionality for the macros
- </summary>
-	<param name="text"></param>
-	<param name="i">objective number</param>
-	<remarks></remarks>
-</member><member name="M:LJTD.TimerCheckObjectives_Tick(System.Object,System.EventArgs)">
-	<summary>
- Ticking down Objectives till they will end.
- Will letting the Objective end when running status changed.
- </summary>
-	<param name="sender"></param>
-	<param name="e"></param>
-	<remarks></remarks>
-</member><member name="M:LJTD.Buttons_AntiStuck">
-	<summary>
- Useful when using TeamSync to make sure all button are enabled
- </summary>
 	<remarks></remarks>
 </member><member name="M:Timing.DateDiffSec_Get(System.DateTime,System.DateTime)">
 	<summary>
@@ -334,59 +159,6 @@ LoLJungleTimerDeluxe
  </summary>
 	<param name="sender"></param>
 	<param name="e"></param>
-	<remarks></remarks>
-</member><member name="M:MinimapOverlays.LocationXYForDuration_Get(System.Int32,System.Boolean)">
-	<summary>
- Returns the pixel value for the duration text
- </summary>
-	<remarks></remarks>
-</member><member name="M:MinimapOverlays.Image_Load">
-	<summary>
- Loading a red or orange picture, depending on the remember times
- </summary>
-	<remarks></remarks>
-</member><member name="M:MinimapOverlays.Team_Change(System.Single,System.Single)">
-	<summary>
- Changing team without reloading the pings -&gt; changing on-the-fly
- </summary>
-	<remarks></remarks>
-</member><member name="M:MinimapOverlays.Location_Refresh">
-	<summary>
- Method for relocating location of pings and texts duration when Advanced Minimap is being resized
- </summary>
-	<remarks></remarks>
-</member><member name="M:MinimapOverlays.DurationLocation_Refresh">
-	<summary>
- Refreshes durations when saving other settings
- </summary>
-	<remarks></remarks>
-</member><member name="M:MinimapOverlays.Objective_Start">
-	<summary>
- Initializes the current duration for a buff when activated
- </summary>
-	<remarks></remarks>
-</member><member name="M:MinimapOverlays.Objective_End">
-	<summary>
- Let the buff stop
- </summary>
-	<remarks></remarks>
-</member><member name="M:MinimapOverlays.Objective_Tick(System.Int32)">
-	<summary>
- Counts down the current duration and looking for a match within the remember times.
- If it watches the hint picture box with be shown for a specific duration.
- </summary>
-	<remarks></remarks>
-</member><member name="M:MinimapOverlays.ObjectiveSound_Play(System.Boolean,System.Int32)">
-	<summary>
- Playing a sound when reached a remember time
- </summary>
-	<remarks></remarks>
-</member><member name="M:MinimapOverlays.ObjectiveStatus_Check(System.Int32)">
-	<summary>
- Checks if the specific event is a running Objective
- </summary>
-	<param name="buffID"></param>
-	<returns></returns>
 	<remarks></remarks>
 </member><member name="P:My.Resources.Resources.ResourceManager">
 	<summary>
@@ -757,6 +529,234 @@ LoLJungleTimerDeluxe
 	<summary>
   Eine stark typisierte Ressourcenklasse zum Suchen von lokalisierten Zeichenfolgen usw.
 </summary>
+</member><member name="M:LJTD.LJTD_Load(System.Object,System.EventArgs)">
+	<summary>
+ Load start events
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:LJTD.LJTD_Initilization">
+	<summary>
+ Load Control Overlay and Settings
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.UpdateAvailable_Show">
+	<summary>
+ Watch out for updates of LJTD servers
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.UniqueAddress_Create">
+	<summary>
+ Returns a unique Address for TeamSync
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.LJTD_Reload(System.Boolean,System.Boolean)">
+	<summary>
+ Needed when settings were changed to reload preferences
+ </summary>
+	<param name="buttonImageLoad"></param>
+	<remarks></remarks>
+</member><member name="M:LJTD.Clicks_Perform(System.Int32,System.Boolean)">
+	<summary>
+ Objective Events happening when keys are pushed
+ </summary>
+	<param name="key"></param>
+	<param name="keyOpenerPressed"></param>
+	<remarks></remarks>
+</member><member name="M:LJTD.VisibilityStatus_Switch(System.Boolean)">
+	<summary>
+ Hides/Shows the Control Overlay and Advanced Minimap
+ </summary>
+	<param name="dontShowMiniMap"></param>
+	<remarks></remarks>
+</member><member name="M:LJTD.TimerUpdateCurrentTime_Tick(System.Object,System.EventArgs)">
+	<summary>
+ Updating Game Clock, Objectives and needed for TeamSync
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:LJTD.InitialTimer_Reset">
+	<summary>
+ Resets GameClock and stopping the Main timer
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.TimerTopMost_Tick(System.Object,System.EventArgs)">
+	<summary>
+ Enabled/disables Top Most functionality
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:LJTD.Font_Initialize">
+	<summary>
+ Looking for installed fonts. If not installed a wizard we be shown
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:LJTD.ConfigFileManagementCreateList_Initialize(System.Boolean)">
+	<summary>
+ Searching and listing available config files in Settings/Contextmenu
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.ConfigFileManagement_Initialize(System.Boolean)">
+	<summary>
+ Initializing config file name at startup in Settings/Contextmenu
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.Location_Initialize">
+	<summary>
+ Additional setting to let LJTD showed up at a specific location
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.Labels_Initialize">
+	<summary>
+ Initializing labels and the endtimes
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.Buttons_Initialize">
+	<summary>
+ Initializing all the different buttons
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.ChatMacro_Initialize">
+	<summary>
+ Initializing Chat Macro and adding handlers
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.FileStreamWatcher_Initialize">
+	<summary>
+ Initializing the FSW to watch out for starting games to use AutoStart
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.Fonts_Initialize">
+	<summary>
+ Initializing the fonts and size and of course colours
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.GameModeWardMap_Initialize">
+	<summary>
+ Dicides using the 3on3 or 5on5 map for the Wardmap 
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.Objectives_Initialize">
+	<summary>
+ Initializing Buffs and Flash and preparing their hotkeys
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.ButtonImage_Initialize">
+	<summary>
+ Initializing the pictures for the buttons
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.ExternalImages_Initialize">
+	<summary>
+ Initializing all other picture for backgrounds and so on
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.AutoStartTimer_Initialize">
+	<summary>
+ Starting the AutoStart timer to log starting games and letting them end automatically 
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.ForeColors_Initialize">
+	<summary>
+ Initializing colors for labels and buttons
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.SetForeColor_Initialize(System.Int32,System.Drawing.Color)">
+	<summary>
+ Initializing colour for labels and buttons from Settings Save
+ </summary>
+	<param name="i"></param>
+	<param name="color"></param>
+	<remarks></remarks>
+</member><member name="M:LJTD.LJTDColors_Initialize">
+	<summary>
+ Initializing the backcolors for all buttons
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.ShowInTaskbar_CheckResource">
+	<summary>
+ Sets the Control Panel tab visible/invisible for the taskbar
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.DisableAutoStartButton_CheckResource">
+	<summary>
+ Sets the Disable AutoStart Button visible/invisible
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.GameClock_CheckResource">
+	<summary>
+ Sets the Game Clock visible/invisible
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.EndtimeLabels_CheckResource">
+	<summary>
+ Sets the Endtimes visible/invisible
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.ObjectiveLabels_CheckResource">
+	<summary>
+ Sets the text for the Objectives
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.GameMode_CheckResource">
+	<summary>
+ Sets the buttons, labels and endtimes visible/invisible depending on the Game Mode
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.Opacity_CheckResource">
+	<summary>
+ Sets the opactiy for the Control Overlay
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.OpenInTray_CheckResource">
+	<summary>
+ Sets whether LJTD should start minimized or normal
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.LJTDBackgroundImage_CheckResource">
+	<summary>
+ Enables/disables the Panel Mode for the Control Panel
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.ShowFlash_CheckResource">
+	<summary>
+ Sets the Flash timer visible/invisible
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.Slide_CheckResource">
+	<summary>
+ Activating the automatically Slide outs
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.TopMost_CheckResource">
+	<summary>
+ Sets the Top Most enabled/disabled
+ </summary>
+	<remarks></remarks>
+</member><member name="M:LJTD.Write2Chat_CheckResource(System.String,System.Int32)">
+	<summary>
+ Enables Write2Chat functionality for the macros
+ </summary>
+	<param name="text"></param>
+	<param name="i">objective number</param>
+	<remarks></remarks>
+</member><member name="M:LJTD.TimerCheckObjectives_Tick(System.Object,System.EventArgs)">
+	<summary>
+ Ticking down Objectives till they will end.
+ Will letting the Objective end when running status changed.
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:LJTD.Buttons_AntiStuck">
+	<summary>
+ Useful when using TeamSync to make sure all button are enabled
+ </summary>
+	<remarks></remarks>
 </member><member name="M:Module_IO.DownloadString_Get(System.String)">
 	<summary>
  Downloading an onlince resource and reading it
