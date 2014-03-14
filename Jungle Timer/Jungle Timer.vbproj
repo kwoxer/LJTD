@@ -604,33 +604,6 @@
     <None Include="Resources\Updater_BG.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="bin\Debug\res\Misc\CONFIG\CONFIG_Tab_CHAT.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\res\Misc\CONFIG\CONFIG_Tab_COLOR.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\res\Misc\CONFIG\CONFIG_Tab_HOTKEY.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\res\Misc\CONFIG\CONFIG_Tab_MACROS.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\res\Misc\CONFIG\CONFIG_Tab_MAIN.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\res\Misc\CONFIG\CONFIG_Tab_MINIMAP.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\res\Misc\CONFIG\CONFIG_Tab_VISUAL.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\res\Misc\CONFIG\CONFIG_Button_SAVE.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\res\Misc\CONFIG\CONFIG_Button_RESET.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\OBJECTIVE_Baron.png" />
   </ItemGroup>
   <ItemGroup>
@@ -740,18 +713,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\LJTD_Button_SLIDE_OUT.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\res\Misc\Background\CONTEXTMENU_BG.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\res\Misc\Background\CONTROL_OVERLAY.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\res\Misc\Background\OTHER_BG.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\res\Misc\SETTINGS\SETTINGS_Button_SAVE.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\CONTROL_OVERLAY.png" />
