@@ -643,9 +643,6 @@
     <None Include="Resources\OBJECTIVE_TB_Disabled.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\OBJECTIVE_TB_Mouseclicked.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\OBJECTIVE_TB_Mousehover.png" />
   </ItemGroup>
   <ItemGroup>
@@ -751,6 +748,8 @@
     <None Include="Resources\OBJECTIVE_Vilemaw_Disabled.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\CONTEXTMENU_BG.png" />
+    <Content Include="Resources\SETTINGS_Button_SAVE.png" />
     <Content Include="res\Buffs\README.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
