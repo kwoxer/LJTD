@@ -7,14 +7,15 @@
 *.sln.docstates
 
 # Build results
-[Dd]ebug/
-[Dd]ebugPublic/
-[Rr]elease/
-x64/
-build/
-bld/
-[Bb]in/
-[Oo]bj/
+#[Dd]ebug/
+#[Dd]ebugPublic/
+#[Rr]elease/
+#x64/
+#build/
+#bld/
+#*/[Bb]in/
+#[Oo]bj/
+Jungle Timer/bin/LoL Jungle Timer Deluxe.*
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
