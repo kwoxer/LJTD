@@ -15,7 +15,7 @@
 #bld/
 #*/[Bb]in/
 #[Oo]bj/
-Jungle Timer/bin/LoL Jungle Timer Deluxe.*
+[Dd]ebug/LoL Jungle Timer Deluxe.*
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
