@@ -17,7 +17,8 @@ Public Class LJTD
     Private timing As New Timing
     Private showForm As Boolean = False, gameFinished As Boolean = True, autoStartFeature As Boolean = True
     Private slideFading As Integer, slideFadingAmount As Integer, slideFadingAmounts As Integer() = {7.4, 14.1, 0}
-    Private label(6) As Label, button(6) As Button
+    Private label(6) As Label
+    Public button(6) As Button
     Private imgObjectiveNormal(6), imgObjectiveMousehover(6), imgObjectiveDisabled(6) As Image
     Private pushHotkey As New PushHotkey
     Private WithEvents fileStreamWatcher As New FileSystemWatcher
@@ -41,13 +42,13 @@ Public Class LJTD
     Private overlay As Button
     Private stopButton As Image
     Private buffRunningPreventLags(6) As Boolean
+    Public buffRunning(6) As Boolean
     Private Const showBalloonTipDuration As Integer = 5000
     Private Const initialTimerPresetValue As String = "0:"
     Private Const urlFAQWebsite As String = "http://www.ljtd.net/misc/faq/"
     Private animatedIcon(12) As Icon
     Private currentIcon As Integer = 0
-    Declare Function waveOutSetVolume Lib "winmm.dll" (ByVal uDeviceID As Long, ByVal dwVolume As Long) As Long
-    Declare Function waveOutGetVolume Lib "winmm.dll" (ByVal uDeviceID As Long, lpdwVolume As Long) As Long
+    
 
     Public Sub Resource_Refresh()
         resource = Resources.Resources
@@ -317,9 +318,12 @@ Public Class LJTD
         For i = 0 To Objective.Length - 1
             If Objective(i).GetRunning = False And i <> 6 Then LabelEndtime(i).Visible = False
         Next
-        For i = 0 To 5
-            If Configuration.TeamSyncOnlineBuffChanges(i) Then Objective_Start(i)
-        Next
+        'For i = 0 To 5
+        '    If Configuration.TeamSyncOnlineObjectiveChanges(i) And button(i).Enabled Then
+        '        Objective_Start(i)
+        '    End If
+
+        'Next
     End Sub
     ''' <summary>
     ''' Resets GameClock and stopping the Main timer
@@ -901,6 +905,7 @@ Public Class LJTD
     Private Sub TimerCheckObjectives_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_CheckBuffs.Tick
         For i = 0 To Objective.Length - 1
             If Objective(i).GetRunning Then
+                buffRunning(i) = True
                 buffRunningPreventLags(i) = True
                 label(i).Text = Objective(i).GetActualShownTimeMin.ToString
                 If Objective(i).GetDiff >= 5 Then
@@ -913,14 +918,17 @@ Public Class LJTD
                 ObjectiveOverview.Objective_Update()
             Else
                 If buffRunningPreventLags(i) Then
+                    buffRunning(i) = False
                     buffRunningPreventLags(i) = False
                     label(i).Text = Objective(i).GetOverallTime
+                    label(i).Visible = False
                     button(i).Enabled = True
                     Objective(i).Objective_End()
                     If i <> 6 Then
                         MiniMap.MinimapPing(i).Objective_End()
                     End If
                     If runningTime > 0 And i <> 6 Then Configuration.TeamSync_SetChanges(i, True)
+                    button(i).BackgroundImage = imgObjectiveDisabled(i)
                 End If
                 ObjectiveOverview.Objective_Update()
             End If
@@ -991,15 +999,15 @@ Public Class LJTD
     End Sub
     Private Sub ButtonFlash_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Flash.Click
         If GameClockRunning Then
-            Objective_Start(6)
+            Objective_Switch(6)
         End If
     End Sub
     Public Sub ObjectiveClicks_Perform(ByVal sender As System.Object)
         If GameClockRunning Then
             Dim button As Button = DirectCast(sender, Button)
-            If Configuration.TeamSyncValid = False Or Configuration.TeamSyncOnlineRightsOwner Or Configuration.TeamSyncOnlineRightsBuff Then
+            If Configuration.TeamSyncValid = False Or Configuration.TeamSyncOnlineRightsOwner Or Configuration.TeamSyncOnlineRightsObjective Then
                 teamSyncUpdateObjectiveRunningTimer.Start()
-                Objective_Start(CInt(button.Tag))
+                Objective_Switch(CInt(button.Tag))
                 For i = 0 To Objective.Length - 1
                     TeamSyncOfflineObjectiveRunning(i) = Objective(i).GetRunning
                 Next
@@ -1007,24 +1015,25 @@ Public Class LJTD
             Configuration.TeamSync_SetChanges(CInt(button.Tag), False)
         End If
     End Sub
-    Public Sub Objective_Start(ByVal i As Integer)
+    Public Sub Objective_Switch(ByVal i As Integer)
         If ButtonPressed Then
             Module_WindowManagement.Foreground_Set()
         End If
         If Objective(i).GetRunning Then
+            buffRunning(i) = False
             button(i).Enabled = False
             button(i).BackgroundImage = imgObjectiveNormal(i)
             Objective(i).Objective_End()
             label(i).Visible = False
             LabelEndtime(i).Visible = False
             If i <> 6 Then MiniMap.MinimapPing(i).Objective_End()
-            If resource.PropConfig(26, 1) = "Restart" Then
-                Objective_Start(i)
-            End If
+            If resource.PropConfig(26, 1) = "Restart" Then Objective_Switch(i)
+
         Else
+            buffRunning(i) = True
             Objective(i).Objective_Start()
             button(i).Enabled = False
-            button(i).BackgroundImage = imgObjectiveDisabled(i)
+            button(i).BackgroundImage = imgObjectiveNormal(i)
             label(i).Visible = True
             If resource.PropConfigBool(6) And i <> 6 Then
                 LabelEndtime(i).Visible = True
@@ -1034,12 +1043,9 @@ Public Class LJTD
             If resource.PropConfigBool(15) Then AddSign.Sign_Show()
             Me.OpenerValue_Set(resource.PropConfig(2, 1))
             Select Case i
-                Case 0 To 1
-                    If resource.PropWrite2ChatBool(0) Then Module_Write2Chat.Write2Chat_Send(Objective(i).Text_Generate(timing.Buff_End(Objective(i).GetDurationMin, runningTime, startingDateTime)), False)
-                Case 2 To 5
-                    If resource.PropWrite2ChatBool(1) Then Module_Write2Chat.Write2Chat_Send(Objective(i).Text_Generate(timing.Buff_End(Objective(i).GetDurationMin, runningTime, startingDateTime)), False)
-                Case 6
-                    If resource.PropWrite2ChatBool(2) Then Module_Write2Chat.Write2Chat_Send(Objective(i).Text_Generate(timing.Buff_End(Objective(i).GetDurationMin, runningTime, startingDateTime)), False)
+                Case 0 To 1 : If resource.PropWrite2ChatBool(0) Then Module_Write2Chat.Write2Chat_Send(Objective(i).Text_Generate(timing.Buff_End(Objective(i).GetDurationMin, runningTime, startingDateTime)), False)
+                Case 2 To 5 : If resource.PropWrite2ChatBool(1) Then Module_Write2Chat.Write2Chat_Send(Objective(i).Text_Generate(timing.Buff_End(Objective(i).GetDurationMin, runningTime, startingDateTime)), False)
+                Case 6 : If resource.PropWrite2ChatBool(2) Then Module_Write2Chat.Write2Chat_Send(Objective(i).Text_Generate(timing.Buff_End(Objective(i).GetDurationMin, runningTime, startingDateTime)), False)
             End Select
         End If
         ButtonPressed = False
@@ -1070,6 +1076,7 @@ Public Class LJTD
             For i = 0 To 5
                 label(i).Visible = False
                 LabelEndtime(i).Visible = False
+                button(i).BackgroundImage = imgObjectiveDisabled(i)
             Next
         Else
             Label_GameClock.Text = initialTimerPresetValue & initialTimerDelay
@@ -1082,7 +1089,7 @@ Public Class LJTD
             Next
             gameFinished = True
             GameClockRunning = False
-            Configuration.TeamSyncBuffs_Reset()
+            Configuration.TeamSyncObjectives_Reset()
             runningTime = 0
             ObjectiveOverview.WindowText_Update(txtObjectiveOverview)
             For i = 0 To 5
@@ -1098,6 +1105,7 @@ Public Class LJTD
     Private Sub Buttons_AntiStuck()
         For i = 0 To button.Length - 1
             button(i).Enabled = True
+            buffRunning(i) = False
         Next
     End Sub
     Private Sub ButtonMinimize_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Minimize.Click
@@ -1109,7 +1117,7 @@ Public Class LJTD
     Private Sub LJTDForm_Closing(ByVal sender As System.Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
         NotifyIcon.Dispose()
         Module_Validator.DatabaseEntry_Add(0)
-        Configuration.TeamSyncBuffs_Reset()
+        Configuration.TeamSyncObjectives_Reset()
         pushHotkey.KeyHook_Enable = False
     End Sub
     Private Sub ButtonDisableAutoStart_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_DisableAutoStart.Click
@@ -1184,7 +1192,7 @@ Public Class LJTD
             MiniMap.ShowForm = False
             GameClockRunning = False
             Button_Start.Image = My.Resources.LJTD_Button_START
-            Configuration.TeamSyncBuffs_Reset()
+            Configuration.TeamSyncObjectives_Reset()
         End If
     End Sub
 #End Region

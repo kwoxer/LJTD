@@ -5,6 +5,7 @@ Public Class Wizard_Tutorial
     Private urlFAQ As String = "http://www.ljtd.net/misc/faq/"
     Private urlForum As String = "http://www.ljtd.net/forum/"
     Private urlBorderless As String = "http://www.ljtd.net/misc/faq/#set-lol-to-borderless"
+    Private urlFullscreen As String = "http://www.ljtd.net/jungle-timer-fullscreen-tutorial/"
     Private Sub WindowMove_Event(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseDown
         Module_WindowManagement.MoveEvent_Initialize(e, Handle)
     End Sub
@@ -34,6 +35,9 @@ Public Class Wizard_Tutorial
     End Sub
     Private Sub LinkLabel_Here_LinkClicked(sender As System.Object, e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel_Here.LinkClicked
         Process.Start(urlBorderless)
+    End Sub
+    Private Sub LinkLabel_Fullscreen_LinkClicked(sender As System.Object, e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel_Fullscreen.LinkClicked
+        Process.Start(urlFullscreen)
     End Sub
     Private Sub Button_Close_Click(sender As System.Object, e As System.EventArgs) Handles Button_Close.Click
         Me.Close()

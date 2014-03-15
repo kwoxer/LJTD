@@ -35,7 +35,7 @@ Partial Class TextOverlay
         Me.Label.AutoSize = True
         Me.Label.Font = New System.Drawing.Font("Microsoft YaHei UI", 20.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label.ForeColor = System.Drawing.Color.White
-        Me.Label.Location = New System.Drawing.Point(51, -2)
+        Me.Label.Location = New System.Drawing.Point(31, -1)
         Me.Label.Name = "Label"
         Me.Label.Size = New System.Drawing.Size(398, 35)
         Me.Label.TabIndex = 0
@@ -43,11 +43,11 @@ Partial Class TextOverlay
         '
         'PictureBox
         '
-        Me.PictureBox.BackColor = System.Drawing.Color.Black
+        Me.PictureBox.BackColor = System.Drawing.Color.FromArgb(CType(CType(200, Byte), Integer), CType(CType(190, Byte), Integer), CType(CType(200, Byte), Integer))
         Me.PictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.PictureBox.Location = New System.Drawing.Point(1, 6)
+        Me.PictureBox.Location = New System.Drawing.Point(1, 3)
         Me.PictureBox.Name = "PictureBox"
-        Me.PictureBox.Size = New System.Drawing.Size(50, 23)
+        Me.PictureBox.Size = New System.Drawing.Size(30, 30)
         Me.PictureBox.TabIndex = 1
         Me.PictureBox.TabStop = False
         '
@@ -59,7 +59,7 @@ Partial Class TextOverlay
         '
         Me.Timer_Fadeout.Interval = 20
         '
-        'IngameText
+        'TextOverlay
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -68,7 +68,7 @@ Partial Class TextOverlay
         Me.Controls.Add(Me.PictureBox)
         Me.Controls.Add(Me.Label)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
-        Me.Name = "IngameText"
+        Me.Name = "TextOverlay"
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "IngameText"

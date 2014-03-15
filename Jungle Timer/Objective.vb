@@ -75,7 +75,7 @@
         Dim timespan As TimeSpan = timespan.FromSeconds(durationSec)
         actualShownTimeMin = Timing.TimeSpan2MinSec_Parse(timespan)
         actualShownTimeSec = CStr(durationSec)
-        overallTime = GetActualShownTimeMin
+        overallTime = actualShownTimeMin
         running = False
         hotkey = _hotkey
     End Sub
@@ -91,8 +91,11 @@
         timer.Enabled = False
         diff = 0
     End Sub
-    Public Function Text_Generate(ByVal text As String) As String
-        Return name & resource.PropName(7, 1) & text
+    Public Function Text_Generate(ByVal time As String) As String
+        Dim helpString As String
+        helpString = resource.PropName(7, 1)
+        helpString = helpString.Replace("(NAME)", name).Replace("(TIME)", time)
+        Return helpString
     End Function
     Private Sub TimerObjective_Tick(ByVal source As Object, ByVal e As System.Timers.ElapsedEventArgs)
         diff = timing.DateDiffSec_Get(startingTime, Now())

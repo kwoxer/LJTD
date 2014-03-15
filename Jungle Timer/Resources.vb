@@ -437,7 +437,7 @@ Public Class Resources
                                  {"NAME_THEIR_BLUE", "Their Blue"},
                                  {"NAME_THEIR_RED", "Their Red"},
                                  {"NAME_FLASH", "Flash"},
-                                 {"NAME_TEXT", " at "}}
+                                 {"NAME_TEXT", "(NAME) at (TIME)"}}
     Public Property PropName(i As Integer, j As Integer) As String
         Get
             Return name(i, j)

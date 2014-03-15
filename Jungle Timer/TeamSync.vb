@@ -10,9 +10,9 @@
             Configuration.TeamSyncGeneratedWardRights = "0"
         End If
         If TeamSync_Groupbox_Buffs_Full.Checked Then
-            Configuration.TeamSyncGeneratedBuffRights = "1"
+            Configuration.TeamSyncGeneratedObjectiveRights = "1"
         Else
-            Configuration.TeamSyncGeneratedBuffRights = "0"
+            Configuration.TeamSyncGeneratedObjectiveRights = "0"
         End If
         Configuration.MainGroupBoxTeamSync_Generate()
         Me.Close()
@@ -20,18 +20,9 @@
     Private Sub ButtonTeamSyncGenerationAbort_Click(sender As System.Object, e As System.EventArgs) Handles TeamSync_GeneratingAbort.Click
         Me.Close()
     End Sub
-    'Private Sub TeamSyncGroupboxWardsFull_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles TeamSync_Groupbox_Wards_Full.CheckedChanged, TeamSync_Groupbox_Wards_Read.CheckedChanged
-    '    If TeamSync_Groupbox_Wards_Full.Checked Then
-    '        Configuration.TeamSyncGeneratedWardRights = "1"
-    '    Else
-    '        Configuration.TeamSyncGeneratedWardRights = "0"
-    '    End If
-    'End Sub
-
     Private Sub Button_Close_Click(sender As System.Object, e As System.EventArgs) Handles Button_Close.Click
         Me.Close()
     End Sub
-
     Private Sub TeamSync_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
         TeamSync_Groupbox_Buffs_Full.Checked = True
         TeamSync_Groupbox_Wards_Full.Checked = True

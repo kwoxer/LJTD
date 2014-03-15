@@ -149,7 +149,8 @@ Partial Class Wizard_Walkthrough
         Me.Panel_Contextmenu_LabelTop.Name = "Panel_Contextmenu_LabelTop"
         Me.Panel_Contextmenu_LabelTop.Size = New System.Drawing.Size(233, 58)
         Me.Panel_Contextmenu_LabelTop.TabIndex = 36
-        Me.Panel_Contextmenu_LabelTop.Text = "You can show the Contextmenu " & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "by rightclicking the LJTD icon" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "you see above"
+        Me.Panel_Contextmenu_LabelTop.Text = "You can show the Contextmenu " & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "by rightclicking the LJTD icon" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "in your tray as yo" & _
+    "u can see above"
         '
         'Panel_Contextmenu_Top
         '
@@ -448,11 +449,11 @@ Partial Class Wizard_Walkthrough
         Me.Controls.Add(Me.ProgressBar)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.Panel_ControlOverlay)
         Me.Controls.Add(Me.Panel_Contextmenu)
         Me.Controls.Add(Me.Panel_Settings)
         Me.Controls.Add(Me.Panel_OO)
         Me.Controls.Add(Me.Panel_Minimap)
-        Me.Controls.Add(Me.Panel_ControlOverlay)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "Wizard_Walkthrough"

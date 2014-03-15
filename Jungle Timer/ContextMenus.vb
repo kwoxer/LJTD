@@ -79,14 +79,10 @@
     ''' <remarks></remarks>
     Public Sub Write2ChatButtons_Initialize()
         If Configuration.resource.PropWrite2ChatBool(0) Then
-            'W2C_ButtonOff.Enabled = False
             W2C_ButtonOff.BackColor = Color.Gray
-            'W2C_ButtonOn.Enabled = True
             W2C_ButtonOn.BackColor = Color.Green
         Else
-            'W2C_ButtonOff.Enabled = True
             W2C_ButtonOff.BackColor = Color.Tomato
-            'W2C_ButtonOn.Enabled = False
             W2C_ButtonOn.BackColor = Color.Gray
         End If
     End Sub
@@ -97,28 +93,20 @@
     ''' <remarks></remarks>
     Public Sub Write2ChatButtons_Switch(status As Boolean)
         If status Then
-            'W2C_ButtonOff.Enabled = True
             W2C_ButtonOff.BackColor = Color.Tomato
-            'W2C_ButtonOn.Enabled = False
             W2C_ButtonOn.BackColor = Color.Gray
         Else
-            'W2C_ButtonOff.Enabled = False
             W2C_ButtonOff.BackColor = Color.Gray
-            'W2C_ButtonOn.Enabled = True
             W2C_ButtonOn.BackColor = Color.Green 
         End If
     End Sub
     Private Sub Button_Write2Chat_Off_Click(sender As System.Object, e As System.EventArgs) Handles W2C_ButtonOff.Click
         Configuration.resource.PropWrite2ChatBool(0) = True
         Write2ChatButtons_Switch(True)
-        'W2C_ButtonOff.BackColor = Color.Gray
-        ' W2C_ButtonOn.BackColor = Color.Green
     End Sub
     Private Sub Button_Write2Chat_On_Click(sender As System.Object, e As System.EventArgs) Handles W2C_ButtonOn.Click
         Configuration.resource.PropWrite2ChatBool(0) = False
         Write2ChatButtons_Switch(False)
-        ' W2C_ButtonOff.BackColor = Color.Gray
-        'W2C_ButtonOn.BackColor = Color.Green
     End Sub
 #End Region
     Private Sub ButtonClose_Click(sender As System.Object, e As System.EventArgs) Handles Close_Button.Click

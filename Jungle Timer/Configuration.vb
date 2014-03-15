@@ -7,12 +7,11 @@ Public Class Configuration
     Public ShowForm As Boolean
     Public Panel(6) As DoubleBufferPanel
     Public PushedKey As String
-    Public TeamSyncOnlineBuffChanges(5) As Boolean
-    Public TeamSyncGeneratedBuffRights As String = "0"
+    Public TeamSyncGeneratedObjectiveRights As String = "0"
     Public TeamSyncGeneratedWardRights As String = "0"
     Public TeamSyncTimerGetChanges As New Windows.Forms.Timer()
     Public TeamSyncValid As Boolean
-    Public TeamSyncOnlineRightsBuff As Boolean = False
+    Public TeamSyncOnlineRightsObjective As Boolean = False
     Public TeamSyncOnlineRightsWards As Boolean = False
     Public TeamSyncOnlineRightsOwner As Boolean = False
     Public Write2Config As New Write2Config
@@ -29,14 +28,14 @@ Public Class Configuration
     Private ljtdVersionAdditional As String = ""
     Private specialKey As Keys
     Private teamSyncGenerated As Boolean
-    Private teamSyncOnlineBuffRunning(5) As Boolean
+    Private teamSyncOnlineObjectiveRunning(5) As Boolean
     Private teamSyncGeneratedKey As String = ""
     Private teamSyncTimerGetChangesInterval As Integer = 1000
     Private teamSyncGeneratedKeyLimit As Integer
     Private Const tsURLMain As String = "http://www.ljtd.net/team/"
     Private teamSyncGeneratedURLs As String() = {tsURLMain & "genKey.php", tsURLMain & "checkKey.php", tsURLMain & "saveKey.php", tsURLMain & "resetBuff.php", tsURLMain & "getRights.php"}
     Private teamSyncGeneratedURLsCheckuser As String() = {tsURLMain & "countActualKeyuser.php", tsURLMain & "countOverallKeyuser.php"}
-    Private teamSyncGeneratedURLsBuff As String() = {tsURLMain & "setBuff.php", tsURLMain & "getBuff.php"}
+    Private teamSyncGeneratedURLsObjective As String() = {tsURLMain & "setBuff.php", tsURLMain & "getBuff.php"}
     Private teamSyncGeneratedURLsWard As String = tsURLMain & "getWard.php"
     Private txtTeamSyncUsage As String() = {"Current users: ", "Overall used: "}
     Private txtCurrentVersion As String = "Your current version: "
@@ -46,7 +45,7 @@ Public Class Configuration
     Private txtSearchLogFolder As String = "Please choose your Riot Games Log folder."
     Private txtTeamSyncGeneratingFailed As String = "Generating key failed!"
     Private txtTeamSyncChangeKey As String = "You need to generate a new key or paste a shared key from your team!"
-    Private txtTeamSyncCreateKey As String = "Key successfully created. Share this key with your Team now! Don't forget to click on the SAVE button!"
+    Private txtTeamSyncCreateKey As String = "Key successfully created. Share this key with your Team now! Don't forget to hit SAVE!"
     Private txtTeamSyncKeyAvailable As String = "Key hasn't been registered yet!"
     Private txtTeamSyncKeyAlreadyUsed As String = "Key is already used! You always join this team now. Be sure it's the right one."
     Private txtTeamSyncRestriction As String = "You man only register 5 keys right now."
@@ -112,7 +111,6 @@ Public Class Configuration
         Main_GroupBox_TeamSync_ButtonGenerate.FlatAppearance.BorderSize = 0
         Main_GroupBox_TeamSync_ButtonShare.FlatAppearance.BorderSize = 0
         Main_GroupBox_AutoStart_Location_Button.FlatAppearance.BorderSize = 0
-
         On Error Resume Next
         Panel(0).BackgroundImage = Image.FromFile(resource.PropPicMiscBackground(0))
         Panel(1).BackgroundImage = Image.FromFile(resource.PropPicMiscBackground(1))
@@ -128,7 +126,6 @@ Public Class Configuration
         TabButton_Design.BackgroundImage = Image.FromFile(resource.PropPicMiscConfigTab(4))
         TabButton_MiniMap.BackgroundImage = Image.FromFile(resource.PropPicMiscConfigTab(5))
         TabButton_Name.BackgroundImage = Image.FromFile(resource.PropPicMiscConfigTab(6))
-
     End Sub
     Private Sub PanelMouseDown_Events(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Panel_Main.MouseDown, Panel_Slideout.MouseDown, _
         Panel_W2C.MouseDown, Panel_Hotkey.MouseDown, Panel_Design.MouseDown, Panel_MiniMap.MouseDown, Panel_Name.MouseDown
@@ -408,7 +405,6 @@ Public Class Configuration
             ConfigFileDelete.ShowDialog()
         End If
     End Sub
-
     Private Sub MainGroupBoxCheckVersionButtonDownload_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Main_GroupBox_CheckVersion_Button_Download.Click
         Updater.Show()
         Updater.Updater_Load(newestVersion, 1)
@@ -474,9 +470,9 @@ Public Class Configuration
             Dim teamSyncKeyAvailable As Byte() = webClient.UploadValues(teamSyncGeneratedURLs(1), nvc)
             Dim teamSyncKeyAvailableBool As Boolean = CBool(System.Text.Encoding.ASCII.GetString(teamSyncKeyAvailable))
             If teamSyncKeyAvailableBool And teamSyncGenerated Then
-                webClient.UploadValues(teamSyncGeneratedURLs(2), Module_NVC.NVCSaveKey_Create(id, 0, TeamSyncGeneratedBuffRights, TeamSyncGeneratedWardRights))
+                webClient.UploadValues(teamSyncGeneratedURLs(2), Module_NVC.NVCSaveKey_Create(id, 0, TeamSyncGeneratedObjectiveRights, TeamSyncGeneratedWardRights))
             Else
-                webClient.UploadValues(teamSyncGeneratedURLs(2), Module_NVC.NVCSaveKey_Create(id, 1, TeamSyncGeneratedBuffRights, TeamSyncGeneratedWardRights))
+                webClient.UploadValues(teamSyncGeneratedURLs(2), Module_NVC.NVCSaveKey_Create(id, 1, TeamSyncGeneratedObjectiveRights, TeamSyncGeneratedWardRights))
             End If
             Dim countActualKeyuser As Byte() = webClient.UploadValues(teamSyncGeneratedURLsCheckuser(0), nvc)
             Dim countActualKeyuserValue As String = System.Text.Encoding.ASCII.GetString(countActualKeyuser)
@@ -523,21 +519,9 @@ Public Class Configuration
         End Try
     End Sub
     Public Sub MainGroupBoxTeamSyncOnlineRights_Update(ByVal rights As String)
-        If Mid(rights, 1, 12) = Module_Generate.MacAddress Then
-            TeamSyncOnlineRightsOwner = True
-        Else
-            TeamSyncOnlineRightsOwner = False
-        End If
-        If CDbl(Mid(rights, 13, 1)) = 1 Then
-            TeamSyncOnlineRightsBuff = True
-        Else
-            TeamSyncOnlineRightsBuff = False
-        End If
-        If CDbl(Mid(rights, 14, 1)) = 1 Then
-            TeamSyncOnlineRightsWards = True
-        Else
-            TeamSyncOnlineRightsWards = False
-        End If
+        If Mid(rights, 1, 12) = Module_Generate.MacAddress Then TeamSyncOnlineRightsOwner = True Else TeamSyncOnlineRightsOwner = False
+        If CDbl(Mid(rights, 13, 1)) = 1 Then TeamSyncOnlineRightsObjective = True Else TeamSyncOnlineRightsObjective = False
+        If CDbl(Mid(rights, 14, 1)) = 1 Then TeamSyncOnlineRightsWards = True Else TeamSyncOnlineRightsWards = False
     End Sub
     Private Sub MainGroupBoxTeamSyncButtonShare_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Main_GroupBox_TeamSync_ButtonShare.Click
         Process.Start(tsURLMain & "/share/" & teamSyncGeneratedKey)
@@ -547,7 +531,7 @@ Public Class Configuration
             Dim webClient1 As New Net.WebClient
             AddHandler webClient1.UploadValuesCompleted, AddressOf ObjectivesDownload_Completed
             Try
-                webClient1.UploadValuesAsync(New Uri(teamSyncGeneratedURLsBuff(1)), Module_NVC.NVCID_Create(Main_GroupBox_TeamSync_TextBoxGeneratedKey.Text))
+                webClient1.UploadValuesAsync(New Uri(teamSyncGeneratedURLsObjective(1)), Module_NVC.NVCID_Create(Main_GroupBox_TeamSync_TextBoxGeneratedKey.Text))
             Catch ex As Exception
             End Try
             Dim webClient2 As New Net.WebClient
@@ -558,20 +542,31 @@ Public Class Configuration
     End Sub
     Private Sub ObjectivesDownload_Completed(ByVal sender As Object, ByVal e As UploadValuesCompletedEventArgs)
         Try
-            Dim teamSyncKeyGetBuffString = System.Text.Encoding.ASCII.GetString(e.Result)
-            For i = 0 To teamSyncOnlineBuffRunning.Length - 1
-                teamSyncOnlineBuffRunning(i) = CBool(Mid(teamSyncKeyGetBuffString, i + 1, 1))
+            Dim teamSyncKeyGetObjectiveString = System.Text.Encoding.ASCII.GetString(e.Result)
+            For i = 0 To teamSyncOnlineObjectiveRunning.Length - 1
+                teamSyncOnlineObjectiveRunning(i) = CBool(Mid(teamSyncKeyGetObjectiveString, i + 1, 1))
             Next
         Catch ex As Exception
             Module_Logfile.Logfile_Append("Downloading Objective coordinates for TeamSync stats failed.")
         End Try
-        For i = 0 To 5
-            If LJTD.TeamSyncOfflineObjectiveRunning(i) = teamSyncOnlineBuffRunning(i) Then
-                TeamSyncOnlineBuffChanges(i) = False
-            Else
-                TeamSyncOnlineBuffChanges(i) = True
-            End If
-        Next
+        If LJTD.GameClockRunning Then
+            For i = 0 To 5
+                Dim helpMatchingBool As Boolean = LJTD.TeamSyncOfflineObjectiveRunning(i) = teamSyncOnlineObjectiveRunning(i)
+                'If Not helpMatchingBool And LJTD.button(i).Enabled Then
+                '    LJTD.Objective_Start(i)
+                'End If
+
+                If Not helpMatchingBool And Not (LJTD.buffRunning(i) = teamSyncOnlineObjectiveRunning(i)) Then
+                    LJTD.Objective_Switch(i)
+                    ' LJTD.buffRunning(i) = True
+                End If
+                'And Not LJTD.buffRunning(i)
+
+                'If LJTD.Objective(i).GetActualShownTimeSec > 5 Then
+
+                'End If
+            Next
+        End If
         Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.CreateSpecificCulture("en-US")
     End Sub
     Private Sub WardsDownload_Completed(ByVal sender As Object, ByVal e As UploadValuesCompletedEventArgs)
@@ -582,37 +577,31 @@ Public Class Configuration
         Dim deleteOldWards = oldWardList.Except(teamSyncKeyGetWardDouble).ToList
         MiniMap.TeamSyncWards_Delete(deleteOldWards)
     End Sub
-    Public Sub TeamSync_SetChanges(ByVal buffID As Integer, ByVal reset As Boolean)
-        If TeamSyncValid And (TeamSyncOnlineRightsBuff Or TeamSyncOnlineRightsOwner) Then
+    Public Sub TeamSync_SetChanges(ByVal objectiveID As Integer, ByVal reset As Boolean)
+        If TeamSyncValid And (TeamSyncOnlineRightsObjective Or TeamSyncOnlineRightsOwner) Then
             Dim webClient As New Net.WebClient
             Dim status As Integer
-            Dim buffName As String = ""
-            If LJTD.TeamSyncOfflineObjectiveRunning(buffID) Then
-                status = 1
-            Else
-                status = 0
-            End If
-            If reset Then
-                status = 0
-            End If
-            Select Case (buffID)
-                Case 0 : buffName = "Baron"
-                Case 1 : buffName = "Dragon"
-                Case 2 : buffName = "OurBlue"
-                Case 3 : buffName = "OurRed"
-                Case 4 : buffName = "TheirBlue"
-                Case 5 : buffName = "TheirRed"
+            Dim objectiveName As String = ""
+            If LJTD.TeamSyncOfflineObjectiveRunning(objectiveID) Then status = 1 Else status = 0
+            If reset Then status = 0
+            Select Case (objectiveID)
+                Case 0 : objectiveName = "Baron"
+                Case 1 : objectiveName = "Dragon"
+                Case 2 : objectiveName = "OurBlue"
+                Case 3 : objectiveName = "OurRed"
+                Case 4 : objectiveName = "TheirBlue"
+                Case 5 : objectiveName = "TheirRed"
             End Select
-            Dim nvc = Module_NVC.NVCSetBuff_Create(Main_GroupBox_TeamSync_TextBoxGeneratedKey.Text, buffName, status)
+            Dim nvc = Module_NVC.NVCSetBuff_Create(Main_GroupBox_TeamSync_TextBoxGeneratedKey.Text, objectiveName, status)
             Try
-                webClient.UploadValuesAsync(New Uri(teamSyncGeneratedURLsBuff(0)), nvc)
+                webClient.UploadValuesAsync(New Uri(teamSyncGeneratedURLsObjective(0)), nvc)
             Catch ex As Exception
                 Module_Logfile.Logfile_Append("Uploading data for TeamSync stats failed.")
             End Try
         End If
     End Sub
-    Public Sub TeamSyncBuffs_Reset()
-        If TeamSyncValid And (TeamSyncOnlineRightsBuff Or TeamSyncOnlineRightsOwner) Then
+    Public Sub TeamSyncObjectives_Reset()
+        If TeamSyncValid And (TeamSyncOnlineRightsObjective Or TeamSyncOnlineRightsOwner) Then
             Dim webClient As New Net.WebClient
             Dim nvc = Module_NVC.NVCID_Create(Main_GroupBox_TeamSync_TextBoxGeneratedKey.Text)
             Try
@@ -1305,22 +1294,4 @@ Public Class Configuration
 #End Region
 
 
-    Private Sub MacrosGroupboxMacro_SetEnableStatus(sender As System.Object, e As System.EventArgs) Handles Macros_GroupBox_Macro_CheckBox.CheckedChanged
-
-    End Sub
-    Private Sub MiniMapGroupBoxShowDurations_SetEnableStatus(sender As System.Object, e As System.EventArgs) Handles MiniMap_GroupBox_ShowDurationsShow_CheckBox.CheckedChanged
-
-    End Sub
-    Private Sub MiniMapGroupBoxShowDurationsUseOwn_SetEnableStatus(sender As System.Object, e As System.EventArgs) Handles MiniMap_GroupBox_ShowDurationsUseOwn_CheckBox.CheckedChanged
-
-    End Sub
-    Private Sub MiniMapGroupBoxWardMap_SetEnableStatus(sender As System.Object, e As System.EventArgs) Handles MiniMap_GroupBox_WardMap_CheckBox.CheckedChanged
-
-    End Sub
-    Private Sub MiniMapGroupBoxPings_SetEnableStatus(sender As System.Object, e As System.EventArgs) Handles MiniMap_GroupBox_PlaySoundPings_Ping_Checkbox.CheckedChanged
-
-    End Sub
-    Private Sub HotkeyNameTextBoxKeys_KeyDown(sender As System.Object, e As System.Windows.Forms.KeyEventArgs) Handles MiniMap_GroupBox_WardMap_TextBox.KeyDown, Macros_GroupBox_Macro_TextBox_Hotkey_6.KeyDown, Macros_GroupBox_Macro_TextBox_Hotkey_5.KeyDown, Macros_GroupBox_Macro_TextBox_Hotkey_4.KeyDown, Macros_GroupBox_Macro_TextBox_Hotkey_3.KeyDown, Macros_GroupBox_Macro_TextBox_Hotkey_2.KeyDown, Macros_GroupBox_Macro_TextBox_Hotkey_1.KeyDown, Hotkey_GroupBox_Hotkeys_TextBox_TR.KeyDown, Hotkey_GroupBox_Hotkeys_TextBox_TB.KeyDown, Hotkey_GroupBox_Hotkeys_TextBox_OR.KeyDown, Hotkey_GroupBox_Hotkeys_TextBox_OB.KeyDown, Hotkey_GroupBox_Hotkeys_TextBox_Flash.KeyDown, Hotkey_GroupBox_Hotkeys_TextBox_Dragon.KeyDown, Hotkey_GroupBox_Hotkeys_TextBox_Baron.KeyDown
-
-    End Sub
 End Class

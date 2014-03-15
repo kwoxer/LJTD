@@ -34,6 +34,7 @@ Partial Class Wizard_Tutorial
         Me.ShowAgain_CheckBox = New System.Windows.Forms.CheckBox()
         Me.Button_Close = New System.Windows.Forms.Button()
         Me.LinkLabel_Here = New System.Windows.Forms.LinkLabel()
+        Me.LinkLabel_Fullscreen = New System.Windows.Forms.LinkLabel()
         Me.SuspendLayout()
         '
         'Button_Walkthrough
@@ -178,6 +179,19 @@ Partial Class Wizard_Tutorial
         Me.LinkLabel_Here.TabStop = True
         Me.LinkLabel_Here.Text = "Here"
         '
+        'LinkLabel_Fullscreen
+        '
+        Me.LinkLabel_Fullscreen.AutoSize = True
+        Me.LinkLabel_Fullscreen.BackColor = System.Drawing.Color.Transparent
+        Me.LinkLabel_Fullscreen.Font = New System.Drawing.Font("Visitor TT2 (BRK)", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LinkLabel_Fullscreen.LinkColor = System.Drawing.Color.CornflowerBlue
+        Me.LinkLabel_Fullscreen.Location = New System.Drawing.Point(216, 240)
+        Me.LinkLabel_Fullscreen.Name = "LinkLabel_Fullscreen"
+        Me.LinkLabel_Fullscreen.Size = New System.Drawing.Size(75, 11)
+        Me.LinkLabel_Fullscreen.TabIndex = 44
+        Me.LinkLabel_Fullscreen.TabStop = True
+        Me.LinkLabel_Fullscreen.Text = "Fullscreen"
+        '
         'Wizard_Tutorial
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -185,6 +199,7 @@ Partial Class Wizard_Tutorial
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.BackgroundImage = Global.My.Resources.Resources.WIZARD_BG
         Me.ClientSize = New System.Drawing.Size(500, 500)
+        Me.Controls.Add(Me.LinkLabel_Fullscreen)
         Me.Controls.Add(Me.LinkLabel_Here)
         Me.Controls.Add(Me.Button_Close)
         Me.Controls.Add(Me.ShowAgain_CheckBox)
@@ -217,4 +232,5 @@ Partial Class Wizard_Tutorial
     Friend WithEvents ShowAgain_CheckBox As System.Windows.Forms.CheckBox
     Friend WithEvents Button_Close As System.Windows.Forms.Button
     Friend WithEvents LinkLabel_Here As System.Windows.Forms.LinkLabel
+    Friend WithEvents LinkLabel_Fullscreen As System.Windows.Forms.LinkLabel
 End Class

@@ -3,22 +3,22 @@
     Private counter As Integer = 0
     Private resource As Resources = Resources.Resources
     Private objectiveNames() As String = {"Baron", "Dragon", "Our Blue", "Our Red", "Their Blue", "Their Red"}
-    Private slideAmount() As Integer = {90, 75, 115}
+    Private slideAmount() As Integer = {140, 75, 170}
     Private Sub IngameText_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Me.Visible = True
         Try
             objectivePicture(0) = New PictureBox
             objectivePicture(0).BackgroundImage = Image.FromFile(resource.PropPicBuffSR(0))
             objectivePicture(1) = New PictureBox
-            objectivePicture(1).BackgroundImage = Image.FromFile(resource.PropPicBuffSR(1))
+            objectivePicture(1).BackgroundImage = Image.FromFile(resource.PropPicBuffSR(3))
             objectivePicture(2) = New PictureBox
-            objectivePicture(2).BackgroundImage = Image.FromFile(resource.PropPicBuffSR(2))
+            objectivePicture(2).BackgroundImage = Image.FromFile(resource.PropPicBuffSR(6))
             objectivePicture(3) = New PictureBox
-            objectivePicture(3).BackgroundImage = Image.FromFile(resource.PropPicBuffSR(3))
+            objectivePicture(3).BackgroundImage = Image.FromFile(resource.PropPicBuffSR(9))
             objectivePicture(4) = New PictureBox
-            objectivePicture(4).BackgroundImage = Image.FromFile(resource.PropPicBuffSR(4))
+            objectivePicture(4).BackgroundImage = Image.FromFile(resource.PropPicBuffSR(12))
             objectivePicture(5) = New PictureBox
-            objectivePicture(5).BackgroundImage = Image.FromFile(resource.PropPicBuffSR(5))
+            objectivePicture(5).BackgroundImage = Image.FromFile(resource.PropPicBuffSR(15))
         Catch ex As Exception
             Module_Logfile.Logfile_Append("Some images cound not be found!")
         End Try

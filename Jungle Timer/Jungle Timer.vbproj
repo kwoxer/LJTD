@@ -169,7 +169,7 @@
     </WarningsAsErrors>
     <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <DefineDebug>false</DefineDebug>
+    <DefineDebug>true</DefineDebug>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
@@ -201,6 +201,11 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Wizard_Walkthrough.Designer.vb">
       <DependentUpon>Wizard_Walkthrough.vb</DependentUpon>
     </Compile>
@@ -271,11 +276,6 @@
     </Compile>
     <Compile Include="TextOverlay.vb">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="My Project\Resources.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Objective.vb" />
     <Compile Include="Configuration.Designer.vb">
@@ -437,6 +437,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="ljtd.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="My Project\app.manifest" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
@@ -471,30 +474,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ljtd.ini">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="res\Advanced 5on5.ini">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="res\Default 3on3.ini">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="res\Default 5on5.ini">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="res\Misc\LJTD1.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="res\Misc\LJTD2.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="res\Professional 5on5.ini">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="res\Support 5on5.ini">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="Resources\LJTD_green.ico" />
     <None Include="Resources\LJTD_Panel.png" />
     <None Include="Resources\Config_Button_LINKS_youtube.png" />
@@ -601,6 +580,27 @@
     <None Include="Resources\MINIMAP_Ward_180sec_orig.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\Advanced 5on5.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="res\Default 3on3.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="res\Default 5on5.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="res\Misc\LJTD1.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="res\Misc\LJTD2.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="res\Professional 5on5.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="res\Support 5on5.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\Updater_BG.png" />
   </ItemGroup>
   <ItemGroup>
@@ -748,8 +748,6 @@
     <None Include="Resources\OBJECTIVE_Vilemaw_Disabled.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\CONTEXTMENU_BG.png" />
-    <Content Include="Resources\SETTINGS_Button_SAVE.png" />
     <Content Include="res\Buffs\README.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -1026,7 +1024,9 @@
     <Content Include="res\Sound\Our Red in 30 seconds.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="res\Sound\README.txt" />
+    <Content Include="res\Sound\README.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="res\Sound\Their Blue in 1 minute.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -1045,10 +1045,9 @@
     <Content Include="res\Sound\Their Red in 30 seconds.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\SETTINGS_Button_SAVE.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="res\Misc\CONFIG\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
