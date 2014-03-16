@@ -94,7 +94,7 @@
     Public Function Text_Generate(ByVal time As String) As String
         Dim helpString As String
         helpString = resource.PropName(7, 1)
-        helpString = helpString.Replace("(NAME)", name).Replace("(TIME)", time)
+        helpString = helpString.Replace("(NAME)", name).Replace("(name)", name).Replace("(TIME)", time).Replace("(time)", time)
         Return helpString
     End Function
     Private Sub TimerObjective_Tick(ByVal source As Object, ByVal e As System.Timers.ElapsedEventArgs)
