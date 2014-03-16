@@ -11,7 +11,6 @@
     Private Declare Function apiShowWindow Lib "user32" Alias "ShowWindow" (ByVal hwnd As IntPtr, ByVal nCmdShow As Integer) As Integer
     Private Const SW_NORMAL As Integer = 1
     Private resource As Resources = Resources.Resources
-
     Public Structure PointAPI
         Public x As Integer
         Public y As Integer
@@ -40,8 +39,6 @@
         x = pt.x
         y = pt.y
     End Sub
-
-
     Public Sub MoveEvent_Initialize(ByVal e As Object, ByVal handle As Object)
         If (e.Button = Windows.Forms.MouseButtons.Left) Then
             ReleaseCapture()
@@ -52,23 +49,16 @@
         If LJTD.GameClockRunning Then
             If resource.PropConfigBool(28) Then
                 SetBackupCursorPos()
-                Position_Click(Module_Generate.ScreenWidth / 2, Module_Generate.ScreenHeight / 2, True)
                 Threading.Thread.Sleep(100)
+                Position_Click(Module_Generate.ScreenWidth / 2, Module_Generate.ScreenHeight / 2, True)
+                If LJTD.clickMode = "Left" Then
+                    Threading.Thread.Sleep(100)
+                End If
                 Position_Click(x, y, False)
             End If
         End If
     End Sub
     'Public Sub Foreground_Set_Old()
-    '    Dim iProcessID As Integer
-    '    iProcessID = tHandle
-    '    If LJTD.GameClockRunning Then
-    '        'For Each p As Process In Process.GetProcessesByName("TeamSpeak 3")
-    '        '    AppActivate(p.Id)
-    '        'Next
-    '        BringWindowToTop(tHandle)
-    '    End If
+    '    SetForegroundWindow(tHandle)
     'End Sub
-    Public Sub Foreground_Set_Old()
-        SetForegroundWindow(tHandle)
-    End Sub
 End Module

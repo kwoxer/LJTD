@@ -12,13 +12,15 @@ Public Class LJTD
     Public ImgControlOverlay As Image
     Public ButtonPressed As Boolean = False
     Public UnsavedOpacity As Double
+    Public clickMode As String
+    Public button(6) As Button
+    Public buffRunning(6) As Boolean
     Private runningTime As Integer
     Private startingDateTime As Date
     Private timing As New Timing
     Private showForm As Boolean = False, gameFinished As Boolean = True, autoStartFeature As Boolean = True
     Private slideFading As Integer, slideFadingAmount As Integer, slideFadingAmounts As Integer() = {7.4, 14.1, 0}
     Private label(6) As Label
-    Public button(6) As Button
     Private imgObjectiveNormal(6), imgObjectiveMousehover(6), imgObjectiveDisabled(6) As Image
     Private pushHotkey As New PushHotkey
     Private WithEvents fileStreamWatcher As New FileSystemWatcher
@@ -42,13 +44,11 @@ Public Class LJTD
     Private overlay As Button
     Private stopButton As Image
     Private buffRunningPreventLags(6) As Boolean
-    Public buffRunning(6) As Boolean
     Private Const showBalloonTipDuration As Integer = 5000
     Private Const initialTimerPresetValue As String = "0:"
     Private Const urlFAQWebsite As String = "http://www.ljtd.net/misc/faq/"
     Private animatedIcon(12) As Icon
     Private currentIcon As Integer = 0
-    
 
     Public Sub Resource_Refresh()
         resource = Resources.Resources
@@ -208,6 +208,11 @@ Public Class LJTD
         Label_Baron.MouseClick, Label_Baron.DoubleClick, Label_BaronEndtime.MouseClick, Label_BaronEndtime.DoubleClick, Label_TheirBlue.MouseClick, Label_TheirBlue.DoubleClick, _
         Label_TheirBlueEndtime.MouseClick, Label_TheirBlueEndtime.DoubleClick, Label_TheirRed.MouseClick, Label_TheirRed.DoubleClick, Label_TheirRedEndtime.MouseClick, _
         Label_TheirRedEndtime.DoubleClick, Label_Flash.MouseClick, Label_Flash.DoubleClick, Label_GameClock.MouseClick, Label_GameClock.DoubleClick
+        If e.Button = MouseButtons.Right Then
+            clickMode = "Right"
+        Else
+            clickMode = "Left"
+        End If
         Module_WindowManagement.Foreground_Set()
     End Sub
     Private Sub MouseDown_Events(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Panel.MouseDown, Label_OurBlue.MouseDown, _
@@ -1028,7 +1033,6 @@ Public Class LJTD
             LabelEndtime(i).Visible = False
             If i <> 6 Then MiniMap.MinimapPing(i).Objective_End()
             If resource.PropConfig(26, 1) = "Restart" Then Objective_Switch(i)
-
         Else
             buffRunning(i) = True
             Objective(i).Objective_Start()
