@@ -162,6 +162,8 @@
     Private Sub Button_Settings_Click(sender As System.Object, e As System.EventArgs) Handles Settings_Button.Click
         ShowForm = False
         Timer_Fadingout.Start()
+        LJTD.Timer_TopMost.Stop()
+        MiniMap.Timer_TopMost.Stop()
         Configuration.Show()
     End Sub
     Private Sub Button_SettingsFile_Click(sender As System.Object, e As System.EventArgs) Handles SettingsFile_Button.Click

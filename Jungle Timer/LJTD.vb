@@ -968,7 +968,7 @@ Public Class LJTD
             Else
                 button(CInt(tempButton.Tag)).BackgroundImage = imgObjectiveMousehover(CInt(tempButton.Tag))
                 If resource.PropConfigInt(17) = 1 Then
-                    button(CInt(tempButton.Tag)).BackgroundImage = imgObjectiveMousehover(6)
+                    button(0).BackgroundImage = imgObjectiveMousehover(6)
                 End If
             End If
         End If
@@ -1035,9 +1035,9 @@ Public Class LJTD
             If resource.PropConfig(26, 1) = "Restart" Then Objective_Switch(i)
         Else
             buffRunning(i) = True
-            Objective(i).Objective_Start()
             button(i).Enabled = False
             button(i).BackgroundImage = imgObjectiveNormal(i)
+            Objective(i).Objective_Start()
             label(i).Visible = True
             If resource.PropConfigBool(6) And i <> 6 Then
                 LabelEndtime(i).Visible = True
@@ -1137,6 +1137,8 @@ Public Class LJTD
         ObjectiveOverview.Show()
     End Sub
     Private Sub Button_Settings_Click(sender As System.Object, e As System.EventArgs) Handles Button_Settings.Click
+        Timer_TopMost.Stop()
+        MiniMap.Timer_TopMost.Stop()
         Configuration.Show()
     End Sub
 #End Region

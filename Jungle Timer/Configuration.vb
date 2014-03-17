@@ -132,7 +132,7 @@ Public Class Configuration
         Module_WindowManagement.MoveEvent_Initialize(e, Handle)
     End Sub
     Private Sub ButtonCloseClick_Event(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Close.Click
-        Me.Close()
+        Me.Visible = False
         LJTD.Timer_TopMost.Start()
         MiniMap.Timer_TopMost.Start()
         ShowForm = False
@@ -178,6 +178,8 @@ Public Class Configuration
         End If
         MiniMap.MiniMap_Refresh()
         ljtdColor.ColorClicked_Set(Button_Save)
+        LJTD.Timer_TopMost.Stop()
+        MiniMap.Timer_TopMost.Stop()
     End Sub
 
     Private Sub ButtonSaveMouseEnter_Event(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button_Save.MouseEnter
@@ -536,8 +538,10 @@ Public Class Configuration
             End Try
             Dim webClient2 As New Net.WebClient
             AddHandler webClient2.UploadValuesCompleted, AddressOf WardsDownload_Completed
-            Dim nvc = Module_NVC.NVCGetWard_Create(Main_GroupBox_TeamSync_TextBoxGeneratedKey.Text)
-            webClient2.UploadValuesAsync(New Uri(teamSyncGeneratedURLsWard), nvc)
+            Try
+                webClient2.UploadValuesAsync(New Uri(teamSyncGeneratedURLsWard), Module_NVC.NVCGetWard_Create(Main_GroupBox_TeamSync_TextBoxGeneratedKey.Text))
+            Catch ex As Exception
+            End Try
         End If
     End Sub
     Private Sub ObjectivesDownload_Completed(ByVal sender As Object, ByVal e As UploadValuesCompletedEventArgs)
@@ -552,19 +556,9 @@ Public Class Configuration
         If LJTD.GameClockRunning Then
             For i = 0 To 5
                 Dim helpMatchingBool As Boolean = LJTD.TeamSyncOfflineObjectiveRunning(i) = teamSyncOnlineObjectiveRunning(i)
-                'If Not helpMatchingBool And LJTD.button(i).Enabled Then
-                '    LJTD.Objective_Start(i)
-                'End If
-
                 If Not helpMatchingBool And Not (LJTD.buffRunning(i) = teamSyncOnlineObjectiveRunning(i)) Then
                     LJTD.Objective_Switch(i)
-                    ' LJTD.buffRunning(i) = True
                 End If
-                'And Not LJTD.buffRunning(i)
-
-                'If LJTD.Objective(i).GetActualShownTimeSec > 5 Then
-
-                'End If
             Next
         End If
         Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.CreateSpecificCulture("en-US")
@@ -579,11 +573,10 @@ Public Class Configuration
     End Sub
     Public Sub TeamSync_SetChanges(ByVal objectiveID As Integer, ByVal reset As Boolean)
         If TeamSyncValid And (TeamSyncOnlineRightsObjective Or TeamSyncOnlineRightsOwner) Then
-            Dim webClient As New Net.WebClient
             Dim status As Integer
-            Dim objectiveName As String = ""
             If LJTD.TeamSyncOfflineObjectiveRunning(objectiveID) Then status = 1 Else status = 0
             If reset Then status = 0
+            Dim objectiveName As String = ""
             Select Case (objectiveID)
                 Case 0 : objectiveName = "Baron"
                 Case 1 : objectiveName = "Dragon"
@@ -594,7 +587,8 @@ Public Class Configuration
             End Select
             Dim nvc = Module_NVC.NVCSetBuff_Create(Main_GroupBox_TeamSync_TextBoxGeneratedKey.Text, objectiveName, status)
             Try
-                webClient.UploadValuesAsync(New Uri(teamSyncGeneratedURLsObjective(0)), nvc)
+                Dim webClient As New Net.WebClient
+                WebClient.UploadValuesAsync(New Uri(teamSyncGeneratedURLsObjective(0)), nvc)
             Catch ex As Exception
                 Module_Logfile.Logfile_Append("Uploading data for TeamSync stats failed.")
             End Try
@@ -602,10 +596,10 @@ Public Class Configuration
     End Sub
     Public Sub TeamSyncObjectives_Reset()
         If TeamSyncValid And (TeamSyncOnlineRightsObjective Or TeamSyncOnlineRightsOwner) Then
-            Dim webClient As New Net.WebClient
             Dim nvc = Module_NVC.NVCID_Create(Main_GroupBox_TeamSync_TextBoxGeneratedKey.Text)
             Try
-                webClient.UploadValuesAsync(New Uri(teamSyncGeneratedURLs(3)), nvc)
+                Dim webClient As New Net.WebClient
+                WebClient.UploadValuesAsync(New Uri(teamSyncGeneratedURLs(3)), nvc)
             Catch ex As Exception
                 Module_Logfile.Logfile_Append("Reseting objectives for TeamSync stats failed.")
             End Try
@@ -1294,4 +1288,5 @@ Public Class Configuration
 #End Region
 
 
+ 
 End Class
