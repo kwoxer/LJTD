@@ -458,7 +458,7 @@ Public Class Configuration
         If Main_GroupBox_TeamSync_TextBoxGeneratedKey.Text.Length < 10 And teamSyncGenerated = False Then
             Main_GroupBox_TeamSync_Label.Text = txtTeamSyncChangeKey
             Main_GroupBox_TeamSync_TextBoxGeneratedKey.ForeColor = Color.Black
-            Main_GroupBox_TeamSync_TextBoxGeneratedKey.Font = New Font("Visitor TT2 (brk)", 14, FontStyle.Regular)
+            Main_GroupBox_TeamSync_TextBoxGeneratedKey.Font = New Font("Agency FB", 12, FontStyle.Regular)
             Main_GroupBox_TeamSync_ButtonShare.Enabled = False
             Main_GroupBox_TeamSync_LabelCurrentUsers.Text = txtTeamSyncUsage(0) & "0"
             Main_GroupBox_TeamSync_LabelOverallUsed.Text = txtTeamSyncUsage(1) & "0"
@@ -486,7 +486,7 @@ Public Class Configuration
                 Main_GroupBox_TeamSync_Label.Text = txtTeamSyncCreateKey
                 Main_GroupBox_TeamSync_TextBoxGeneratedKey.Text = id
                 Main_GroupBox_TeamSync_TextBoxGeneratedKey.ForeColor = Color.DarkGreen
-                Main_GroupBox_TeamSync_TextBoxGeneratedKey.Font = New Font("Visitor TT2 (brk)", 14, FontStyle.Bold)
+                Main_GroupBox_TeamSync_TextBoxGeneratedKey.Font = New Font("Agency FB", 12, FontStyle.Bold)
                 Main_GroupBox_TeamSync_ButtonShare.Enabled = True
                 teamSyncGeneratedKeyLimit += 1
                 TeamSyncValid = True
@@ -505,7 +505,7 @@ Public Class Configuration
                     MainGroupBoxTeamSyncOnlineRights_Update(teamSyncKeyOnlineRightsString)
                     Main_GroupBox_TeamSync_Label.Text = txtTeamSyncKeyAlreadyUsed
                     Main_GroupBox_TeamSync_TextBoxGeneratedKey.ForeColor = Color.DarkGreen
-                    Main_GroupBox_TeamSync_TextBoxGeneratedKey.Font = New Font("Visitor TT2 (brk)", 14, FontStyle.Bold)
+                    Main_GroupBox_TeamSync_TextBoxGeneratedKey.Font = New Font("Agency FB", 12, FontStyle.Bold)
                     Main_GroupBox_TeamSync_ButtonShare.Enabled = True
                     TeamSyncValid = True
                 End If

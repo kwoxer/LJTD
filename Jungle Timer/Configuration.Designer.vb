@@ -726,13 +726,14 @@ Partial Class Configuration
         'Main_GroupBox_TeamSync_TextBoxGeneratedKey
         '
         Me.Main_GroupBox_TeamSync_TextBoxGeneratedKey.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.Main_GroupBox_TeamSync_TextBoxGeneratedKey.Font = New System.Drawing.Font("Visitor TT2 (BRK)", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Main_GroupBox_TeamSync_TextBoxGeneratedKey.Location = New System.Drawing.Point(119, 52)
+        Me.Main_GroupBox_TeamSync_TextBoxGeneratedKey.Font = New System.Drawing.Font("Agency FB", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Main_GroupBox_TeamSync_TextBoxGeneratedKey.Location = New System.Drawing.Point(119, 49)
         Me.Main_GroupBox_TeamSync_TextBoxGeneratedKey.MaxLength = 10
         Me.Main_GroupBox_TeamSync_TextBoxGeneratedKey.Multiline = True
         Me.Main_GroupBox_TeamSync_TextBoxGeneratedKey.Name = "Main_GroupBox_TeamSync_TextBoxGeneratedKey"
-        Me.Main_GroupBox_TeamSync_TextBoxGeneratedKey.Size = New System.Drawing.Size(121, 15)
+        Me.Main_GroupBox_TeamSync_TextBoxGeneratedKey.Size = New System.Drawing.Size(121, 20)
         Me.Main_GroupBox_TeamSync_TextBoxGeneratedKey.TabIndex = 34
+        Me.Main_GroupBox_TeamSync_TextBoxGeneratedKey.Text = "qwrqrqwrq"
         Me.Main_GroupBox_TeamSync_TextBoxGeneratedKey.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.ToolTip1.SetToolTip(Me.Main_GroupBox_TeamSync_TextBoxGeneratedKey, "This is your unique TeamSync key")
         '
@@ -4551,13 +4552,13 @@ Partial Class Configuration
         Me.Controls.Add(Me.TabButton_W2C)
         Me.Controls.Add(Me.TabButton_Slide)
         Me.Controls.Add(Me.TabButton_Main)
+        Me.Controls.Add(Me.Panel_Main)
         Me.Controls.Add(Me.Panel_Slideout)
         Me.Controls.Add(Me.Panel_Hotkey)
         Me.Controls.Add(Me.Panel_MiniMap)
         Me.Controls.Add(Me.Panel_Name)
         Me.Controls.Add(Me.Panel_Design)
         Me.Controls.Add(Me.Panel_W2C)
-        Me.Controls.Add(Me.Panel_Main)
         Me.DoubleBuffered = True
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
