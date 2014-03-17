@@ -91,7 +91,7 @@ Class PushHotkey
             If resource.PropMacro(i + 8, 1).ToUpper = opener Then
                 keyOpenerMacro(i) = pushed
             End If
-            Configuration.KeyCode_Set(lParam.vkCode, keyOpenerMacro(i), CByte(i))
+            Settings.KeyCode_Set(lParam.vkCode, keyOpenerMacro(i), CByte(i))
         Next
     End Sub
 End Class

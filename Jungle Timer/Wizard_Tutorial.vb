@@ -20,8 +20,8 @@ Public Class Wizard_Tutorial
     End Sub
     Private Sub TutorialDisable_Check()
         If ShowAgain_CheckBox.Checked Then
-            Configuration.Tutorial_Disable()
-            Configuration.ButtonSave_Performclick()
+            Settings.Tutorial_Disable()
+            Settings.ButtonSave_Performclick()
         End If
     End Sub
     Private Sub LinkLabel_Link_LinkClicked(sender As System.Object, e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel_Link.LinkClicked

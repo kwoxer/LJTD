@@ -25,22 +25,22 @@
     End Sub
     Public Sub New(ByVal x As Integer, ByVal y As Integer, duration As Integer)
         ' Created by MouseClick 
-        Configuration.TeamSyncTimerGetChanges.Stop()
+        Settings.TeamSyncTimerGetChanges.Stop()
         Ward_Load(duration)
         ScaleX = x / (MiniMap.WardMapSize_Get.Width - panelSizeX)
         ScaleY = y / (MiniMap.WardMapSize_Get.Height - panelSizeY)
-        If Configuration.TeamSyncValid And (Configuration.TeamSyncOnlineRightsWards Or Configuration.TeamSyncOnlineRightsOwner) Then
+        If Settings.TeamSyncValid And (Settings.TeamSyncOnlineRightsWards Or Settings.TeamSyncOnlineRightsOwner) Then
             Dim webClient As New Net.WebClient
-            Dim nvc = Module_NVC.NVCSetResetWard_Create(Configuration.Main_GroupBox_TeamSync_TextBoxGeneratedKey.Text, ScaleX, ScaleY)
+            Dim nvc = Module_NVC.NVCSetResetWard_Create(Settings.Main_GroupBox_TeamSync_TextBoxGeneratedKey.Text, ScaleX, ScaleY)
             Try
                 ' TODO: make async
                 webClient.UploadValues(teamSyncGeneratedURLsWard(0), nvc)
             Catch ex As Exception
-                Configuration.TeamSyncTimerGetChanges.Start()
+                Settings.TeamSyncTimerGetChanges.Start()
                 Module_Logfile.Logfile_Append("There was an issue the TeamSync servers.")
             End Try
         End If
-        Configuration.TeamSyncTimerGetChanges.Start()
+        Settings.TeamSyncTimerGetChanges.Start()
     End Sub
     Private Sub Ward_Load(duration As Integer)
         startingTime = Now()
@@ -67,11 +67,11 @@
         Return New Point(CInt((MiniMap.WardMapSize_Get.Width - panelSizeX) * scaleX) - CInt(pictureSize / 2), CInt((MiniMap.WardMapSize_Get.Height - panelSizeY) * scaleY) + panelSizeY - CInt(pictureSize / 2))
     End Function
     Private Sub StopWard_Click()
-        Configuration.TeamSyncTimerGetChanges.Stop()
+        Settings.TeamSyncTimerGetChanges.Stop()
         FinishedTeamSyncWards_Update(ScaleX, ScaleY)
         timer4Buff.Stop()
         Finished = True
-        Configuration.TeamSyncTimerGetChanges.Start()
+        Settings.TeamSyncTimerGetChanges.Start()
     End Sub
     Private Sub MouseWard_Hover()
         MiniMap.Activate()
@@ -86,9 +86,9 @@
         Return picture
     End Function
     Public Shared Sub FinishedTeamSyncWards_Update(scaleX As Double, scaleY As Double)
-        If Configuration.TeamSyncValid And (Configuration.TeamSyncOnlineRightsWards Or Configuration.TeamSyncOnlineRightsOwner) Then
+        If Settings.TeamSyncValid And (Settings.TeamSyncOnlineRightsWards Or Settings.TeamSyncOnlineRightsOwner) Then
             Dim webClient As New Net.WebClient
-            Dim nvc = Module_NVC.NVCSetResetWard_Create(Configuration.Main_GroupBox_TeamSync_TextBoxGeneratedKey.Text, scaleX, scaleY)
+            Dim nvc = Module_NVC.NVCSetResetWard_Create(Settings.Main_GroupBox_TeamSync_TextBoxGeneratedKey.Text, scaleX, scaleY)
             Try
                 webClient.UploadValues(teamSyncGeneratedURLsWard(1), nvc)
             Catch ex As Exception

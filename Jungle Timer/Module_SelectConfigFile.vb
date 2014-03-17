@@ -16,7 +16,7 @@
         Catch ex As Exception
             MsgBox("Please create a ljtd.ini file in your main folder!")
         End Try
-        Configuration.Main_GroupBox_ConfigFile_ComboBox.Text = configFileName
+        Settings.Main_GroupBox_ConfigFile_ComboBox.Text = configFileName
         resource.fileConfig = configFileName
         Return resource
     End Function

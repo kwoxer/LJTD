@@ -116,14 +116,14 @@ Public Class LJTD
         Timer_CheckBuffs.Start()
         AutoStartTimer_Initialize()
         Objectives_Initialize()
-        Configuration.Configuration_SelectInitializion()
+        Settings.Configuration_SelectInitializion()
         AddSign.Show()
         TextOverlay.Show()
         OpenInTray_CheckResource()
         UpdateAvailable_Show()
         GameModeWardMap_Initialize()
-        Configuration.Backgrounds_Initialize()
-        Configuration.Configuration_FullInitializion()
+        Settings.Backgrounds_Initialize()
+        Settings.Configuration_FullInitializion()
         ExternalImages_Initialize()
         UniqueAddress_Create()
         LJTD_Reload(False, True)
@@ -155,9 +155,9 @@ Public Class LJTD
     ''' <remarks></remarks>
     Public Sub UpdateAvailable_Show()
         Try
-            Dim version = Configuration.UpdateVersion_Get()
+            Dim version = Settings.UpdateVersion_Get()
             If version <> My.Application.Info.Version.ToString Then
-                NotifyIcon.ShowBalloonTip(showBalloonTipDuration, txtNotifyIcon1, txtNotifyIcon1 & " " & Configuration.UpdateVersion_Get() & txtNotifyIcon3, ToolTipIcon.Info)
+                NotifyIcon.ShowBalloonTip(showBalloonTipDuration, txtNotifyIcon1, txtNotifyIcon1 & " " & Settings.UpdateVersion_Get() & txtNotifyIcon3, ToolTipIcon.Info)
             End If
         Catch ex As Exception
             Module_Logfile.Logfile_Append("Connection to LJTD server not found.")
@@ -345,7 +345,7 @@ Public Class LJTD
     ''' <param name="e"></param>
     ''' <remarks></remarks>
     Private Sub TimerTopMost_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_TopMost.Tick
-        If Configuration.ShowForm = False And ContextMenus.ShowForm = False Then
+        If Settings.ShowForm = False And ContextMenus.ShowForm = False Then
             Me.BringToFront()
             MiniMap.BringToFront()
         End If
@@ -376,13 +376,13 @@ Public Class LJTD
             Dim di As New IO.DirectoryInfo(Directory.GetCurrentDirectory() & txtResourceFolderName)
             Dim diar1 As IO.FileInfo() = di.GetFiles()
             Dim dra As IO.FileInfo
-            Configuration.Main_GroupBox_ConfigFile_ComboBox.Items.Clear()
+            Settings.Main_GroupBox_ConfigFile_ComboBox.Items.Clear()
             If contextMenu Then
                 ContextMenus.ChooseSettings_ComboBox.Items.Clear()
             End If
             For Each dra In diar1
                 Dim firstString() As String = dra.ToString.Split("."c)
-                Configuration.Main_GroupBox_ConfigFile_ComboBox.Items.Add(firstString(0))
+                Settings.Main_GroupBox_ConfigFile_ComboBox.Items.Add(firstString(0))
                 If contextMenu Then
                     ContextMenus.ChooseSettings_ComboBox.Items.Add(firstString(0))
                 End If
@@ -396,7 +396,7 @@ Public Class LJTD
     ''' </summary>
     ''' <remarks></remarks>
     Public Sub ConfigFileManagement_Initialize(ByVal contextMenu As Boolean)
-        Configuration.Main_GroupBox_ConfigFile_ComboBox.Text = resource.fileConfig
+        Settings.Main_GroupBox_ConfigFile_ComboBox.Text = resource.fileConfig
         If contextMenu Then
             ContextMenus.ChooseSettings_ComboBox.Text = resource.fileConfig
         End If
@@ -583,25 +583,25 @@ Public Class LJTD
         On Error Resume Next
         MiniMap.Button_Resize.Image = Image.FromFile(resource.PropPicMiscMinimapTeam(2))
         MiniMap.Button_Team.Image = Image.FromFile(resource.PropPicMiscMinimapTeam(0))
-        Configuration.Panel(0).BackgroundImage = Image.FromFile(resource.PropPicMiscBackground(0))
-        Configuration.Panel(1).BackgroundImage = Image.FromFile(resource.PropPicMiscBackground(1))
-        Configuration.Panel(2).BackgroundImage = Image.FromFile(resource.PropPicMiscBackground(2))
-        Configuration.Panel(3).BackgroundImage = Image.FromFile(resource.PropPicMiscBackground(3))
-        Configuration.Panel(4).BackgroundImage = Image.FromFile(resource.PropPicMiscBackground(4))
-        Configuration.Panel(5).BackgroundImage = Image.FromFile(resource.PropPicMiscBackground(5))
-        Configuration.Panel(6).BackgroundImage = Image.FromFile(resource.PropPicMiscBackground(6))
+        Settings.Panel(0).BackgroundImage = Image.FromFile(resource.PropPicMiscBackground(0))
+        Settings.Panel(1).BackgroundImage = Image.FromFile(resource.PropPicMiscBackground(1))
+        Settings.Panel(2).BackgroundImage = Image.FromFile(resource.PropPicMiscBackground(2))
+        Settings.Panel(3).BackgroundImage = Image.FromFile(resource.PropPicMiscBackground(3))
+        Settings.Panel(4).BackgroundImage = Image.FromFile(resource.PropPicMiscBackground(4))
+        Settings.Panel(5).BackgroundImage = Image.FromFile(resource.PropPicMiscBackground(5))
+        Settings.Panel(6).BackgroundImage = Image.FromFile(resource.PropPicMiscBackground(6))
         ImgControlOverlay = Image.FromFile(resource.PropPicMiscBackground(7))
         Panel.BackgroundImage = ImgControlOverlay
-        Configuration.ImgBackground(4) = Image.FromFile(resource.PropPicMiscConfigTab(0))
-        Configuration.ImgBackground(3) = Image.FromFile(resource.PropPicMiscConfigTab(1))
-        Configuration.ImgBackground(0) = Image.FromFile(resource.PropPicMiscConfigTab(2))
-        Configuration.ImgBackground(5) = Image.FromFile(resource.PropPicMiscConfigTab(3))
-        Configuration.ImgBackground(6) = Image.FromFile(resource.PropPicMiscConfigTab(4))
-        Configuration.ImgBackground(1) = Image.FromFile(resource.PropPicMiscConfigTab(5))
-        Configuration.ImgBackground(2) = Image.FromFile(resource.PropPicMiscConfigTab(6))
-        Configuration.Button_Close.BackgroundImage = Image.FromFile(resource.PropPicMiscConfigButton(0))
-        Configuration.Button_Reset.BackgroundImage = Image.FromFile(resource.PropPicMiscConfigButton(1))
-        Configuration.Button_Save.BackgroundImage = Image.FromFile(resource.PropPicMiscConfigButton(2))
+        Settings.ImgBackground(4) = Image.FromFile(resource.PropPicMiscConfigTab(0))
+        Settings.ImgBackground(3) = Image.FromFile(resource.PropPicMiscConfigTab(1))
+        Settings.ImgBackground(0) = Image.FromFile(resource.PropPicMiscConfigTab(2))
+        Settings.ImgBackground(5) = Image.FromFile(resource.PropPicMiscConfigTab(3))
+        Settings.ImgBackground(6) = Image.FromFile(resource.PropPicMiscConfigTab(4))
+        Settings.ImgBackground(1) = Image.FromFile(resource.PropPicMiscConfigTab(5))
+        Settings.ImgBackground(2) = Image.FromFile(resource.PropPicMiscConfigTab(6))
+        Settings.Button_Close.BackgroundImage = Image.FromFile(resource.PropPicMiscConfigButton(0))
+        Settings.Button_Reset.BackgroundImage = Image.FromFile(resource.PropPicMiscConfigButton(1))
+        Settings.Button_Save.BackgroundImage = Image.FromFile(resource.PropPicMiscConfigButton(2))
         imgObjectiveNormal(0) = Image.FromFile(resource.PropPicBuffSR(0))
         imgObjectiveNormal(1) = Image.FromFile(resource.PropPicBuffSR(3))
         imgObjectiveNormal(2) = Image.FromFile(resource.PropPicBuffSR(6))
@@ -744,7 +744,7 @@ Public Class LJTD
             Next
         Else
             resource.PropName(0, 1) = "Vilemaw"
-            Configuration.Hotkey_GroupBox_Hotkeys_TextBox_Baron.Text = resource.PropName(0, 1)
+            Settings.Hotkey_GroupBox_Hotkeys_TextBox_Baron.Text = resource.PropName(0, 1)
             For i = 1 To 5
                 button(i).Visible = False
                 label(i).Visible = False
@@ -932,7 +932,7 @@ Public Class LJTD
                     If i <> 6 Then
                         MiniMap.MinimapPing(i).Objective_End()
                     End If
-                    If runningTime > 0 And i <> 6 Then Configuration.TeamSync_SetChanges(i, True)
+                    If runningTime > 0 And i <> 6 Then Settings.TeamSync_SetChanges(i, True)
                     button(i).BackgroundImage = imgObjectiveDisabled(i)
                 End If
                 ObjectiveOverview.Objective_Update()
@@ -1010,14 +1010,14 @@ Public Class LJTD
     Public Sub ObjectiveClicks_Perform(ByVal sender As System.Object)
         If GameClockRunning Then
             Dim button As Button = DirectCast(sender, Button)
-            If Configuration.TeamSyncValid = False Or Configuration.TeamSyncOnlineRightsOwner Or Configuration.TeamSyncOnlineRightsObjective Then
+            If Settings.TeamSyncValid = False Or Settings.TeamSyncOnlineRightsOwner Or Settings.TeamSyncOnlineRightsObjective Then
                 teamSyncUpdateObjectiveRunningTimer.Start()
                 Objective_Switch(CInt(button.Tag))
                 For i = 0 To Objective.Length - 1
                     TeamSyncOfflineObjectiveRunning(i) = Objective(i).GetRunning
                 Next
             End If
-            Configuration.TeamSync_SetChanges(CInt(button.Tag), False)
+            Settings.TeamSync_SetChanges(CInt(button.Tag), False)
         End If
     End Sub
     Public Sub Objective_Switch(ByVal i As Integer)
@@ -1066,7 +1066,7 @@ Public Class LJTD
             MiniMap.ShowForm = True
             Button_Minimap.BackgroundImage = My.Resources.LJTD_Button_MINIMAP
         End If
-        Configuration.TeamSyncTimerGetChanges.Start()
+        Settings.TeamSyncTimerGetChanges.Start()
     End Sub
     Private Sub ButtonStart_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Start.Click
         timing.DelayValue = initialTimerDelay
@@ -1093,7 +1093,7 @@ Public Class LJTD
             Next
             gameFinished = True
             GameClockRunning = False
-            Configuration.TeamSyncObjectives_Reset()
+            Settings.TeamSyncObjectives_Reset()
             runningTime = 0
             ObjectiveOverview.WindowText_Update(txtObjectiveOverview)
             For i = 0 To 5
@@ -1121,7 +1121,7 @@ Public Class LJTD
     Private Sub LJTDForm_Closing(ByVal sender As System.Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
         NotifyIcon.Dispose()
         Module_Validator.DatabaseEntry_Add(0)
-        Configuration.TeamSyncObjectives_Reset()
+        Settings.TeamSyncObjectives_Reset()
         pushHotkey.KeyHook_Enable = False
     End Sub
     Private Sub ButtonDisableAutoStart_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_DisableAutoStart.Click
@@ -1139,7 +1139,7 @@ Public Class LJTD
     Private Sub Button_Settings_Click(sender As System.Object, e As System.EventArgs) Handles Button_Settings.Click
         Timer_TopMost.Stop()
         MiniMap.Timer_TopMost.Stop()
-        Configuration.Show()
+        Settings.Show()
     End Sub
 #End Region
 #Region "AutoStart"
@@ -1198,7 +1198,7 @@ Public Class LJTD
             MiniMap.ShowForm = False
             GameClockRunning = False
             Button_Start.Image = My.Resources.LJTD_Button_START
-            Configuration.TeamSyncObjectives_Reset()
+            Settings.TeamSyncObjectives_Reset()
         End If
     End Sub
 #End Region
@@ -1207,7 +1207,7 @@ Public Class LJTD
         About.Show()
     End Sub
     Private Sub NotifyIcon_MouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles NotifyIcon.MouseClick
-        If resource.PropConfigBool(8) And Configuration.ShowForm = False And ContextMenus.ShowForm = False Then
+        If resource.PropConfigBool(8) And Settings.ShowForm = False And ContextMenus.ShowForm = False Then
             Timer_TopMost.Start()
             MiniMap.Timer_TopMost.Start()
         End If

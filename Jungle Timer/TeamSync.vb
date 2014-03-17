@@ -5,16 +5,16 @@
     End Sub
     Private Sub ButtonTeamSyncGenerate_Click(sender As System.Object, e As System.EventArgs) Handles TeamSync_Button_Generate.Click
         If TeamSync_Groupbox_Wards_Full.Checked Then
-            Configuration.TeamSyncGeneratedWardRights = "1"
+            Settings.TeamSyncGeneratedWardRights = "1"
         Else
-            Configuration.TeamSyncGeneratedWardRights = "0"
+            Settings.TeamSyncGeneratedWardRights = "0"
         End If
         If TeamSync_Groupbox_Buffs_Full.Checked Then
-            Configuration.TeamSyncGeneratedObjectiveRights = "1"
+            Settings.TeamSyncGeneratedObjectiveRights = "1"
         Else
-            Configuration.TeamSyncGeneratedObjectiveRights = "0"
+            Settings.TeamSyncGeneratedObjectiveRights = "0"
         End If
-        Configuration.MainGroupBoxTeamSync_Generate()
+        Settings.MainGroupBoxTeamSync_Generate()
         Me.Close()
     End Sub
     Private Sub ButtonTeamSyncGenerationAbort_Click(sender As System.Object, e As System.EventArgs) Handles TeamSync_GeneratingAbort.Click

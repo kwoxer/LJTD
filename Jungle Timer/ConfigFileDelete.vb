@@ -8,19 +8,19 @@
         Module_WindowManagement.MoveEvent_Initialize(e, Handle)
     End Sub
     Private Sub ConfigFileDelete_Load(sender As Object, e As System.EventArgs) Handles Me.Load
-        Label_Description2.Text = txt & Configuration.Main_GroupBox_ConfigFile_ComboBox.Text
+        Label_Description2.Text = txt & Settings.Main_GroupBox_ConfigFile_ComboBox.Text
     End Sub
     Private Sub ButtonAbort_Click(sender As System.Object, e As System.EventArgs) Handles Button_Abort.Click
         Me.Close()
     End Sub
     Private Sub ButtonYes_Click(sender As System.Object, e As System.EventArgs) Handles Button_Yes.Click
         Try
-            Configuration.Main_GroupBox_ConfigFile_ComboBox.Items.Remove(Configuration.Main_GroupBox_ConfigFile_ComboBox.Text)
+            Settings.Main_GroupBox_ConfigFile_ComboBox.Items.Remove(Settings.Main_GroupBox_ConfigFile_ComboBox.Text)
             My.Computer.FileSystem.DeleteFile(System.IO.Directory.GetCurrentDirectory() & "\res\" & resource.fileConfig & ".ini", FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin)
             Me.Close()
-            Configuration.Main_GroupBox_ConfigFile_ComboBox.SelectedIndex = 0
-            resource.fileConfig = Configuration.Main_GroupBox_ConfigFile_ComboBox.SelectedItem.ToString
-            Configuration.Resource_Refresh()
+            Settings.Main_GroupBox_ConfigFile_ComboBox.SelectedIndex = 0
+            resource.fileConfig = Settings.Main_GroupBox_ConfigFile_ComboBox.SelectedItem.ToString
+            Settings.Resource_Refresh()
             LJTD.ConfigFileManagementCreateList_Initialize(False)
             LJTD.ConfigFileManagement_Initialize(False)
         Catch ex As Exception

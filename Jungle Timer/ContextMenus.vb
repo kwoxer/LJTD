@@ -78,7 +78,7 @@
     ''' </summary>
     ''' <remarks></remarks>
     Public Sub Write2ChatButtons_Initialize()
-        If Configuration.resource.PropWrite2ChatBool(0) Then
+        If Settings.resource.PropWrite2ChatBool(0) Then
             W2C_ButtonOff.BackColor = Color.Gray
             W2C_ButtonOn.BackColor = Color.Green
         Else
@@ -97,15 +97,15 @@
             W2C_ButtonOn.BackColor = Color.Gray
         Else
             W2C_ButtonOff.BackColor = Color.Gray
-            W2C_ButtonOn.BackColor = Color.Green 
+            W2C_ButtonOn.BackColor = Color.Green
         End If
     End Sub
     Private Sub Button_Write2Chat_Off_Click(sender As System.Object, e As System.EventArgs) Handles W2C_ButtonOff.Click
-        Configuration.resource.PropWrite2ChatBool(0) = True
+        Settings.resource.PropWrite2ChatBool(0) = True
         Write2ChatButtons_Switch(True)
     End Sub
     Private Sub Button_Write2Chat_On_Click(sender As System.Object, e As System.EventArgs) Handles W2C_ButtonOn.Click
-        Configuration.resource.PropWrite2ChatBool(0) = False
+        Settings.resource.PropWrite2ChatBool(0) = False
         Write2ChatButtons_Switch(False)
     End Sub
 #End Region
@@ -124,7 +124,7 @@
     ''' <param name="e"></param>
     ''' <remarks></remarks>
     Private Sub Timer_Fadingin_Tick(sender As System.Object, e As System.EventArgs) Handles Timer_Fadingin.Tick
-        If Configuration.ShowForm = False Then
+        If Settings.ShowForm = False Then
             fadingAmount = fadingAmount + 5
             If fadingAmount <= 100 Then
                 Me.Opacity = fadingAmount / 100
@@ -164,17 +164,17 @@
         Timer_Fadingout.Start()
         LJTD.Timer_TopMost.Stop()
         MiniMap.Timer_TopMost.Stop()
-        Configuration.Show()
+        Settings.Show()
     End Sub
     Private Sub Button_SettingsFile_Click(sender As System.Object, e As System.EventArgs) Handles SettingsFile_Button.Click
         ShowForm = False
         Timer_Fadingout.Start()
-        System.Diagnostics.Process.Start(Configuration.resource.PropFileConfig)
+        System.Diagnostics.Process.Start(Settings.resource.PropFileConfig)
     End Sub
     Private Sub ComboBox_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles ChooseSettings_ComboBox.SelectedIndexChanged
         If ShowForm And ConfigFileChanged Then
-            Configuration.Main_GroupBox_ConfigFile_ComboBox.Text = ChooseSettings_ComboBox.Text
-            Configuration.MainGroupBoxConfigFileComboBox_PerformTextChanged(True, True)
+            Settings.Main_GroupBox_ConfigFile_ComboBox.Text = ChooseSettings_ComboBox.Text
+            Settings.MainGroupBoxConfigFileComboBox_PerformTextChanged(True, True)
         End If
     End Sub
     Private Sub Button_ObjectiveOverview_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OO_Button.Click

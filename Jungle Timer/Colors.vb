@@ -10,33 +10,33 @@
         colorMousehover = Color.FromArgb(255, resource.PropColorInt(9, 1), resource.PropColorInt(9, 2), resource.PropColorInt(9, 3))
     End Sub
     Public Sub Colors_Initialize()
-        colorNormal = Configuration.Color_GroupBox_SettingsColors_PictureBox_Normal.BackColor
-        colorClicked = Configuration.Color_GroupBox_SettingsColors_PictureBox_Active.BackColor
-        colorMousehover = Configuration.Color_GroupBox_SettingsColors_PictureBox_Mousehover.BackColor
+        colorNormal = Settings.Color_GroupBox_SettingsColors_PictureBox_Normal.BackColor
+        colorClicked = Settings.Color_GroupBox_SettingsColors_PictureBox_Active.BackColor
+        colorMousehover = Settings.Color_GroupBox_SettingsColors_PictureBox_Mousehover.BackColor
         About.Button_Close.BackColor = colorNormal
-        Configuration.Button_Close.BackColor = colorNormal
-        Configuration.Button_Reset.BackColor = colorNormal
-        Configuration.Button_Save.BackColor = colorNormal
-        If Configuration.ButtonStatus_Get(0) = False Then
-            Configuration.TabButton_Main.BackColor = colorNormal
+        Settings.Button_Close.BackColor = colorNormal
+        Settings.Button_Reset.BackColor = colorNormal
+        Settings.Button_Save.BackColor = colorNormal
+        If Settings.ButtonStatus_Get(0) = False Then
+            Settings.TabButton_Main.BackColor = colorNormal
         End If
-        If Configuration.ButtonStatus_Get(1) = False Then
-            Configuration.TabButton_Slide.BackColor = colorNormal
+        If Settings.ButtonStatus_Get(1) = False Then
+            Settings.TabButton_Slide.BackColor = colorNormal
         End If
-        If Configuration.ButtonStatus_Get(2) = False Then
-            Configuration.TabButton_W2C.BackColor = colorNormal
+        If Settings.ButtonStatus_Get(2) = False Then
+            Settings.TabButton_W2C.BackColor = colorNormal
         End If
-        If Configuration.ButtonStatus_Get(3) = False Then
-            Configuration.TabButton_Hotkey.BackColor = colorNormal
+        If Settings.ButtonStatus_Get(3) = False Then
+            Settings.TabButton_Hotkey.BackColor = colorNormal
         End If
-        If Configuration.ButtonStatus_Get(4) = False Then
-            Configuration.TabButton_Design.BackColor = colorNormal
+        If Settings.ButtonStatus_Get(4) = False Then
+            Settings.TabButton_Design.BackColor = colorNormal
         End If
-        If Configuration.ButtonStatus_Get(5) = False Then
-            Configuration.TabButton_MiniMap.BackColor = colorNormal
+        If Settings.ButtonStatus_Get(5) = False Then
+            Settings.TabButton_MiniMap.BackColor = colorNormal
         End If
-        If Configuration.ButtonStatus_Get(6) = False Then
-            Configuration.TabButton_Name.BackColor = colorNormal
+        If Settings.ButtonStatus_Get(6) = False Then
+            Settings.TabButton_Name.BackColor = colorNormal
         End If
         MiniMap.Button_Hide.BackColor = colorNormal
         MiniMap.Button_Team.BackColor = colorNormal

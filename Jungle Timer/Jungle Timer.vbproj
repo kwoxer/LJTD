@@ -278,10 +278,10 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Objective.vb" />
-    <Compile Include="Configuration.Designer.vb">
-      <DependentUpon>Configuration.vb</DependentUpon>
+    <Compile Include="Settings.Designer.vb">
+      <DependentUpon>Settings.vb</DependentUpon>
     </Compile>
-    <Compile Include="Configuration.vb">
+    <Compile Include="Settings.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Coordinate.vb" />
@@ -396,8 +396,8 @@
       <DependentUpon>AddSign.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Configuration.resx">
-      <DependentUpon>Configuration.vb</DependentUpon>
+    <EmbeddedResource Include="Settings.resx">
+      <DependentUpon>Settings.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ConfigFileAdd.resx">
