@@ -53,7 +53,4 @@
             End If
         End If
     End Sub
-    'Public Sub Foreground_Set_Old()
-    '    SetForegroundWindow(tHandle)
-    'End Sub
 End Module
