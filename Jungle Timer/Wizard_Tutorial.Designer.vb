@@ -78,36 +78,36 @@ Partial Class Wizard_Tutorial
         'Label2
         '
         Me.Label2.BackColor = System.Drawing.Color.Transparent
-        Me.Label2.Font = New System.Drawing.Font("Visitor TT2 (BRK)", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label2.Font = New System.Drawing.Font("Agency FB", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label2.ForeColor = System.Drawing.Color.White
         Me.Label2.Location = New System.Drawing.Point(21, 97)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(454, 176)
+        Me.Label2.Size = New System.Drawing.Size(454, 225)
         Me.Label2.TabIndex = 29
         Me.Label2.Text = resources.GetString("Label2.Text")
         '
         'Label3
         '
         Me.Label3.BackColor = System.Drawing.Color.Transparent
-        Me.Label3.Font = New System.Drawing.Font("Visitor TT2 (BRK)", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label3.Font = New System.Drawing.Font("Agency FB", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label3.ForeColor = System.Drawing.Color.White
-        Me.Label3.Location = New System.Drawing.Point(21, 358)
+        Me.Label3.Location = New System.Drawing.Point(21, 336)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(454, 61)
+        Me.Label3.Size = New System.Drawing.Size(454, 81)
         Me.Label3.TabIndex = 30
         Me.Label3.Text = "If you are new to LJTD we recommend looking at our Walkthrough. It will show you " & _
-    "the main components of LJTD and what to use them for." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Experienced users can s" & _
-    "kip this Walkthrough. "
+    "the main components of LJTD and what to use them for." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Experienced users can ski" & _
+    "p this Walkthrough. "
         '
         'LinkLabel_Link
         '
         Me.LinkLabel_Link.AutoSize = True
         Me.LinkLabel_Link.BackColor = System.Drawing.Color.Transparent
-        Me.LinkLabel_Link.Font = New System.Drawing.Font("Visitor TT2 (BRK)", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LinkLabel_Link.Font = New System.Drawing.Font("Agency FB", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LinkLabel_Link.LinkColor = System.Drawing.Color.CornflowerBlue
-        Me.LinkLabel_Link.Location = New System.Drawing.Point(417, 152)
+        Me.LinkLabel_Link.Location = New System.Drawing.Point(196, 184)
         Me.LinkLabel_Link.Name = "LinkLabel_Link"
-        Me.LinkLabel_Link.Size = New System.Drawing.Size(29, 11)
+        Me.LinkLabel_Link.Size = New System.Drawing.Size(25, 22)
         Me.LinkLabel_Link.TabIndex = 38
         Me.LinkLabel_Link.TabStop = True
         Me.LinkLabel_Link.Text = "link"
@@ -116,11 +116,11 @@ Partial Class Wizard_Tutorial
         '
         Me.LinkLabel_FAQ.AutoSize = True
         Me.LinkLabel_FAQ.BackColor = System.Drawing.Color.Transparent
-        Me.LinkLabel_FAQ.Font = New System.Drawing.Font("Visitor TT2 (BRK)", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LinkLabel_FAQ.Font = New System.Drawing.Font("Agency FB", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LinkLabel_FAQ.LinkColor = System.Drawing.Color.CornflowerBlue
-        Me.LinkLabel_FAQ.Location = New System.Drawing.Point(131, 196)
+        Me.LinkLabel_FAQ.Location = New System.Drawing.Point(99, 229)
         Me.LinkLabel_FAQ.Name = "LinkLabel_FAQ"
-        Me.LinkLabel_FAQ.Size = New System.Drawing.Size(26, 11)
+        Me.LinkLabel_FAQ.Size = New System.Drawing.Size(28, 22)
         Me.LinkLabel_FAQ.TabIndex = 39
         Me.LinkLabel_FAQ.TabStop = True
         Me.LinkLabel_FAQ.Text = "FAQ"
@@ -129,11 +129,11 @@ Partial Class Wizard_Tutorial
         '
         Me.LinkLabel_Forum.AutoSize = True
         Me.LinkLabel_Forum.BackColor = System.Drawing.Color.Transparent
-        Me.LinkLabel_Forum.Font = New System.Drawing.Font("Visitor TT2 (BRK)", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LinkLabel_Forum.Font = New System.Drawing.Font("Agency FB", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LinkLabel_Forum.LinkColor = System.Drawing.Color.CornflowerBlue
-        Me.LinkLabel_Forum.Location = New System.Drawing.Point(161, 207)
+        Me.LinkLabel_Forum.Location = New System.Drawing.Point(21, 251)
         Me.LinkLabel_Forum.Name = "LinkLabel_Forum"
-        Me.LinkLabel_Forum.Size = New System.Drawing.Size(40, 11)
+        Me.LinkLabel_Forum.Size = New System.Drawing.Size(40, 22)
         Me.LinkLabel_Forum.TabIndex = 40
         Me.LinkLabel_Forum.TabStop = True
         Me.LinkLabel_Forum.Text = "forum"
@@ -142,12 +142,12 @@ Partial Class Wizard_Tutorial
         '
         Me.ShowAgain_CheckBox.AutoSize = True
         Me.ShowAgain_CheckBox.BackColor = System.Drawing.Color.Transparent
-        Me.ShowAgain_CheckBox.Font = New System.Drawing.Font("Visitor TT2 (BRK)", 9.749999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ShowAgain_CheckBox.Font = New System.Drawing.Font("Agency FB", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ShowAgain_CheckBox.ForeColor = System.Drawing.Color.White
-        Me.ShowAgain_CheckBox.Location = New System.Drawing.Point(289, 424)
+        Me.ShowAgain_CheckBox.Location = New System.Drawing.Point(316, 418)
         Me.ShowAgain_CheckBox.Name = "ShowAgain_CheckBox"
         Me.ShowAgain_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.ShowAgain_CheckBox.Size = New System.Drawing.Size(186, 14)
+        Me.ShowAgain_CheckBox.Size = New System.Drawing.Size(160, 22)
         Me.ShowAgain_CheckBox.TabIndex = 41
         Me.ShowAgain_CheckBox.Text = "Don't show this message again"
         Me.ShowAgain_CheckBox.UseVisualStyleBackColor = False
@@ -170,11 +170,11 @@ Partial Class Wizard_Tutorial
         '
         Me.LinkLabel_Here.AutoSize = True
         Me.LinkLabel_Here.BackColor = System.Drawing.Color.Transparent
-        Me.LinkLabel_Here.Font = New System.Drawing.Font("Visitor TT2 (BRK)", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LinkLabel_Here.Font = New System.Drawing.Font("Agency FB", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LinkLabel_Here.LinkColor = System.Drawing.Color.CornflowerBlue
-        Me.LinkLabel_Here.Location = New System.Drawing.Point(438, 229)
+        Me.LinkLabel_Here.Location = New System.Drawing.Point(341, 273)
         Me.LinkLabel_Here.Name = "LinkLabel_Here"
-        Me.LinkLabel_Here.Size = New System.Drawing.Size(33, 11)
+        Me.LinkLabel_Here.Size = New System.Drawing.Size(34, 22)
         Me.LinkLabel_Here.TabIndex = 43
         Me.LinkLabel_Here.TabStop = True
         Me.LinkLabel_Here.Text = "Here"
@@ -183,11 +183,11 @@ Partial Class Wizard_Tutorial
         '
         Me.LinkLabel_Fullscreen.AutoSize = True
         Me.LinkLabel_Fullscreen.BackColor = System.Drawing.Color.Transparent
-        Me.LinkLabel_Fullscreen.Font = New System.Drawing.Font("Visitor TT2 (BRK)", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LinkLabel_Fullscreen.Font = New System.Drawing.Font("Agency FB", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LinkLabel_Fullscreen.LinkColor = System.Drawing.Color.CornflowerBlue
-        Me.LinkLabel_Fullscreen.Location = New System.Drawing.Point(216, 240)
+        Me.LinkLabel_Fullscreen.Location = New System.Drawing.Point(61, 295)
         Me.LinkLabel_Fullscreen.Name = "LinkLabel_Fullscreen"
-        Me.LinkLabel_Fullscreen.Size = New System.Drawing.Size(75, 11)
+        Me.LinkLabel_Fullscreen.Size = New System.Drawing.Size(60, 22)
         Me.LinkLabel_Fullscreen.TabIndex = 44
         Me.LinkLabel_Fullscreen.TabStop = True
         Me.LinkLabel_Fullscreen.Text = "Fullscreen"

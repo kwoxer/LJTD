@@ -83,11 +83,11 @@ Partial Class Wizard_Walkthrough
         'Label3
         '
         Me.Label3.BackColor = System.Drawing.Color.Transparent
-        Me.Label3.Font = New System.Drawing.Font("Visitor TT2 (BRK)", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label3.Font = New System.Drawing.Font("Agency FB", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label3.ForeColor = System.Drawing.Color.White
-        Me.Label3.Location = New System.Drawing.Point(21, 101)
+        Me.Label3.Location = New System.Drawing.Point(20, 86)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(454, 31)
+        Me.Label3.Size = New System.Drawing.Size(454, 51)
         Me.Label3.TabIndex = 30
         Me.Label3.Text = "Now we show you the main windows of LJTD. " & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "You can quit this tutorial whenever y" & _
     "ou want."
@@ -123,7 +123,7 @@ Partial Class Wizard_Walkthrough
         '
         Me.Panel_Contextmenu_PictureBoxIcon.BackgroundImage = CType(resources.GetObject("Panel_Contextmenu_PictureBoxIcon.BackgroundImage"), System.Drawing.Image)
         Me.Panel_Contextmenu_PictureBoxIcon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
-        Me.Panel_Contextmenu_PictureBoxIcon.Location = New System.Drawing.Point(111, 71)
+        Me.Panel_Contextmenu_PictureBoxIcon.Location = New System.Drawing.Point(111, 72)
         Me.Panel_Contextmenu_PictureBoxIcon.Name = "Panel_Contextmenu_PictureBoxIcon"
         Me.Panel_Contextmenu_PictureBoxIcon.Size = New System.Drawing.Size(16, 16)
         Me.Panel_Contextmenu_PictureBoxIcon.TabIndex = 37
@@ -143,14 +143,14 @@ Partial Class Wizard_Walkthrough
         'Panel_Contextmenu_LabelTop
         '
         Me.Panel_Contextmenu_LabelTop.BackColor = System.Drawing.Color.Transparent
-        Me.Panel_Contextmenu_LabelTop.Font = New System.Drawing.Font("Visitor TT2 (BRK)", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Panel_Contextmenu_LabelTop.Font = New System.Drawing.Font("Agency FB", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Panel_Contextmenu_LabelTop.ForeColor = System.Drawing.Color.White
         Me.Panel_Contextmenu_LabelTop.Location = New System.Drawing.Point(4, 99)
         Me.Panel_Contextmenu_LabelTop.Name = "Panel_Contextmenu_LabelTop"
-        Me.Panel_Contextmenu_LabelTop.Size = New System.Drawing.Size(233, 58)
+        Me.Panel_Contextmenu_LabelTop.Size = New System.Drawing.Size(233, 76)
         Me.Panel_Contextmenu_LabelTop.TabIndex = 36
-        Me.Panel_Contextmenu_LabelTop.Text = "You can show the Contextmenu " & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "by rightclicking the LJTD icon" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "in your tray as yo" & _
-    "u can see above"
+        Me.Panel_Contextmenu_LabelTop.Text = "You can show the Contextmenu by rightclicking the LJTD icon in your tray as you c" & _
+    "an see above."
         '
         'Panel_Contextmenu_Top
         '
@@ -167,14 +167,14 @@ Partial Class Wizard_Walkthrough
         'Panel_Contextmenu_LabelBottom
         '
         Me.Panel_Contextmenu_LabelBottom.BackColor = System.Drawing.Color.Transparent
-        Me.Panel_Contextmenu_LabelBottom.Font = New System.Drawing.Font("Visitor TT2 (BRK)", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Panel_Contextmenu_LabelBottom.Font = New System.Drawing.Font("Agency FB", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Panel_Contextmenu_LabelBottom.ForeColor = System.Drawing.Color.White
-        Me.Panel_Contextmenu_LabelBottom.Location = New System.Drawing.Point(3, 233)
+        Me.Panel_Contextmenu_LabelBottom.Location = New System.Drawing.Point(3, 199)
         Me.Panel_Contextmenu_LabelBottom.Name = "Panel_Contextmenu_LabelBottom"
-        Me.Panel_Contextmenu_LabelBottom.Size = New System.Drawing.Size(234, 40)
+        Me.Panel_Contextmenu_LabelBottom.Size = New System.Drawing.Size(234, 74)
         Me.Panel_Contextmenu_LabelBottom.TabIndex = 34
         Me.Panel_Contextmenu_LabelBottom.Text = "Additionally a leftclick on this icon will switch the visibility of the Control O" & _
-    "verlay"
+    "verlay."
         '
         'Label_ShowStepNumber
         '
@@ -239,11 +239,11 @@ Partial Class Wizard_Walkthrough
         'Panel_ControlOverlay_Label
         '
         Me.Panel_ControlOverlay_Label.BackColor = System.Drawing.Color.Transparent
-        Me.Panel_ControlOverlay_Label.Font = New System.Drawing.Font("Visitor TT2 (BRK)", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Panel_ControlOverlay_Label.Font = New System.Drawing.Font("Agency FB", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Panel_ControlOverlay_Label.ForeColor = System.Drawing.Color.White
         Me.Panel_ControlOverlay_Label.Location = New System.Drawing.Point(4, 188)
         Me.Panel_ControlOverlay_Label.Name = "Panel_ControlOverlay_Label"
-        Me.Panel_ControlOverlay_Label.Size = New System.Drawing.Size(439, 91)
+        Me.Panel_ControlOverlay_Label.Size = New System.Drawing.Size(439, 101)
         Me.Panel_ControlOverlay_Label.TabIndex = 36
         Me.Panel_ControlOverlay_Label.Text = resources.GetString("Panel_ControlOverlay_Label.Text")
         '
@@ -284,9 +284,9 @@ Partial Class Wizard_Walkthrough
         'Panel_Minimap_Label
         '
         Me.Panel_Minimap_Label.BackColor = System.Drawing.Color.Transparent
-        Me.Panel_Minimap_Label.Font = New System.Drawing.Font("Visitor TT2 (BRK)", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Panel_Minimap_Label.Font = New System.Drawing.Font("Agency FB", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Panel_Minimap_Label.ForeColor = System.Drawing.Color.White
-        Me.Panel_Minimap_Label.Location = New System.Drawing.Point(4, 48)
+        Me.Panel_Minimap_Label.Location = New System.Drawing.Point(4, 51)
         Me.Panel_Minimap_Label.Name = "Panel_Minimap_Label"
         Me.Panel_Minimap_Label.Size = New System.Drawing.Size(439, 76)
         Me.Panel_Minimap_Label.TabIndex = 36
@@ -320,18 +320,18 @@ Partial Class Wizard_Walkthrough
         'Panel_Settings_LinkLabel
         '
         Me.Panel_Settings_LinkLabel.AutoSize = True
-        Me.Panel_Settings_LinkLabel.Font = New System.Drawing.Font("Visitor TT2 (BRK)", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Panel_Settings_LinkLabel.Font = New System.Drawing.Font("Agency FB", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Panel_Settings_LinkLabel.LinkColor = System.Drawing.Color.CornflowerBlue
-        Me.Panel_Settings_LinkLabel.Location = New System.Drawing.Point(133, 257)
+        Me.Panel_Settings_LinkLabel.Location = New System.Drawing.Point(147, 264)
         Me.Panel_Settings_LinkLabel.Name = "Panel_Settings_LinkLabel"
-        Me.Panel_Settings_LinkLabel.Size = New System.Drawing.Size(40, 11)
+        Me.Panel_Settings_LinkLabel.Size = New System.Drawing.Size(35, 18)
         Me.Panel_Settings_LinkLabel.TabIndex = 38
         Me.Panel_Settings_LinkLabel.TabStop = True
         Me.Panel_Settings_LinkLabel.Text = "Forum"
         '
         'Panel_Settings_PictureBox
         '
-        Me.Panel_Settings_PictureBox.BackColor = System.Drawing.Color.Black
+        Me.Panel_Settings_PictureBox.BackColor = System.Drawing.Color.FromArgb(CType(CType(1, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(1, Byte), Integer))
         Me.Panel_Settings_PictureBox.BackgroundImage = CType(resources.GetObject("Panel_Settings_PictureBox.BackgroundImage"), System.Drawing.Image)
         Me.Panel_Settings_PictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.Panel_Settings_PictureBox.Location = New System.Drawing.Point(222, 48)
@@ -343,7 +343,7 @@ Partial Class Wizard_Walkthrough
         'Panel_Settings_Label
         '
         Me.Panel_Settings_Label.BackColor = System.Drawing.Color.Transparent
-        Me.Panel_Settings_Label.Font = New System.Drawing.Font("Visitor TT2 (BRK)", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Panel_Settings_Label.Font = New System.Drawing.Font("Agency FB", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Panel_Settings_Label.ForeColor = System.Drawing.Color.White
         Me.Panel_Settings_Label.Location = New System.Drawing.Point(4, 48)
         Me.Panel_Settings_Label.Name = "Panel_Settings_Label"
@@ -365,7 +365,7 @@ Partial Class Wizard_Walkthrough
         '
         'Panel_OO
         '
-        Me.Panel_OO.BackColor = System.Drawing.Color.Transparent
+        Me.Panel_OO.BackColor = System.Drawing.Color.FromArgb(CType(CType(1, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(1, Byte), Integer))
         Me.Panel_OO.Controls.Add(Me.Panel_OO_PictureBoxLeft)
         Me.Panel_OO.Controls.Add(Me.Panel_OO_PictureBoxRight)
         Me.Panel_OO.Controls.Add(Me.Panel_OO_Label)
@@ -399,15 +399,14 @@ Partial Class Wizard_Walkthrough
         'Panel_OO_Label
         '
         Me.Panel_OO_Label.BackColor = System.Drawing.Color.Transparent
-        Me.Panel_OO_Label.Font = New System.Drawing.Font("Visitor TT2 (BRK)", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Panel_OO_Label.Font = New System.Drawing.Font("Agency FB", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Panel_OO_Label.ForeColor = System.Drawing.Color.White
-        Me.Panel_OO_Label.Location = New System.Drawing.Point(4, 48)
+        Me.Panel_OO_Label.Location = New System.Drawing.Point(4, 43)
         Me.Panel_OO_Label.Name = "Panel_OO_Label"
-        Me.Panel_OO_Label.Size = New System.Drawing.Size(439, 68)
+        Me.Panel_OO_Label.Size = New System.Drawing.Size(439, 76)
         Me.Panel_OO_Label.TabIndex = 36
         Me.Panel_OO_Label.Text = "This window is an alternative for all of you that want to play in fullscreen mode" & _
-    "." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Just move this window on your second screen and you have everything you nee" & _
-    "d."
+    ". Just move this window on your second screen and you have everything you need."
         '
         'Panel_OO_Top
         '
@@ -449,11 +448,11 @@ Partial Class Wizard_Walkthrough
         Me.Controls.Add(Me.ProgressBar)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.Panel_Minimap)
         Me.Controls.Add(Me.Panel_ControlOverlay)
         Me.Controls.Add(Me.Panel_Contextmenu)
         Me.Controls.Add(Me.Panel_Settings)
         Me.Controls.Add(Me.Panel_OO)
-        Me.Controls.Add(Me.Panel_Minimap)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "Wizard_Walkthrough"

@@ -3013,11 +3013,7 @@
 </value>
   </data>
   <data name="Panel_ControlOverlay_Label.Text" xml:space="preserve">
-    <value>This window is the command center of LJTD.
-
-Here you control your objectives and a Flash timer as well
-
-It's actually the overlay you will see in the game. Therefor the slides on the left side will help to improve the usability in-game.
+    <value>This window is the command center of LJTD. Here you control your objectives and a Flash timer as well It's actually the overlay you will see in the game. Therefor the slides on the left side will help to improve the usability in-game.
 </value>
   </data>
   <data name="Panel_Minimap_PictureBox.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -3300,9 +3296,7 @@ It's actually the overlay you will see in the game. Therefor the slides on the l
 </value>
   </data>
   <data name="Panel_Minimap_Label.Text" xml:space="preserve">
-    <value>This window is an overlay for the in-game minimap. 
-
-It's used to show additional information like durations of respawning objectives or a ping symbol when an objective is close to it's spawn time. You can also use the Wardmap feature to create infinite wards with it.
+    <value>This window is an overlay for the in-game minimap. It's used to show additional information like durations of respawning objectives or a ping symbol when an objective is close to it's spawn time. You can also use the Wardmap feature to create infinite wards with it.
 </value>
   </data>
   <data name="Panel_Settings_PictureBox.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -6945,9 +6939,7 @@ It's used to show additional information like durations of respawning objectives
   <data name="Panel_Settings_Label.Text" xml:space="preserve">
     <value>The settings let you customize over 100 of different things for your personal LJTD.
 
-
-These tabs are for seperating features into groups:
-
+These tabs are seperating features into groups
 - Main configs
 - Visual effects
 - Write2Chat
@@ -6955,9 +6947,7 @@ These tabs are for seperating features into groups:
 - Color management
 - Advanced Minimap
 - Macros and Names
-
-
-You are missing a feature or just want to suggest one? Therefore use our       .</value>
+You are missing a feature or just want to suggest one? Therefore use our            .</value>
   </data>
   <data name="Panel_OO_PictureBoxLeft.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

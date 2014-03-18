@@ -94,6 +94,7 @@ Public Class LJTD
         If Font_Initialize() And CBool(resource.PropConfig(27, 1)) Then
             Wizard_Tutorial.Show()
         End If
+        'Wizard_Tutorial.Show()
         'Wizard.Show()
     End Sub
     ''' <summary>
