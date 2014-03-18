@@ -106,11 +106,11 @@ Partial Class About
         Me.Label_Tester2.BackColor = System.Drawing.Color.Transparent
         Me.Label_Tester2.Font = New System.Drawing.Font("Visitor TT2 (BRK)", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label_Tester2.ForeColor = System.Drawing.Color.White
-        Me.Label_Tester2.Location = New System.Drawing.Point(31, 416)
+        Me.Label_Tester2.Location = New System.Drawing.Point(30, 416)
         Me.Label_Tester2.Name = "Label_Tester2"
-        Me.Label_Tester2.Size = New System.Drawing.Size(59, 9)
+        Me.Label_Tester2.Size = New System.Drawing.Size(117, 9)
         Me.Label_Tester2.TabIndex = 29
-        Me.Label_Tester2.Text = "Bambennos"
+        Me.Label_Tester2.Text = "Bambennos, Elcattivo"
         '
         'Label_Tester1
         '
@@ -271,9 +271,9 @@ Partial Class About
         Me.Label_Programming1.ForeColor = System.Drawing.Color.White
         Me.Label_Programming1.Location = New System.Drawing.Point(31, 267)
         Me.Label_Programming1.Name = "Label_Programming1"
-        Me.Label_Programming1.Size = New System.Drawing.Size(85, 9)
+        Me.Label_Programming1.Size = New System.Drawing.Size(143, 9)
         Me.Label_Programming1.TabIndex = 6
-        Me.Label_Programming1.Text = "kwoxer, Arth4s"
+        Me.Label_Programming1.Text = "kwoxer, Arth4s, Elcattivo"
         '
         'Label_Idea2
         '
