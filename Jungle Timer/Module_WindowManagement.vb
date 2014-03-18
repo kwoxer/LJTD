@@ -22,13 +22,15 @@
     Const MOUSEEVENTF_LEFTUP As Integer = &H4
     Private Const MOUSEEVENTF_RIGHTDOWN = &H8
     Const MOUSEEVENTF_RIGHTUP As Integer = &H10
-    Public x, y As Integer
-    Public Sub Position_Click(ByVal x As Integer, ByVal y As Integer)                
+    Private x, y As Integer
+    Public Sub Position_Click(ByVal midScreen_x As Integer, ByVal midScreen_y As Integer)
         mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
         mouse_event(MOUSEEVENTF_RIGHTUP, 0, 0, 0, 0)
-        SetCursorPos(x, y)
+        Threading.Thread.Sleep(20)
+        SetCursorPos(midScreen_x, midScreen_y)
         mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
         mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
+
     End Sub
     Public Sub SetBackupCursorPos()
         Dim pt As PointAPI
