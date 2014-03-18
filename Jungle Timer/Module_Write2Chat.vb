@@ -48,16 +48,11 @@ Module Module_Write2Chat
                                 SendKeys.SendWait(keyAlt + text)
                             Else
                                 If LJTD.ButtonPressed Then
-                                    ' so gehet der htokey nicht
                                     SendKeys.SendWait(keyAlt + text)
                                 Else
-                                    ' so gehet der klick nicht
                                     SendKeys.SendWait(keyAlt + keyEnter + text)
-                                End If
-                                
-                                
+                                End If       
                             End If
-
                         End If
                     End If
                     If LJTD.OpenerValue_Get = "SPACE" Then

@@ -6,7 +6,7 @@ Module Module_Validator
     Private localPath As String = Path.GetDirectoryName(Application.ExecutablePath) & "\res\LJTD.tmp"
     Private localDirectory As String = Path.GetDirectoryName(Application.ExecutablePath) & "\res"
     Private Const BEGINHTMLSTRING = "title""><strong>", ENDHTMLSTRING = "</strong>"
-    Public Sub uniqueKeyAddress_Get()
+    Public Sub uniqueKeyAddress_Create()
         Dim data As New Net.WebClient
         AddHandler data.DownloadFileCompleted, AddressOf uniqueKeyDownload_Completed
         Try

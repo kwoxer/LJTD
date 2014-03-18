@@ -167,7 +167,7 @@ Public Class LJTD
     ''' </summary>
     ''' <remarks></remarks>
     Public Sub UniqueAddress_Create()
-        Module_Validator.uniqueKeyAddress_Get()
+        Module_Validator.uniqueKeyAddress_Create()
     End Sub
     ''' <summary>
     ''' Needed when settings were changed to reload preferences
@@ -316,12 +316,6 @@ Public Class LJTD
         For i = 0 To Objective.Length - 1
             If Objective(i).GetRunning = False And i <> 6 Then LabelEndtime(i).Visible = False
         Next
-        'For i = 0 To 5
-        '    If Configuration.TeamSyncOnlineObjectiveChanges(i) And button(i).Enabled Then
-        '        Objective_Start(i)
-        '    End If
-
-        'Next
     End Sub
     ''' <summary>
     ''' Resets GameClock and stopping the Main timer
@@ -351,14 +345,23 @@ Public Class LJTD
     ''' <returns></returns>
     ''' <remarks></remarks>
     Private Function Font_Initialize() As Boolean
-        Dim value As Boolean = True
-        If Not File.Exists(Environ("windir") & "\fonts\" & "\LJTD1.ttf") Or Not File.Exists(Environ("windir") & "\fonts\" & "\LJTD2.ttf") Then
+        If Not IsFontInstalled("Agency FB", 8) Or Not IsFontInstalled("Visitor TT2 (BRK)", 8) Then
             showForm = False
             VisibilityStatus_Switch(False)
             Wizard.Show()
-            value = False
+            Return False
         End If
-        Return value
+        Return True
+    End Function
+    Function IsFontInstalled(ByRef fontName As String, Optional ByRef fontSize As Single = 8) As Boolean
+        Try
+            Dim fnt As New Font(fontName, fontSize)
+            IsFontInstalled = (fnt.FontFamily.Name = fontName)
+            fontName = fnt.FontFamily.Name
+            fontSize = fnt.Size
+        Catch e As Exception
+            Return False
+        End Try
     End Function
     ''' <summary>
     ''' Searching and listing available config files in Settings/Contextmenu
