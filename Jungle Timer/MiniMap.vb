@@ -37,6 +37,12 @@ Public Class MiniMap
         AddHandler wardButton1Min.Click, AddressOf WardButton1Min_Click
         AddHandler wardButton2Min.Click, AddressOf WardButton2Min_Click
         AddHandler wardButton3Min.Click, AddressOf WardButton3Min_Click
+        AddHandler wardButton1Min.MouseDown, AddressOf UI_MouseDown
+        AddHandler wardButton2Min.MouseDown, AddressOf UI_MouseDown
+        AddHandler wardButton3Min.MouseDown, AddressOf UI_MouseDown
+    End Sub
+    Private Sub UI_MouseDown(sender As Object, e As MouseEventArgs) Handles MyBase.MouseDown, Button_Hide.MouseDown, Button_Team.MouseDown, Panel_WardMap.MouseDown
+        Module_WindowManagement.Foreground_Set()
     End Sub
     Private Sub WardButton1Min_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         WardButtons_Hide()
@@ -170,10 +176,11 @@ Public Class MiniMap
             ping.Objective_Tick(ping.BuffID)
         Next
     End Sub
-    Private Sub PanelsMouseDown_Event(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Panel_Top.MouseDown, Panel_Right.MouseDown, _
+    Private Sub GrabMiniMap_Event(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Panel_Top.MouseDown, Panel_Right.MouseDown, _
         Label_Location_X.MouseDown, Label_Location_Y.MouseDown, Label_Size_X.MouseDown, Label_Size_Y.MouseDown
         Module_WindowManagement.MoveEvent_Initialize(e, Handle)
         SizeLocationLabelValues_Update()
+        Module_WindowManagement.Foreground_Set()
     End Sub
     Private Sub Panel_Changed(ByVal sender As Object, ByVal e As System.EventArgs) Handles Panel_Top.SizeChanged, Panel_Right.SizeChanged, Panel_Top.MouseMove, Panel_Right.MouseMove
         SizeLocationLabelValues_Update()
@@ -225,7 +232,7 @@ Public Class MiniMap
     End Sub
 #End Region
 #Region "Buttons"
-    Private Sub ButtonHide_Click() Handles Button_Hide.MouseDown
+    Private Sub ButtonHide_Click() Handles Button_Hide.Click
         If hidePanel Then
             Panel_Right.Visible = True
             Panel_Top.Visible = True
@@ -237,7 +244,6 @@ Public Class MiniMap
             hidePanel = True
             ShowForm = False
         End If
-        Module_WindowManagement.Foreground_Set()
     End Sub
     Public Sub TeamSidePicture_Click()
         If TeamBlueRed Then
@@ -253,9 +259,8 @@ Public Class MiniMap
             Button_Team.Image = My.Resources.MINIMAP_Button_BLUE_RED
             ObjectiveOverview.Button_Team.Image = My.Resources.MINIMAP_Button_BLUE_RED
         End If
-        Module_WindowManagement.Foreground_Set()
     End Sub
-    Private Sub ButtonTeam_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Team.MouseDown
+    Private Sub ButtonTeam_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Team.Click
         TeamSidePicture_Click()
     End Sub
     Public Sub TeamSidePicture_Change()
@@ -274,6 +279,7 @@ Public Class MiniMap
         Module_WindowManagement.ReleaseCapture()
         Module_WindowManagement.SendMessage(CInt(Me.Handle), WM_NCLBUTTONDOWN, HTBOTTOMLEFT, CInt(IntPtr.Zero))
         SizeLocationLabelValues_Update()
+        Module_WindowManagement.Foreground_Set()
     End Sub
 #End Region
 #Region "WardMap"
@@ -302,7 +308,7 @@ Public Class MiniMap
             Me.Controls.Remove(deleteWard.Picture_Destroy)
         Next
     End Sub
-    Private Sub Wardmap_Clicked(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Panel_WardMap.MouseDown
+    Private Sub Wardmap_Clicked(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Panel_WardMap.Click
         wardButton1Min.Visible = True
         wardButton2Min.Visible = True
         wardButton3Min.Visible = True
@@ -312,7 +318,6 @@ Public Class MiniMap
     Private Sub Ward_Create(duration As Integer)
         Dim newWard As New Ward(clickXY(0), clickXY(1), duration)
         Me.Controls.Add(newWard.Picture_Create)
-        Module_WindowManagement.Foreground_Set()
         listWardMap.Add(newWard)
     End Sub
     Private Sub WardButtonsLocations_Calculate(x As Integer, y As Integer)

@@ -23,15 +23,12 @@
     Private Const MOUSEEVENTF_RIGHTDOWN = &H8
     Const MOUSEEVENTF_RIGHTUP As Integer = &H10
     Public x, y As Integer
-    Public Sub Position_Click(ByVal x As Integer, ByVal y As Integer, ByVal click As Boolean)
+    Public Sub Position_Click(ByVal x As Integer, ByVal y As Integer)                
+        mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
+        mouse_event(MOUSEEVENTF_RIGHTUP, 0, 0, 0, 0)
         SetCursorPos(x, y)
-        If click Then
-            mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
-            mouse_event(MOUSEEVENTF_RIGHTDOWN, 0, 0, 0, 0)
-        Else
-            mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
-            mouse_event(MOUSEEVENTF_RIGHTUP, 0, 0, 0, 0)
-        End If
+        mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
+        mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
     End Sub
     Public Sub SetBackupCursorPos()
         Dim pt As PointAPI
@@ -45,16 +42,12 @@
             SendMessage(handle.ToInt32, WM_NCLBUTTONDOWN, HT_CAPTION, 0)
         End If
     End Sub
-    Public Sub Foreground_Set()
-        If LJTD.GameClockRunning Then
+    Public Sub Foreground_Set(Optional ByVal forceFocusChange As Boolean = False)
+        If forceFocusChange Or LJTD.GameClockRunning Then
             If resource.PropConfigBool(28) Then
                 SetBackupCursorPos()
-                Threading.Thread.Sleep(100)
-                Position_Click(Module_Generate.ScreenWidth / 2, Module_Generate.ScreenHeight / 2, True)
-                If LJTD.clickMode = "Left" Then
-                    Threading.Thread.Sleep(100)
-                End If
-                Position_Click(x, y, False)
+                Position_Click(Module_Generate.ScreenWidth / 2, Module_Generate.ScreenHeight / 2)
+                SetCursorPos(x, y)
             End If
         End If
     End Sub

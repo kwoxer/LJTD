@@ -12,7 +12,6 @@ Public Class LJTD
     Public ImgControlOverlay As Image
     Public ButtonPressed As Boolean = False
     Public UnsavedOpacity As Double
-    Public clickMode As String
     Public button(6) As Button
     Public buffRunning(6) As Boolean
     Private runningTime As Integer
@@ -202,18 +201,12 @@ Public Class LJTD
             ConfigFileManagement_Initialize(False)
         End If
     End Sub
-    Private Sub MouseClick_Events(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Panel.MouseClick, Label_OurBlue.MouseClick, Label_OurBlue.DoubleClick, _
-        Label_OurBlueEndtime.MouseClick, Label_OurBlueEndtime.DoubleClick, Label_OurRed.MouseClick, Label_OurRed.DoubleClick, Label_OurRedEndtime.MouseClick, _
-        Label_OurRedEndtime.DoubleClick, Label_Dragon.MouseClick, Label_Dragon.DoubleClick, Label_DragonEndtime.MouseClick, Label_DragonEndtime.DoubleClick, _
-        Label_Baron.MouseClick, Label_Baron.DoubleClick, Label_BaronEndtime.MouseClick, Label_BaronEndtime.DoubleClick, Label_TheirBlue.MouseClick, Label_TheirBlue.DoubleClick, _
-        Label_TheirBlueEndtime.MouseClick, Label_TheirBlueEndtime.DoubleClick, Label_TheirRed.MouseClick, Label_TheirRed.DoubleClick, Label_TheirRedEndtime.MouseClick, _
-        Label_TheirRedEndtime.DoubleClick, Label_Flash.MouseClick, Label_Flash.DoubleClick, Label_GameClock.MouseClick, Label_GameClock.DoubleClick
-        If e.Button = MouseButtons.Right Then
-            clickMode = "Right"
-        Else
-            clickMode = "Left"
-        End If
-        Module_WindowManagement.Foreground_Set()
+    Private Sub UI_MouseDown(sender As Object, e As MouseEventArgs) Handles Button_OurBlue.MouseDown, Button_OurRed.MouseDown, Button_Dragon.MouseDown, Button_Baron.MouseDown, Button_TheirBlue.MouseDown, _
+        Button_TheirRed.MouseDown, Button_Minimap.MouseDown, Button_Start.MouseDown, Panel.MouseDown, Label_OurBlue.MouseDown, Label_OurBlueEndtime.MouseDown, Label_OurRed.MouseDown, Label_OurRedEndtime.MouseDown, _
+        Label_Dragon.MouseDown, Label_DragonEndtime.MouseDown, Label_Baron.MouseDown, Label_BaronEndtime.MouseDown, Label_TheirBlue.MouseDown, Label_TheirBlueEndtime.MouseDown, Label_TheirRed.MouseDown, _
+        Label_TheirRedEndtime.MouseDown, Label_Flash.MouseDown, Label_GameClock.MouseDown, PictureBox_Logo.MouseDown, Button_SlideInButtons.MouseDown, Button_SlideInLabels.MouseDown, Button_SlideOutButtons.MouseDown, _
+        Button_SlideOutLabels.MouseDown, MyBase.MouseDown
+        Module_WindowManagement.Foreground_Set(sender Is Button_Start)
     End Sub
     Private Sub MouseDown_Events(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Panel.MouseDown, Label_OurBlue.MouseDown, _
          Label_OurBlueEndtime.MouseDown, Label_OurRed.MouseDown, Label_OurRedEndtime.MouseDown, Label_Dragon.MouseDown, Label_DragonEndtime.MouseDown, Label_GameClock.MouseDown, _
@@ -1021,9 +1014,6 @@ Public Class LJTD
         End If
     End Sub
     Public Sub Objective_Switch(ByVal i As Integer)
-        If ButtonPressed Then
-            Module_WindowManagement.Foreground_Set()
-        End If
         If Objective(i).GetRunning Then
             buffRunning(i) = False
             button(i).Enabled = False
