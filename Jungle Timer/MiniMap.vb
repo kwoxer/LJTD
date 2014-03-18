@@ -41,7 +41,7 @@ Public Class MiniMap
         AddHandler wardButton2Min.MouseDown, AddressOf UI_MouseDown
         AddHandler wardButton3Min.MouseDown, AddressOf UI_MouseDown
     End Sub
-    Private Sub UI_MouseDown(sender As Object, e As MouseEventArgs) Handles MyBase.MouseDown, Button_Hide.MouseDown, Button_Team.MouseDown, Button_Resize.MouseDown, Panel_WardMap.MouseDown
+    Private Sub UI_MouseDown(sender As Object, e As MouseEventArgs) Handles MyBase.MouseDown, Button_Hide.MouseDown, Button_Team.MouseDown, Panel_WardMap.MouseDown
         Module_WindowManagement.Foreground_Set()
     End Sub
     Private Sub WardButton1Min_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -279,6 +279,7 @@ Public Class MiniMap
         Module_WindowManagement.ReleaseCapture()
         Module_WindowManagement.SendMessage(CInt(Me.Handle), WM_NCLBUTTONDOWN, HTBOTTOMLEFT, CInt(IntPtr.Zero))
         SizeLocationLabelValues_Update()
+        Module_WindowManagement.Foreground_Set()
     End Sub
 #End Region
 #Region "WardMap"
