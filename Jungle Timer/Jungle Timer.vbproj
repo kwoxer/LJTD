@@ -368,6 +368,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Wizard_Walkthrough.resx">
       <DependentUpon>Wizard_Walkthrough.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard_OnYourOwn.resx">
       <DependentUpon>Wizard_OnYourOwn.vb</DependentUpon>
