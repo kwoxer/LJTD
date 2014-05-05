@@ -123,6 +123,7 @@ Public Class LJTD
         UpdateAvailable_Show()
         GameModeWardMap_Initialize()
         Settings.Backgrounds_Initialize()
+        Settings.Keys_Initialize()
         Settings.Configuration_FullInitializion()
         ExternalImages_Initialize()
         UniqueAddress_Create()
@@ -293,12 +294,12 @@ Public Class LJTD
         showForm = Not showForm
         If showForm Then
             Me.Hide()
-            MiniMap.Hide()
+            MiniMap.Visible = False
             MiniMap.ShowForm = False
         Else
             Me.Show()
             If dontShowMiniMap Then
-                MiniMap.Show()
+                MiniMap.Visible = True
                 MiniMap.ShowForm = True
             End If
             Slide_CheckResource()
@@ -1024,8 +1025,10 @@ Public Class LJTD
             button(i).BackgroundImage = imgObjectiveNormal(i)
             Objective(i).Objective_End()
             label(i).Visible = False
-            LabelEndtime(i).Visible = False
-            If i <> 6 Then MiniMap.MinimapPing(i).Objective_End()
+            If i <> 6 Then
+                MiniMap.MinimapPing(i).Objective_End()
+                LabelEndtime(i).Visible = False
+            End If
             If resource.PropConfig(26, 1) = "Restart" Then Objective_Switch(i)
         Else
             buffRunning(i) = True

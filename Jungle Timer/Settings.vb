@@ -53,6 +53,7 @@ Public Class Settings
     Private configFileChanged As Boolean = False
     Private settingsMode As String
     Private settingsModes As String() = {"Basic", "Expert"}
+    Private keyCollection As New Dictionary(Of Integer, String)
 
     Public Sub Resource_Refresh()
         resource = Resources.Resources
@@ -73,6 +74,97 @@ Public Class Settings
         LJTD.Timer_TopMost.Stop()
         MiniMap.Timer_TopMost.Stop()
         ShowForm = True
+    End Sub
+    Public Sub Keys_Initialize()
+        keyCollection.Add(8, "Backspace")
+        keyCollection.Add(9, "Tab")
+        keyCollection.Add(13, "Enter")
+        keyCollection.Add(16, "Shift")
+        keyCollection.Add(17, "Ctrl")
+        keyCollection.Add(18, "Alt")
+        keyCollection.Add(19, "Pause/Break")
+        keyCollection.Add(20, "Caps Lock")
+        keyCollection.Add(27, "Esc")
+        keyCollection.Add(32, "Space")
+        keyCollection.Add(33, "Page Up")
+        keyCollection.Add(34, "Page Down")
+        keyCollection.Add(35, "End")
+        keyCollection.Add(36, "Home")
+        keyCollection.Add(37, "Arrow Left")
+        keyCollection.Add(38, "Arrow Up")
+        keyCollection.Add(39, "Arrow Right")
+        keyCollection.Add(40, "Arrow Down")
+        keyCollection.Add(45, "Insert")
+        keyCollection.Add(46, "Delete")
+        keyCollection.Add(48, "0")
+        keyCollection.Add(49, "1")
+        keyCollection.Add(50, "2")
+        keyCollection.Add(51, "3")
+        keyCollection.Add(52, "4")
+        keyCollection.Add(53, "5")
+        keyCollection.Add(54, "6")
+        keyCollection.Add(55, "7")
+        keyCollection.Add(56, "8")
+        keyCollection.Add(57, "9")
+        keyCollection.Add(59, ";:")
+        keyCollection.Add(61, "=+")
+        keyCollection.Add(65, "A")
+        keyCollection.Add(66, "B")
+        keyCollection.Add(67, "C")
+        keyCollection.Add(68, "D")
+        keyCollection.Add(69, "E")
+        keyCollection.Add(70, "F")
+        keyCollection.Add(71, "G")
+        keyCollection.Add(72, "H")
+        keyCollection.Add(73, "I")
+        keyCollection.Add(74, "J")
+        keyCollection.Add(75, "K")
+        keyCollection.Add(76, "L")
+        keyCollection.Add(77, "M")
+        keyCollection.Add(78, "N")
+        keyCollection.Add(79, "O")
+        keyCollection.Add(80, "P")
+        keyCollection.Add(81, "Q")
+        keyCollection.Add(82, "R")
+        keyCollection.Add(83, "S")
+        keyCollection.Add(84, "T")
+        keyCollection.Add(85, "U")
+        keyCollection.Add(86, "V")
+        keyCollection.Add(87, "W")
+        keyCollection.Add(88, "X")
+        keyCollection.Add(89, "Y")
+        keyCollection.Add(90, "Z")
+        keyCollection.Add(91, "Windows key")
+        keyCollection.Add(93, "Right Click")
+        keyCollection.Add(96, "0 (Num Lock)")
+        keyCollection.Add(97, "1 (Num Lock)")
+        keyCollection.Add(98, "2 (Num Lock)")
+        keyCollection.Add(99, "3 (Num Lock)")
+        keyCollection.Add(100, "4 (Num Lock)")
+        keyCollection.Add(101, "5 (Num Lock)")
+        keyCollection.Add(102, "6 (Num Lock)")
+        keyCollection.Add(103, "7 (Num Lock)")
+        keyCollection.Add(104, "8 (Num Lock)")
+        keyCollection.Add(105, "9 (Num Lock)")
+        keyCollection.Add(106, "* (Num Lock)")
+        keyCollection.Add(107, "+ (Num Lock)")
+        keyCollection.Add(109, "- (Num Lock)")
+        keyCollection.Add(110, ". (Num Lock)")
+        keyCollection.Add(111, "/ (Num Lock)")
+        keyCollection.Add(112, "F1")
+        keyCollection.Add(113, "F2")
+        keyCollection.Add(114, "F3")
+        keyCollection.Add(115, "F4")
+        keyCollection.Add(116, "F5")
+        keyCollection.Add(117, "F6")
+        keyCollection.Add(118, "F7")
+        keyCollection.Add(119, "F8")
+        keyCollection.Add(120, "F9")
+        keyCollection.Add(121, "F10")
+        keyCollection.Add(122, "F11")
+        keyCollection.Add(123, "F12")
+        keyCollection.Add(144, "Num Lock")
+        keyCollection.Add(145, "Scroll Lock")
     End Sub
     Public Sub Backgrounds_Initialize()
         panelBackground(0) = My.Resources.SETTINGS_BG_Main
@@ -696,19 +788,19 @@ Public Class Settings
 #Region "Panel Hotkey"
     Private Sub PanelHotkey_Initialize(ByVal resource As Resources)
         Hotkey_GroupBox_InitialHotkey_ComboBox.Text = resource.PropConfig(2, 1)
-        Hotkey_GroupBox_Hotkeys_TextBox_Baron.Text = CType(resource.PropHotkey(0, 1), Keys).ToString()
-        Hotkey_GroupBox_Hotkeys_TextBox_Dragon.Text = CType(resource.PropHotkey(1, 1), Keys).ToString()
-        Hotkey_GroupBox_Hotkeys_TextBox_OB.Text = CType(resource.PropHotkey(2, 1), Keys).ToString()
-        Hotkey_GroupBox_Hotkeys_TextBox_OR.Text = CType(resource.PropHotkey(3, 1), Keys).ToString()
-        Hotkey_GroupBox_Hotkeys_TextBox_TB.Text = CType(resource.PropHotkey(4, 1), Keys).ToString()
-        Hotkey_GroupBox_Hotkeys_TextBox_TR.Text = CType(resource.PropHotkey(5, 1), Keys).ToString()
-        Hotkey_GroupBox_Hotkeys_TextBox_Flash.Text = CType(resource.PropHotkey(6, 1), Keys).ToString()
+        Hotkey_GroupBox_Hotkeys_TextBox_Baron.Text = keyCollection.Item(CInt(resource.PropHotkey(0, 1)))
         Hotkey_GroupBox_Hotkeys_TextBox_Baron.Tag = resource.PropHotkey(0, 1)
+        Hotkey_GroupBox_Hotkeys_TextBox_Dragon.Text = keyCollection.Item(CInt(resource.PropHotkey(1, 1)))
         Hotkey_GroupBox_Hotkeys_TextBox_Dragon.Tag = resource.PropHotkey(1, 1)
+        Hotkey_GroupBox_Hotkeys_TextBox_OB.Text = keyCollection.Item(CInt(resource.PropHotkey(2, 1)))
         Hotkey_GroupBox_Hotkeys_TextBox_OB.Tag = resource.PropHotkey(2, 1)
+        Hotkey_GroupBox_Hotkeys_TextBox_OR.Text = keyCollection.Item(CInt(resource.PropHotkey(3, 1)))
         Hotkey_GroupBox_Hotkeys_TextBox_OR.Tag = resource.PropHotkey(3, 1)
+        Hotkey_GroupBox_Hotkeys_TextBox_TB.Text = keyCollection.Item(CInt(resource.PropHotkey(4, 1)))
         Hotkey_GroupBox_Hotkeys_TextBox_TB.Tag = resource.PropHotkey(4, 1)
+        Hotkey_GroupBox_Hotkeys_TextBox_TR.Text = keyCollection.Item(CInt(resource.PropHotkey(5, 1)))
         Hotkey_GroupBox_Hotkeys_TextBox_TR.Tag = resource.PropHotkey(5, 1)
+        Hotkey_GroupBox_Hotkeys_TextBox_Flash.Text = keyCollection.Item(CInt(resource.PropHotkey(6, 1)))
         Hotkey_GroupBox_Hotkeys_TextBox_Flash.Tag = resource.PropHotkey(6, 1)
         Hotkey_GroupBox_ObjectiveResetMode_ComboBox.Text = resource.PropConfig(26, 1)
     End Sub
@@ -722,6 +814,25 @@ Public Class Settings
         resource.PropHotkey(5, 1) = CStr(Hotkey_GroupBox_Hotkeys_TextBox_TR.Tag)
         resource.PropHotkey(6, 1) = CStr(Hotkey_GroupBox_Hotkeys_TextBox_Flash.Tag)
         resource.PropConfig(26, 1) = Hotkey_GroupBox_ObjectiveResetMode_ComboBox.Text
+    End Sub
+    Private Sub HotkeyNameTextBoxKeys_KeyDown(ByVal sender As TextBox, ByVal e As KeyEventArgs) Handles Hotkey_GroupBox_Hotkeys_TextBox_Baron.KeyUp, _
+            Hotkey_GroupBox_Hotkeys_TextBox_Dragon.KeyUp, Hotkey_GroupBox_Hotkeys_TextBox_OB.KeyUp, Hotkey_GroupBox_Hotkeys_TextBox_OR.KeyUp, _
+            Hotkey_GroupBox_Hotkeys_TextBox_TB.KeyUp, Hotkey_GroupBox_Hotkeys_TextBox_TR.KeyUp, Hotkey_GroupBox_Hotkeys_TextBox_Flash.KeyUp, _
+            Macros_GroupBox_Macro_TextBox_Hotkey_1.KeyUp, Macros_GroupBox_Macro_TextBox_Hotkey_2.KeyUp, Macros_GroupBox_Macro_TextBox_Hotkey_3.KeyUp, _
+            Macros_GroupBox_Macro_TextBox_Hotkey_4.KeyUp, Macros_GroupBox_Macro_TextBox_Hotkey_5.KeyUp, Macros_GroupBox_Macro_TextBox_Hotkey_6.KeyUp, _
+             MiniMap_GroupBox_WardMap_TextBox.KeyUp
+        If keyCollection.ContainsKey(e.KeyCode) Then
+            sender.Text = keyCollection.Item(e.KeyCode)
+            sender.Tag = e.KeyCode
+        End If
+    End Sub
+    Private Sub HotkeyNameTextBoxKeys_KeyPress(ByVal sender As TextBox, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles Hotkey_GroupBox_Hotkeys_TextBox_Baron.KeyPress, _
+        Hotkey_GroupBox_Hotkeys_TextBox_Dragon.KeyPress, Hotkey_GroupBox_Hotkeys_TextBox_OB.KeyPress, Hotkey_GroupBox_Hotkeys_TextBox_OR.KeyPress, _
+        Hotkey_GroupBox_Hotkeys_TextBox_TB.KeyPress, Hotkey_GroupBox_Hotkeys_TextBox_TR.KeyPress, Hotkey_GroupBox_Hotkeys_TextBox_Flash.KeyPress, _
+        Macros_GroupBox_Macro_TextBox_Hotkey_1.KeyPress, Macros_GroupBox_Macro_TextBox_Hotkey_2.KeyPress, Macros_GroupBox_Macro_TextBox_Hotkey_3.KeyPress, _
+        Macros_GroupBox_Macro_TextBox_Hotkey_4.KeyPress, Macros_GroupBox_Macro_TextBox_Hotkey_5.KeyPress, Macros_GroupBox_Macro_TextBox_Hotkey_6.KeyPress, _
+        MiniMap_GroupBox_WardMap_TextBox.KeyPress
+        sender.Text = ""
     End Sub
 #End Region
 #Region "Panel Color"
@@ -878,7 +989,7 @@ Public Class Settings
         MiniMap_GroupBox_PlaySoundPings_Sound_CheckBox.Checked = resource.PropConfigBool(9)
         MiniMap_GroupBox_Fullmode_CheckBox.Checked = resource.PropMinimapBool(4)
         MiniMap_GroupBox_WardMap_CheckBox.Checked = resource.PropWardmapBool(0, 1)
-        MiniMap_GroupBox_WardMap_TextBox.Text = CType(resource.PropWardmap(1, 1), Keys).ToString
+        MiniMap_GroupBox_WardMap_TextBox.Text = keyCollection.Item(CInt(resource.PropWardmap(1, 1)))
         MiniMap_GroupBox_WardMap_TextBox.Tag = resource.PropWardmap(1, 1)
         MiniMapGroupBoxWardMap_SetEnableStatus()
         MiniMapGroupBoxPings_SetEnableStatus()
@@ -1042,12 +1153,12 @@ Public Class Settings
         Macros_GroupBox_Macro_TextBox_Chat_4.Text = resource.PropMacro(17, 1)
         Macros_GroupBox_Macro_TextBox_Chat_5.Text = resource.PropMacro(18, 1)
         Macros_GroupBox_Macro_TextBox_Chat_6.Text = resource.PropMacro(19, 1)
-        Macros_GroupBox_Macro_TextBox_Hotkey_1.Text = CType(resource.PropMacro(2, 1), Keys).ToString()
-        Macros_GroupBox_Macro_TextBox_Hotkey_2.Text = CType(resource.PropMacro(3, 1), Keys).ToString()
-        Macros_GroupBox_Macro_TextBox_Hotkey_3.Text = CType(resource.PropMacro(4, 1), Keys).ToString()
-        Macros_GroupBox_Macro_TextBox_Hotkey_4.Text = CType(resource.PropMacro(5, 1), Keys).ToString()
-        Macros_GroupBox_Macro_TextBox_Hotkey_5.Text = CType(resource.PropMacro(6, 1), Keys).ToString()
-        Macros_GroupBox_Macro_TextBox_Hotkey_6.Text = CType(resource.PropMacro(7, 1), Keys).ToString()
+        Macros_GroupBox_Macro_TextBox_Hotkey_1.Text = keyCollection.Item(CInt(resource.PropMacro(2, 1)))
+        Macros_GroupBox_Macro_TextBox_Hotkey_2.Text = keyCollection.Item(CInt(resource.PropMacro(3, 1)))
+        Macros_GroupBox_Macro_TextBox_Hotkey_3.Text = keyCollection.Item(CInt(resource.PropMacro(4, 1)))
+        Macros_GroupBox_Macro_TextBox_Hotkey_4.Text = keyCollection.Item(CInt(resource.PropMacro(5, 1)))
+        Macros_GroupBox_Macro_TextBox_Hotkey_5.Text = keyCollection.Item(CInt(resource.PropMacro(6, 1)))
+        Macros_GroupBox_Macro_TextBox_Hotkey_6.Text = keyCollection.Item(CInt(resource.PropMacro(7, 1)))
         Macros_GroupBox_Macro_TextBox_Hotkey_1.Tag = resource.PropMacro(2, 1)
         Macros_GroupBox_Macro_TextBox_Hotkey_2.Tag = resource.PropMacro(3, 1)
         Macros_GroupBox_Macro_TextBox_Hotkey_3.Tag = resource.PropMacro(4, 1)
@@ -1215,40 +1326,6 @@ Public Class Settings
         Process.Start(urlButtons(2))
     End Sub
 #End Region
-#Region "Hotkey and Name Textbox Events"
-    Private Sub HotkeyNameTextBoxKeys_KeyDown(ByVal sender As TextBox, ByVal e As KeyEventArgs) Handles Hotkey_GroupBox_Hotkeys_TextBox_Baron.KeyDown, _
-            Hotkey_GroupBox_Hotkeys_TextBox_Dragon.KeyDown, Hotkey_GroupBox_Hotkeys_TextBox_OB.KeyDown, Hotkey_GroupBox_Hotkeys_TextBox_OR.KeyDown, _
-            Hotkey_GroupBox_Hotkeys_TextBox_TB.KeyDown, Hotkey_GroupBox_Hotkeys_TextBox_TR.KeyDown, Hotkey_GroupBox_Hotkeys_TextBox_Flash.KeyDown, _
-            Macros_GroupBox_Macro_TextBox_Hotkey_1.KeyDown, Macros_GroupBox_Macro_TextBox_Hotkey_2.KeyDown, Macros_GroupBox_Macro_TextBox_Hotkey_3.KeyDown, _
-            Macros_GroupBox_Macro_TextBox_Hotkey_4.KeyDown, Macros_GroupBox_Macro_TextBox_Hotkey_5.KeyDown, Macros_GroupBox_Macro_TextBox_Hotkey_6.KeyDown, _
-             MiniMap_GroupBox_WardMap_TextBox.KeyDown
-        e.Handled = True
-        specialKey = e.KeyCode
-        Select Case e.KeyCode
-            Case Keys.F1 To Keys.F12
-                sender.Tag = e.KeyCode
-                sender.Text = e.KeyCode.ToString()
-            Case Keys.Oem5
-                sender.Text = "^"
-                sender.Tag = e.KeyCode
-        End Select
-        sender.Text = sender.Text.ToUpper()
-    End Sub
-    Private Sub HotkeyNameTextBoxKeys_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles Hotkey_GroupBox_Hotkeys_TextBox_Baron.KeyPress, _
-        Hotkey_GroupBox_Hotkeys_TextBox_Dragon.KeyPress, Hotkey_GroupBox_Hotkeys_TextBox_OB.KeyPress, Hotkey_GroupBox_Hotkeys_TextBox_OR.KeyPress, _
-        Hotkey_GroupBox_Hotkeys_TextBox_TB.KeyPress, Hotkey_GroupBox_Hotkeys_TextBox_TR.KeyPress, Hotkey_GroupBox_Hotkeys_TextBox_Flash.KeyPress, _
-        Macros_GroupBox_Macro_TextBox_Hotkey_1.KeyPress, Macros_GroupBox_Macro_TextBox_Hotkey_2.KeyPress, Macros_GroupBox_Macro_TextBox_Hotkey_3.KeyPress, _
-        Macros_GroupBox_Macro_TextBox_Hotkey_4.KeyPress, Macros_GroupBox_Macro_TextBox_Hotkey_5.KeyPress, Macros_GroupBox_Macro_TextBox_Hotkey_6.KeyPress, _
-        MiniMap_GroupBox_WardMap_TextBox.KeyPress
-        e.Handled = True
-        sender.Tag = specialKey
-        Select Case specialKey
-            Case Keys.NumPad0 To Keys.NumPad9 : sender.Text = "num" + e.KeyChar
-            Case Else : sender.Text = e.KeyChar
-        End Select
-        sender.Text = sender.Text.ToUpper()
-    End Sub
-#End Region
 #Region "Basic/Expert buttons"
     Private Sub Button_Basic_Click(sender As System.Object, e As System.EventArgs) Handles Button_Basic.Click
         settingsMode = settingsModes(0)
@@ -1288,23 +1365,4 @@ Public Class Settings
 #End Region
 
 
-
-    Private Sub MacrosGroupboxMacro_SetEnableStatus(sender As System.Object, e As System.EventArgs) Handles Macros_GroupBox_Macro_CheckBox.CheckedChanged
-
-    End Sub
-    Private Sub MiniMapGroupBoxShowDurations_SetEnableStatus(sender As System.Object, e As System.EventArgs) Handles MiniMap_GroupBox_ShowDurationsShow_CheckBox.CheckedChanged
-
-    End Sub
-    Private Sub MiniMapGroupBoxShowDurationsUseOwn_SetEnableStatus(sender As System.Object, e As System.EventArgs) Handles MiniMap_GroupBox_ShowDurationsUseOwn_CheckBox.CheckedChanged
-
-    End Sub
-    Private Sub MiniMapGroupBoxWardMap_SetEnableStatus(sender As System.Object, e As System.EventArgs) Handles MiniMap_GroupBox_WardMap_CheckBox.CheckedChanged
-
-    End Sub
-    Private Sub MiniMapGroupBoxPings_SetEnableStatus(sender As System.Object, e As System.EventArgs) Handles MiniMap_GroupBox_PlaySoundPings_Ping_Checkbox.CheckedChanged
-
-    End Sub
-    Private Sub HotkeyNameTextBoxKeys_KeyDown(sender As System.Object, e As System.Windows.Forms.KeyEventArgs) Handles MiniMap_GroupBox_WardMap_TextBox.KeyDown, Macros_GroupBox_Macro_TextBox_Hotkey_6.KeyDown, Macros_GroupBox_Macro_TextBox_Hotkey_5.KeyDown, Macros_GroupBox_Macro_TextBox_Hotkey_4.KeyDown, Macros_GroupBox_Macro_TextBox_Hotkey_3.KeyDown, Macros_GroupBox_Macro_TextBox_Hotkey_2.KeyDown, Macros_GroupBox_Macro_TextBox_Hotkey_1.KeyDown, Hotkey_GroupBox_Hotkeys_TextBox_TR.KeyDown, Hotkey_GroupBox_Hotkeys_TextBox_TB.KeyDown, Hotkey_GroupBox_Hotkeys_TextBox_OR.KeyDown, Hotkey_GroupBox_Hotkeys_TextBox_OB.KeyDown, Hotkey_GroupBox_Hotkeys_TextBox_Flash.KeyDown, Hotkey_GroupBox_Hotkeys_TextBox_Dragon.KeyDown, Hotkey_GroupBox_Hotkeys_TextBox_Baron.KeyDown
-
-    End Sub
 End Class
