@@ -8,4 +8,4 @@ All media is free to use and only being changed under
                 the given licence.
 
           For more information check out 
-    <http://www.ljtd.net/features/customization/>
+    <http://www.ljtd.eu/features/customization/>

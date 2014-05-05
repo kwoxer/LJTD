@@ -21,7 +21,7 @@ Public Class Settings
     Private ljtdColor As Module_LJTDColor = Module_LJTDColor.GetObject
     Private saveClicked As Boolean, resetClicked As Boolean, newUpdateAvailable As Boolean
     Private Const urlDownloadVersion As String = "http://www.kwoxer.de/programme/lol-jungle-timer-deluxe/update"
-    Private Const urlDownloadPackage As String = "http://www.ljtd.net/download/"
+    Private Const urlDownloadPackage As String = "http://www.ljtd.eu/download/"
     Private urlButtons() As String = {"http://www.youtube.com/user/LoLJungleTimerDeluxe", "https://twitter.com/LJTD", "http://www.facebook.com/LoLJungleTD"}
     Private newestVersion As String
     Private panelBackground(6) As Image
@@ -32,7 +32,7 @@ Public Class Settings
     Private teamSyncGeneratedKey As String = ""
     Private teamSyncTimerGetChangesInterval As Integer = 1000
     Private teamSyncGeneratedKeyLimit As Integer
-    Private Const tsURLMain As String = "http://www.ljtd.net/team/"
+    Private Const tsURLMain As String = "http://www.ljtd.eu/team/"
     Private teamSyncGeneratedURLs As String() = {tsURLMain & "genKey.php", tsURLMain & "checkKey.php", tsURLMain & "saveKey.php", tsURLMain & "resetBuff.php", tsURLMain & "getRights.php"}
     Private teamSyncGeneratedURLsCheckuser As String() = {tsURLMain & "countActualKeyuser.php", tsURLMain & "countOverallKeyuser.php"}
     Private teamSyncGeneratedURLsObjective As String() = {tsURLMain & "setBuff.php", tsURLMain & "getBuff.php"}

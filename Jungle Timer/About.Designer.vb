@@ -160,7 +160,7 @@ Partial Class About
         Me.Label_EmailLink.Size = New System.Drawing.Size(94, 11)
         Me.Label_EmailLink.TabIndex = 26
         Me.Label_EmailLink.TabStop = True
-        Me.Label_EmailLink.Text = "admin@ljtd.net"
+        Me.Label_EmailLink.Text = "admin@ljtd.eu"
         '
         'Label_Email
         '

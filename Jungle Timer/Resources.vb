@@ -348,7 +348,7 @@ Public Class Resources
                                    {"MACRO_TEXT_3", ">>>>> SS BOT <<<<<"},
                                    {"MACRO_TEXT_4", ">>>>> INVADE BLUE <<<<<"},
                                    {"MACRO_TEXT_5", ">>>>> INVADE RED <<<<<"},
-                                   {"MACRO_TEXT_6", ">>>>> www.LJTD.net <<<<<"}}
+                                   {"MACRO_TEXT_6", ">>>>> www.ljtd.eu <<<<<"}}
     Public Property PropMacro(ByVal i As Integer, ByVal j As Integer) As String
         Get
             Return macro(i, j)

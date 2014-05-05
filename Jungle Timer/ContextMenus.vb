@@ -5,7 +5,7 @@
     Private fadingAmount As Integer = 0
     Private urlButtons() As String = {"http://www.youtube.com/user/LoLJungleTimerDeluxe", "https://twitter.com/LJTD", "http://www.facebook.com/LoLJungleTD"}
     Private closeStatus As Boolean = False
-    Private Const urlFAQWebsite As String = "http://www.ljtd.net/misc/faq/"
+    Private Const urlFAQWebsite As String = "http://www.ljtd.eu/misc/faq/"
 #Region "Preload/Load"
     Public WriteOnly Property ImgBackground() As Image
         Set(value As Image)

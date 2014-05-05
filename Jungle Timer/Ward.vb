@@ -14,7 +14,7 @@
     Private imgWard10 As Image = My.Resources.MINIMAP_Ward_10sec
     Private wardSeconds180 As Integer = 180, wardSeconds30 As Integer = 30, wardSeconds10 As Integer = 10
     Private wardTimerInterval As Integer = 1000
-    Private Shared teamSyncGeneratedURLsWard As String() = {"http://www.ljtd.net/team/setWard.php", "http://www.ljtd.net/team/resetWard.php"}
+    Private Shared teamSyncGeneratedURLsWard As String() = {"http://www.ljtd.eu/team/setWard.php", "http://www.ljtd.eu/team/resetWard.php"}
     Private pictureSize As Integer = 10
     Private panelSizeX As Integer = 20, panelSizeY As Integer = 25
     Public Sub New(ByVal x As Double, ByVal y As Double, duration As Integer)

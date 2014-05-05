@@ -13,7 +13,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyCompany("KWOXER UN!TED")> 
 <Assembly: AssemblyProduct("LoL Jungle Timer Deluxe")> 
 <Assembly: AssemblyCopyright("KWOXER UN!TED © 2014")> 
-<Assembly: AssemblyTrademark("www.ljtd.net")> 
+<Assembly: AssemblyTrademark("www.ljtd.eu")> 
 
 <Assembly: ComVisible(False)> 
 

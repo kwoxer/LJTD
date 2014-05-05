@@ -45,7 +45,7 @@ Public Class LJTD
     Private buffRunningPreventLags(6) As Boolean
     Private Const showBalloonTipDuration As Integer = 5000
     Private Const initialTimerPresetValue As String = "0:"
-    Private Const urlFAQWebsite As String = "http://www.ljtd.net/misc/faq/"
+    Private Const urlFAQWebsite As String = "http://www.ljtd.eu/misc/faq/"
     Private animatedIcon(12) As Icon
     Private currentIcon As Integer = 0
 

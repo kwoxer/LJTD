@@ -1,11 +1,11 @@
 ﻿Imports System.IO
 
 Public Class Wizard_Tutorial
-    Private urlAdminRights As String = "http://www.ljtd.net/misc/faq/#section-common-problems"
-    Private urlFAQ As String = "http://www.ljtd.net/misc/faq/"
-    Private urlForum As String = "http://www.ljtd.net/forum/"
-    Private urlBorderless As String = "http://www.ljtd.net/misc/faq/#set-lol-to-borderless"
-    Private urlFullscreen As String = "http://www.ljtd.net/jungle-timer-fullscreen-tutorial/"
+    Private urlAdminRights As String = "http://www.ljtd.eu/misc/faq/#section-common-problems"
+    Private urlFAQ As String = "http://www.ljtd.eu/misc/faq/"
+    Private urlForum As String = "http://www.ljtd.eu/forum/"
+    Private urlBorderless As String = "http://www.ljtd.eu/misc/faq/#set-lol-to-borderless"
+    Private urlFullscreen As String = "http://www.ljtd.eu/jungle-timer-fullscreen-tutorial/"
     Private Sub WindowMove_Event(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseDown
         Module_WindowManagement.MoveEvent_Initialize(e, Handle)
     End Sub

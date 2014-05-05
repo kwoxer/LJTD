@@ -403,12 +403,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ConfigFileAdd.resx">
       <DependentUpon>ConfigFileAdd.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ConfigFileDelete.resx">
       <DependentUpon>ConfigFileDelete.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ConfigFileRename.resx">
       <DependentUpon>ConfigFileRename.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ContextMenus.resx">
       <DependentUpon>ContextMenus.vb</DependentUpon>

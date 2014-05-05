@@ -3,7 +3,7 @@
 Public Class Wizard_Walkthrough
     Private counter As Integer = 1
     Private panel(4) As Panel
-    Private urlForum As String = "http://www.ljtd.net/forum/"
+    Private urlForum As String = "http://www.ljtd.eu/forum/"
     Private txtFinish As String = "Finish Walkthrough"
     Private txtNext As String = "Next step"
     Private Sub WindowMove_Event(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseDown

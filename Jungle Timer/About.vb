@@ -2,8 +2,8 @@
     Private urlYouTube As String = "http://www.youtube.com/user/LoLJungleTimerDeluxe"
     Private urlTwitter As String = "https://twitter.com/LJTD"
     Private urlFaceBook As String = "http://www.facebook.com/LoLJungleTD"
-    Private urlMailTo As String = "mailto:" & "admin@ljtd.net"
-    Private urlDonate As String = "http://www.ljtd.net/misc"
+    Private urlMailTo As String = "mailto:" & "admin@ljtd.eu"
+    Private urlDonate As String = "http://www.ljtd.eu/misc"
     Private Sub Panel_MouseDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs)
         Module_WindowManagement.MoveEvent_Initialize(e, Handle)
     End Sub

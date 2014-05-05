@@ -1,10 +1,10 @@
 ﻿Imports System.ComponentModel
 Public Class Updater
     Private newestVersion As String
-    Private urlDownloadLink As String = "http://www.ljtd.net/dl/LJTD.rar"
-    Private urlHistoryWebsite As String = "http://www.ljtd.net/misc/history/"
-    Private urlFAQSaveConfigWebsite As String = "http://www.ljtd.net/misc/faq/#save-import-old-settings"
-    Private urlFAQOpenArchiveFileWebsite As String = "http://www.ljtd.net/misc/faq/#open-archive-file"
+    Private urlDownloadLink As String = "http://www.ljtd.eu/dl/LJTD.rar"
+    Private urlHistoryWebsite As String = "http://www.ljtd.eu/misc/history/"
+    Private urlFAQSaveConfigWebsite As String = "http://www.ljtd.eu/misc/faq/#save-import-old-settings"
+    Private urlFAQOpenArchiveFileWebsite As String = "http://www.ljtd.eu/misc/faq/#open-archive-file"
     Private urlFaceBookWebsite As String = "http://www.facebook.com/LoLJungleTD"
     Private txtLJTDVersion As String = "LJTD Version"
     Private txtDownloadLJTD1 As String = " Where would you like to save the update?"
