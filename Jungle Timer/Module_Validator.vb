@@ -2,7 +2,7 @@
 Module Module_Validator
     Private uniqueKey As String
     Private uniqueKeyValidatorWebsite As String = "http://www.wieistmeineip.de/"
-    Private urlLJTDWebsite As String = "http://www.ljtd.eu:7080/stats/insert.php"
+    Private urlLJTDWebsite As String = "http://www.ljtd.eu/stats/insert.php"
     Private localPath As String = Path.GetDirectoryName(Application.ExecutablePath) & "\res\LJTD.tmp"
     Private localDirectory As String = Path.GetDirectoryName(Application.ExecutablePath) & "\res"
     Private Const BEGINHTMLSTRING = "title""><strong>", ENDHTMLSTRING = "</strong>"
