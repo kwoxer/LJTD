@@ -234,7 +234,7 @@ Public Class Resources
                                    {"SETTINGS_MODE", "Basic"},
                                    {"SOUND_MODE", "Ping"},
                                    {"OBJECTIVE_RESET_MODE", "Stop"},
-                                   {"TUTORIAL_SHOW", "False"},
+                                   {"TUTORIAL_SHOW", "True"},
                                    {"GAME_REFOCUS", "False"}}
     Public Property PropConfig(ByVal i As Integer, ByVal j As Integer) As String
         Get

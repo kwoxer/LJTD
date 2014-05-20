@@ -120,7 +120,8 @@
   <data name="Label3.Text" xml:space="preserve">
     <value>LJTD needs 2 fonts to be installed. You can either install them automatically or manually.
 
-The automatic installation will need admin rights!
+                    The automatic installation will need admin rights!
+                        Otherwhise it will not be installed properly!
 
 After this installation you can follow a tutorial or just start using this tool. 
 
