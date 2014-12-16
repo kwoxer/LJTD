@@ -58,15 +58,15 @@ Partial Class LJTD
         Me.PictureBox_Logo = New System.Windows.Forms.PictureBox()
         Me.Button_Settings = New System.Windows.Forms.Button()
         Me.Button_OO = New System.Windows.Forms.Button()
+        Me.Button_Start = New System.Windows.Forms.Button()
+        Me.Timer_AnimatedIcon = New System.Windows.Forms.Timer(Me.components)
+        Me.ToolTip = New System.Windows.Forms.ToolTip(Me.components)
         Me.Button_OurBlue = New Round_Button()
         Me.Button_OurRed = New Round_Button()
         Me.Button_Dragon = New Round_Button()
         Me.Button_TheirRed = New Round_Button()
         Me.Button_TheirBlue = New Round_Button()
         Me.Button_Baron = New Round_Button()
-        Me.Button_Start = New System.Windows.Forms.Button()
-        Me.Timer_AnimatedIcon = New System.Windows.Forms.Timer(Me.components)
-        Me.ToolTip = New System.Windows.Forms.ToolTip(Me.components)
         Me.Panel.SuspendLayout()
         CType(Me.PictureBox_Logo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -509,6 +509,21 @@ Partial Class LJTD
         Me.Button_OO.TabIndex = 39
         Me.Button_OO.UseVisualStyleBackColor = False
         '
+        'Button_Start
+        '
+        Me.Button_Start.BackColor = System.Drawing.Color.Transparent
+        Me.Button_Start.BackgroundImage = Global.My.Resources.Resources.LJTD_Button_START
+        Me.Button_Start.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.Button_Start.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.Button_Start.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button_Start.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.Button_Start.Location = New System.Drawing.Point(8, 3)
+        Me.Button_Start.Name = "Button_Start"
+        Me.Button_Start.Size = New System.Drawing.Size(13, 13)
+        Me.Button_Start.TabIndex = 70
+        Me.ToolTip.SetToolTip(Me.Button_Start, "Start/Stop the GameClock")
+        Me.Button_Start.UseVisualStyleBackColor = False
+        '
         'Button_OurBlue
         '
         Me.Button_OurBlue.BackColor = System.Drawing.Color.Black
@@ -592,21 +607,6 @@ Partial Class LJTD
         Me.Button_Baron.TabIndex = 71
         Me.Button_Baron.Tag = "0"
         Me.Button_Baron.UseVisualStyleBackColor = True
-        '
-        'Button_Start
-        '
-        Me.Button_Start.BackColor = System.Drawing.Color.Transparent
-        Me.Button_Start.BackgroundImage = Global.My.Resources.Resources.LJTD_Button_START
-        Me.Button_Start.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.Button_Start.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.Button_Start.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button_Start.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(1, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.Button_Start.Location = New System.Drawing.Point(8, 3)
-        Me.Button_Start.Name = "Button_Start"
-        Me.Button_Start.Size = New System.Drawing.Size(13, 13)
-        Me.Button_Start.TabIndex = 70
-        Me.ToolTip.SetToolTip(Me.Button_Start, "Start/Stop the GameClock")
-        Me.Button_Start.UseVisualStyleBackColor = False
         '
         'LJTD
         '

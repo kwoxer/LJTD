@@ -1,7 +1,7 @@
 ﻿Imports System.ComponentModel
 Public Class Updater
     Private newestVersion As String
-    Private urlDownloadLink As String = "http://www.ljtd.eu/dl/LJTD.rar"
+    Private urlDownloadLink As String = "http://www.ljtd.eu/dl/LJTD.zip"
     Private urlHistoryWebsite As String = "http://www.ljtd.eu/misc/history/"
     Private urlFAQSaveConfigWebsite As String = "http://www.ljtd.eu/misc/faq/#save-import-old-settings"
     Private urlFAQOpenArchiveFileWebsite As String = "http://www.ljtd.eu/misc/faq/#open-archive-file"
@@ -38,7 +38,7 @@ Public Class Updater
             With SaveFileDialog
                 .InitialDirectory = CStr(Environment.SpecialFolder.DesktopDirectory)
                 .Title = txtDownloadLJTD1
-                .FileName = "LoL Jungle Timer Deluxe v" & newestVersion & ".rar"
+                .FileName = "LoL Jungle Timer Deluxe v" & newestVersion & ".zip"
                 .RestoreDirectory = True
                 If SaveFileDialog.ShowDialog() = DialogResult.OK Then
                     File_Download(urlDownloadLink, SaveFileDialog.FileName)
@@ -61,5 +61,9 @@ Public Class Updater
     End Sub
     Private Sub DownloadFile_Completed(sender As Object, e As AsyncCompletedEventArgs)
         Label_Saved.Text = txtDownloadLJTD3
+    End Sub
+
+    Private Sub Panel_Updater_Paint(sender As Object, e As PaintEventArgs) Handles Panel_Updater.Paint
+
     End Sub
 End Class

@@ -97,9 +97,9 @@ Partial Class Updater
         Me.Label_Saved.Font = New System.Drawing.Font("Visitor TT2 (BRK)", 9.749999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label_Saved.Location = New System.Drawing.Point(74, 192)
         Me.Label_Saved.Name = "Label_Saved"
-        Me.Label_Saved.Size = New System.Drawing.Size(129, 9)
+        Me.Label_Saved.Size = New System.Drawing.Size(155, 9)
         Me.Label_Saved.TabIndex = 31
-        Me.Label_Saved.Text = "Save your new version!"
+        Me.Label_Saved.Text = "Downloading latest version!"
         '
         'LinkLabel_OpenRarArchive
         '

@@ -156,7 +156,7 @@ Public Class Resources
     End Property
 
     ' #################################################### Log file
-    Private searchLogfile As String() = {"StartGame", "Shutdown"}
+    Private searchLogfile As String() = {"PlayGame", "Shutdown"}
     Public ReadOnly Property PropSearchLogfile(i As Integer) As String
         Get
             Return searchLogfile(i)
