@@ -13,8 +13,6 @@ Such timers help to optimize your buff timings. LJTD is giving the possibility t
 
 The brand new feature [**Objective Overview**](http://www.ljtd.eu/ljtd-6-objective-overview/) is great if you don't want to play in window mode.
 
-Beyond that the LJTD has many other [**features**](http://www.ljtd.eu/features/). We hope you will have as much fun as we with this tool and would appreciate to see you on our forum: http://www.ljtd.eu/forum/
-
 Beyond that the LJTD has many other [**features**](http://www.ljtd.eu/features/). We hope you will have as much fun as we with this tool and would appreciate to see you on our [**forum**](http://www.ljtd.eu/forum/).
 
 Donate or become a fan!
